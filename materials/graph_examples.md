@@ -1,8 +1,8 @@
-# Пример задания графа 
+# Example of setting a graph 
 
-## Пример с использованием матрицы смежности
+## Example using an adjacency matrix
 
-В первой строчке пишем число вершин, начиная со второй строчки задаём матрицу смежности размером 10 на 10
+On the first line write the number of vertices, starting from the second line set the adjacency matrix of size 10 by 10
 
 ```
 10
@@ -20,8 +20,8 @@
 ```
 
 
-# Решение задачи комивояжора
+# Solving the travelling salesman problem
 
-Для описанного выше графа решение задачи комивожора выглядит следующим образом:
-* последовательность обхода вершин: 0-7-4-3-9-5-2-6-1-10-8-0
-* длина маршрута: 253
+For the above-described graph the solution of the traveling salesman problem looks as follows:
+* sequence of traversing vertices: 0-7-4-3-9-5-2-6-1-10-8-0
+* route length: 253

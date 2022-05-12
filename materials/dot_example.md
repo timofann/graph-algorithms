@@ -1,12 +1,12 @@
 # Dot 
 
-Граф, описанный на языке **DOT**, обычно представляет собой текстовый файл с расширением .gv или .dot в понятном для человека и обрабатывающей программы формате.
+A graph described in **DOT** is usually a text file with a .gv or .dot extension in a format readable by humans and the processing program.
 
-В графическом виде графы, описанные на языке DOT, представляются с помощью специальных программ, например **Graphviz**.
+Graphs described in the DOT language are represented graphically using special programs, such as **Graphviz**.
 
-## Пример неориентированного графа, заданного на языке DOT
+## Example of an undirected graph in the DOT language
 
-Неориентированный граф в языке DOT описывается списком вершин и рёбер, представленных названием вершин и двойным тире (--) между связанными вершинами.
+An undirected graph in DOT is described by a list of vertices and edges represented by the name of vertices, and a double dash (--) between connected vertices.
 
 ```dot
 graph graphname {
@@ -20,7 +20,7 @@ graph graphname {
 }
 ```
 
-Или эквивалентным образом, опустив избыточные описания:
+Or equivalently, by leaving out excessive descriptions:
 
 ```dot
 graph graphname {
@@ -31,9 +31,9 @@ graph graphname {
 
 ![dot-not-orient-graph](../misc/images/dot-not-orient-graph.png)
 
-## Пример ориентированного графа, заданного на языке DOT
+## Example of a directed graph in the DOT language
 
-Ориентированный граф в языке DOT описывается списком вершин и рёбер, представленных названием вершин и стилизованной тире и треугольной скобкой - стрелочкой (->), между связанными вершинами:
+A directed graph in DOT is described by a list of vertices and edges, represented by the names of vertices, and a dash with triangular bracket - arrow (->), between the connected vertices:
 
 ```dot
 digraph graphname {
@@ -42,7 +42,7 @@ digraph graphname {
 }
 ```
 
-Либо с избыточным описанием:
+Or with excessive descriptions:
 
 ```dot
 digraph graphname {
