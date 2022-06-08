@@ -23,6 +23,8 @@ The russian version of the task can be found in the repository.
 
 ## Chapter I
 
+![SimpleNavigator](misc/images/A2_SimpleNavigator.JPG)
+
 `-` "We're transferring you to another project," Robert said, which sounded like a verdict. Eve was standing in the middle of her boss's office again. She couldn't understand the reason for this decision at all. "Finish your pathfinding task, then gather up all the work you've done and give it to Alice. From now on, her department will be in charge of this."
 
 `-` "But why," Eve began to say, but Robert M.'s forceful tone interrupted her.
