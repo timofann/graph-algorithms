@@ -2,10 +2,10 @@
 
 ## Example using an adjacency matrix
 
-On the first line write the number of vertices, starting from the second line set the adjacency matrix of size 10 by 10
+On the first line write the number of vertices, starting from the second line set the adjacency matrix of size 11 by 11
 
 ```
-10
+11
 0   29  20  21  16  31  100 12  4   31  18
 29  0   15  29  28  40  72  21  29  41  12
 20  15  0   15  14  25  81  9   23  27  13
@@ -23,5 +23,5 @@ On the first line write the number of vertices, starting from the second line se
 # Solving the travelling salesman problem
 
 For the above-described graph the solution of the traveling salesman problem looks as follows:
-* sequence of traversing vertices: 0-7-4-3-9-5-2-6-1-10-8-0
+* sequence of traversing vertices: 1-8-5-4-10-6-3-7-2-11-9-1
 * route length: 253

@@ -200,6 +200,8 @@ Implementation of the _s21_graph_algorithms.h_ library:
     + `pop()` - getting an element from the stack/queue followed by its removal from the stack/queue
     + `peek()` - getting an element from the stack/queue without its removal from the stack/queue
 
+*In this and the following tasks, consider that the vertex numbers start from 1*
+
 ## Part 2. Finding the shortest paths in a graph
 
 * Add two new methods to the `GraphAlgorithms` class:
@@ -218,7 +220,7 @@ Implementation of the _s21_graph_algorithms.h_ library:
 You need to find the shortest path that goes through all vertices of the graph at least once, followed by a return to the original vertex. As a result, the function should return the `TsmResult` structure described below:
     ```cpp
     struct TsmResult {
-        int* vertices;    // an array with the route you are looking for (with the vertex traverse order)
+        int* vertices;    // an array with the route you are looking for (with the vertex traverse order). Instead of int* you can use std::vector<int>
         double distance;  // the length of this route
     }
     ``` 
