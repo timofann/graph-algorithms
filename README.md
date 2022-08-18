@@ -171,11 +171,18 @@ If the number of graph edges is small compared to the number of vertices, the va
 
 ## Chapter III
 
+Within this task, all graphs must meet the following requirements:
+- Edge weights are only natural numbers
+- There may be loops
+- Weights may differ on all edges
+- Only a nonzero connected graph
+
 ## Part 1. Depth- and Breadth-first search 
 
 Implementation of the _s21_graph.h_  library:  
 * The library must be developed in C++ language of C++17 standard
 * The library code must be located in the src folder in the develop branch  
+* When writing code it is necessary to follow the Google style
 * Make it as a static library (with the _s21_graph.h_ header file)
 * The library must be represented as a `Graph` class that stores information about the graph using an **adjacency matrix**. The dimensionality of the adjacency matrix should be set dynamically when initializing the graph (when loading it from a file)
 * The program must be built with Makefile which contains standard set of targets for GNU-programs: _all, clean, test, s21_graph.a_
@@ -224,6 +231,8 @@ You need to find the shortest path that goes through all vertices of the graph a
         double distance;  // the length of this route
     }
     ``` 
+
+*If it is impossible to solve the problem with a given graph, output an error.*
 
 ## Part 5. Console interface
 
