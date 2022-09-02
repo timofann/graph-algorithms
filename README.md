@@ -239,13 +239,12 @@ You need to find the shortest path that goes through all vertices of the graph a
 * You need to write the main program, which is a console application for testing the functionality of the implemented s21_graph.h and s21_graph_algorithms.h libraries 
 * The console interface must provide the following functionality:
     1. loading the original graph from a file
-    2. creating a png file with an image of the loaded file using the graphViz utility
-    3. graph traversal in breadth with output of the result to the console   
-    4. graph traversal in depth with output of the result to the console
-    5. searching for the shortest path between any two vertices and displaying the result to the console
-    6. searching for the shortest paths between all pairs of vertices in the graph with the output of the resulting matrix to the console
-    7. searching for the minimal spanning tree in the graph with the output of the resulting adjacency matrix to the console
-    8. solving the salesman problem with the output of the resulting route and its length to the console
+    2. graph traversal in breadth with output of the result to the console   
+    3. graph traversal in depth with output of the result to the console
+    4. searching for the shortest path between any two vertices and displaying the result to the console
+    5. searching for the shortest paths between all pairs of vertices in the graph with the output of the resulting matrix to the console
+    6. searching for the minimal spanning tree in the graph with the output of the resulting adjacency matrix to the console
+    7. solving the salesman problem with the output of the resulting route and its length to the console
 
 ## Part 6. Bonus. Comparison of methods for solving the traveling salesman problem
 
