@@ -265,3 +265,4 @@ You need to find the shortest path that goes through all vertices of the graph a
 
 `-` "Charlie... is working. We've got a little problem, and your pathfinding work is exactly what will help us. Don't worry, when it's all over, our evening gatherings will be back. Then we'll discuss everything," calming, but sadly assured Alice. "Thanks for your time, I have to go. See you later!"
 
+💡 [Tap here](https://forms.yandex.ru/u/635aa038eb61461d3b7defae/) **to leave your feedback on the project**. Pedago Team really tries to make your educational experience better.
