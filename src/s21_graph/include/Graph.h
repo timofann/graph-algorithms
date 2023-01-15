@@ -1,13 +1,12 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-
 #include <iostream>
 
 class Graph
 {
 public:
-	Graph();
+	Graph(unsigned **matrix, size_t size);
 	Graph(const Graph &other);
 	~Graph();
 
@@ -15,10 +14,8 @@ public:
 
 	void loadGraphFromFile(std::string filename);
 	void exportGraphToDot(std::string filename);
-//	const std::string &getName() const;
-//	int getGrade() const;
-//	void incrementGrade();
-//	void decrementGrade();
+	[[nodiscard]] size_t size() const;
+
 
 
 //	class GradeTooHighException: public std::exception
@@ -28,10 +25,12 @@ public:
 //	};
 
 private:
-//	const std::string	_name;
-//	int 				_grade;
-//
-//	void setGrade(int grade);
+	Graph();
+
+	unsigned** a_matrix;
+	size_t a_matrix_size;
+
+	void set_a_matrix(unsigned ** matrix, size_t size);
 };
 
 //std::ostream	&operator<<(std::ostream &o, Graph *a);

@@ -1,11 +1,11 @@
-CC 			= c++
+CC			= g++
 CCFLAGS		= -Wall -Wextra -Werror -std=c++17
 NAME		= s21_graph.a
 SRC_DIR		= src/
 OBJ_DIR		= obj/
 INCLUDE_DIR	= include/
-INCLUDE_F	= s21_graph.h
-SRC_FILES	= s21_graph.cpp
+INCLUDE_F	= s21_graph.h Graph.h
+SRC_FILES	= Graph.cpp
 OBJ_FILES	= $(SRC_FILES:.cpp=.o)
 SRC			= $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ			= $(addprefix $(OBJ_DIR), $(OBJ_FILES))
@@ -33,3 +33,4 @@ fclean: clean
 re: fclean $(NAME)
 
 test: all
+	$(CC) $(CCFLAGS) -g main_test.cpp -I$(INCLUDE_DIR) -lstdc++ s21_graph.a
