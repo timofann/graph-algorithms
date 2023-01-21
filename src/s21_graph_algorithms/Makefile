@@ -1,4 +1,4 @@
-SRCS = GraphAlgorithms.cpp
+SRCS = GraphAlgorithms.cpp GraphAlgorithms_utils.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: s21_graph.a $(OBJS)

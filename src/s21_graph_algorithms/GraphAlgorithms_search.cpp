@@ -6,9 +6,6 @@
 
 using namespace s21;
 
-GraphAlgorithms::GraphAlgorithmsError::
-GraphAlgorithmsError(const std::string &arg) : std::runtime_error(arg) {}
-
 static void
 validate_vertex(Graph &graph, int startVertex) { // todo: изменить индексацию с нуля на индексацию с единицы
 	if (startVertex < 0 || startVertex >= graph.vertices_cnt_)
