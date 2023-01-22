@@ -1,5 +1,8 @@
 #include "GraphAlgorithms.h"
 #include <vector>
+#include <queue>
+#include <iostream>
+
 
 using namespace s21;
 
@@ -15,79 +18,87 @@ validate_vertex(Graph &graph, int startVertex) { // todo: изменить ин�
 		throw GraphAlgorithms::GraphAlgorithmsError("Start vertex for DFS should be in range of graph size");
 }
 
-static int
-min(const Graph& graph, int vertex) {
-	int min = INT_MAX;
-	for (int i = 0; i < graph.vertices_cnt_; i++) {
-		if (i == vertex)
-			continue;
-		else
-			if (graph.matrix_[vertex][i] < min):
-				min = graph.matrix_[vertex][i];
-	}
-	return min;
-}
-
-static void
-process_next_vertex(std::queue<int>& next_vertexes_to_process, Graph& graph,
-					Graph& graph_copy, bool* is_traversed_array) {
-	int current_vertex = next_vertexes_to_process.front();
-	int min = INT_MAX;
-	std::vector<int> vertex_to_push;
-//	std::cout << "add_all_connected_start" << current_vertex << std::endl; //debug
-	for (int v = 0; v < graph.vertices_cnt_; v++)
-		if (graph.matrix_[current_vertex][v] && !is_traversed_array[v])
-			vertex_to_push.push_back(v);
-
-	// пузырек
-	int tmp;
-	if (vertex_to_push.size() > 1) {
-		for (int v1 = 0; v1 < vertex_to_push.size() - 1(); v1++) {
-			for (int v2 = v1 + 1; v2 < vertex_to_push.size(); v2++) {
-				if (graph.matrix_[vertex_to_push[v2]] < graph.matrix_[vertex_to_push[v2 - 1]]) {
-					tmp = vertex_to_push[v2];
-					vertex_to_push[v2] = vertex_to_push[v2 - 1];
-					vertex_to_push[v2 - 1] = tmp;
-				}
-			}
-		}
-	}
-
-	for (int v = 0; v < vertex_to_push.size() - 1(); v++) {
-		next_vertexes_to_process.push(vertex_to_push[v])
-	}
-}
+//static int
+//closest_untraversed_vertex(const Graph& graph, int vertex, bool* is_traversed_array) {
+//	int min = INT_MAX;
+//	int min_vertex =
+//	for (int i = 0; i < graph.vertices_cnt_; i++) {
+//		if (!is_traversed_array[i] && graph.matrix_[vertex][i] && graph.matrix_[vertex][i] < min)
+//			min = graph.matrix_[vertex][i];
+//	}
+//	return min;
+//}
 
 std::vector<int> &GraphAlgorithms::
 getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 
-	Graph graph_copy; // создание заполненного нулями графа
-	for (int i = 0; i < graph.vertices_; i++) {
-		for (int j = 0; j < graph.vertices_; j++)
-				graph_copy.matrix[i][j] = 0;
-	} // впоследствии упростить, используя конструктор
-
 	bool is_traversed_array[graph.vertices_cnt_];
+	int shortest_distance[graph.vertices_cnt_](INT_MAX);
+	int last_vertex_on_shortest_path[graph.vertices_cnt_];
+	std::vector<int>& shortest_path = *(new std::vector<int>);
 	std::queue<int> next_vertex_queue;
-	std::vector<int> &traversed_vertices = *(new std::vector<int>);
+	std::vector<int> vertices_to_add_in_queue;
 	int next_vertex;
+	int tmp;
 
 	validate_vertex(graph, vertex1);
 	validate_vertex(graph, vertex2);
 	init_is_traversed_array(graph, is_traversed_array);
 	next_vertex_queue.push(vertex1);
+	shortest_distance[vertex1] = 0;
 
 	while (next_vertex_queue.size()) {
 		next_vertex = next_vertex_queue.front();
 		if (!is_traversed_array[next_vertex]) {
 			is_traversed_array[next_vertex] = true;
-			process_next_vertex(next_vertex_queue, graph, graph_copy, is_traversed_array); }
-		else
-			next_vertex_queue.pop();
-		}
 
-//	for (int i=0; i<traversed_vertices.size(); i++)
-//		std::cout << traversed_vertices[i] << std::endl; //debug
-	return traversed_vertices;
+			for (int v = 0; v < graph.vertices_cnt_; v++) {
+				if (!is_traversed_array[v] && graph.matrix_[next_vertex][v]
+					&& graph.matrix_[next_vertex][v] + shortest_distance[next_vertex] < shortest_distance[v]) {
+					last_vertex_on_shortest_path[v] = next_vertex;
+					shortest_distance[v] = graph.matrix_[next_vertex][v] + shortest_distance[next_vertex];
+				}
+			}
+
+			vertices_to_add_in_queue.clear();
+			for (int v = 0; v < graph.vertices_cnt_; v++) {
+				if (!is_traversed_array[v] && graph.matrix_[next_vertex][v])
+					vertices_to_add_in_queue.push_back(v);
+			}
+			if (vertices_to_add_in_queue.size() > 1) {
+				for (int i = vertices_to_add_in_queue.size() - 1; i > 0; i--) {
+					for (int j = 0; j < i; j++) {
+						if (graph.matrix_[next_vertex][vertices_to_add_in_queue[j]] < graph.matrix_[next_vertex][vertices_to_add_in_queue[j + 1]]) {
+							tmp = vertices_to_add_in_queue[j];
+							vertices_to_add_in_queue[j] = vertices_to_add_in_queue[j + 1];
+							vertices_to_add_in_queue[j + 1] = tmp;
+						}
+					}
+					next_vertex_queue.push(vertices_to_add_in_queue[i]);
+				}
+			}
+			if (vertices_to_add_in_queue.size() > 0)
+				next_vertex_queue.push(vertices_to_add_in_queue[0]);
+		}
+		next_vertex_queue.pop();
+	}
+
+	shortest_path.push_back(vertex2);
+	next_vertex = last_vertex_on_shortest_path[vertex2];
+	while (next_vertex != 0) {
+		shortest_path.push_back(last_vertex_on_shortest_path[next_vertex]);
+		next_vertex = last_vertex_on_shortest_path[next_vertex];
+	}
+	for (int i = 0; i < (shortest_path.size() - 1) / 2; i++) {
+		tmp = shortest_path[i];
+		shortest_path[i] = shortest_path[shortest_path.size() - 1 - i];
+		shortest_path[shortest_path.size() - 1 - i] = shortest_path[i];
+	}
+
+	for (int i = 0; i < shortest_path.size() - 1; i++) //debug
+		std::cout << shortest_path[i] << " ";
+	std::cout << std::endl;
+
+	return shortest_path;
 }
 
