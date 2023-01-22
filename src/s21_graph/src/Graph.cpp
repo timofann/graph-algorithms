@@ -35,6 +35,8 @@ size_t Graph::size() const
 
 void Graph::set_a_matrix(unsigned **matrix, size_t size)
 {
+	check_matrix(matrix, size);
+
 	for (unsigned i = 0; i < a_matrix_size; ++i)
 		delete[] a_matrix[i];
 	delete[] this->a_matrix;
@@ -50,12 +52,24 @@ void Graph::set_a_matrix(unsigned **matrix, size_t size)
 	}
 }
 
-void Graph::loadGraphFromFile(std::string filename)
+void Graph::check_matrix(unsigned *const *matrix, size_t size)
+{
+	for (unsigned i = 0; i < size; ++i)
+	{
+		for (unsigned j = 0; j < size; ++j)
+		{
+			if (matrix[i][j] != matrix[j][i])
+				throw WrongMatrixException();
+		}
+	}
+}
+
+void Graph::loadGraphFromFile(const std::string& filename)
 {
 	std::cout << filename;
 }
 
-void Graph::exportGraphToDot(std::string filename)
+void Graph::exportGraphToDot(const std::string& filename)
 {
 	std::cout << filename;
 }
@@ -67,12 +81,7 @@ std::ostream	&operator<<(std::ostream &os, Graph *b)
 	return (os);
 }
 
-//const char *Graph::GradeTooHighException::what() const throw()
-//{
-//	return "Grade too high";
-//}
-//
-//const char *Graph::GradeTooLowException::what() const throw()
-//{
-//	return "Grade too low";
-//}
+const char *Graph::WrongMatrixException::what() const noexcept
+{
+	return "wrong matrix";
+}

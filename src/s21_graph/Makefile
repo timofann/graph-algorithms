@@ -17,7 +17,7 @@ RM			= rm -rf
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.cpp $(INC)
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CCFLAGS) -I$(INCLUDE_DIR) -c $? -o $@
+	$(CC) $(CCFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
 all: $(NAME)
 

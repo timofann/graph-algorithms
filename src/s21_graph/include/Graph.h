@@ -12,17 +12,15 @@ public:
 
 	Graph &operator=(const Graph &other);
 
-	void loadGraphFromFile(std::string filename);
-	void exportGraphToDot(std::string filename);
+	void loadGraphFromFile(const std::string& filename);
+	void exportGraphToDot(const std::string& filename);
 	[[nodiscard]] size_t size() const;
 
-
-
-//	class GradeTooHighException: public std::exception
-//	{
-//	public:
-//		virtual const char *what() const throw();
-//	};
+	class WrongMatrixException: public std::exception
+	{
+	public:
+		[[nodiscard]] const char *what() const noexcept override;
+	};
 
 private:
 	Graph();
@@ -31,8 +29,9 @@ private:
 	size_t a_matrix_size;
 
 	void set_a_matrix(unsigned ** matrix, size_t size);
+	static void check_matrix(unsigned int *const *matrix, size_t size) ;
 };
 
-//std::ostream	&operator<<(std::ostream &o, Graph *a);
+std::ostream	&operator<<(std::ostream &o, Graph *a);
 
 #endif
