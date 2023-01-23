@@ -1,5 +1,5 @@
 CC			= g++
-CCFLAGS		= -Wall -Wextra -Werror -std=c++17
+CCFLAGS		= -g -Wall -Wextra -Werror -std=c++17
 NAME		= s21_graph.a
 SRC_DIR		= src/
 OBJ_DIR		= obj/
@@ -32,5 +32,5 @@ fclean: clean
 
 re: fclean $(NAME)
 
-test: all
-	$(CC) $(CCFLAGS) -g main_test.cpp -I$(INCLUDE_DIR) -lstdc++ s21_graph.a
+test: $(OBJ)
+	rm -rf ./a.out && $(CC) $(CCFLAGS) -g main_test.cpp $< -I$(INCLUDE_DIR) -lstdc++

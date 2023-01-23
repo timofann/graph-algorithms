@@ -2,6 +2,8 @@
 #define GRAPH_H
 
 #include <iostream>
+#include <vector>
+#include <stack>
 
 class Graph
 {

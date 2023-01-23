@@ -52,15 +52,51 @@ void Graph::set_a_matrix(unsigned **matrix, size_t size)
 	}
 }
 
+void dfs(unsigned start, unsigned *const *matrix, std::vector<bool> *used, size_t size) {
+
+	std::stack<unsigned> stack;
+
+	stack.push(start);
+	while (! stack.empty()) {
+		auto current = stack.top();
+		stack.pop();
+		(*used)[current] = true;
+		for (unsigned i = 0; i < size; ++i) {
+			if (matrix[current][i] == 1 && ! (*used)[i]) {
+				stack.push(i);
+			}
+		}
+	}
+}
+
 void Graph::check_matrix(unsigned *const *matrix, size_t size)
 {
+	std::vector<bool> used;
+
+	int res = 0;
+	used.push_back(false);
+
 	for (unsigned i = 0; i < size; ++i)
 	{
+		unsigned cons = 0;
+
 		for (unsigned j = 0; j < size; ++j)
 		{
 			if (matrix[i][j] != matrix[j][i])
 				throw WrongMatrixException();
+			cons += matrix[i][j];
 		}
+		if (cons == 0) {
+			throw WrongMatrixException();
+		}
+		if (! used[i]) {
+			dfs(i, matrix, &used, size);
+			res++;
+		}
+		if (res > 1) {
+			throw WrongMatrixException();
+		}
+
 	}
 }
 
