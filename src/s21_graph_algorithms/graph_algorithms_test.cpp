@@ -17,7 +17,11 @@ int main() {
 //	for (int i = 0; i < b.size(); i++)
 //		std::cout << b[i] << std::endl;
 
-	s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 0, 1);
+	std::vector<int> vec = s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 1, 2);
+	for (int i = 0; i < vec.size(); i++)
+		std::cout << vec[i] << " ";
+	std::cout << std::endl;
+
 }
 
 //c++ -std=c++17 graph_algorithms_test.cpp GraphAlgorithms_utils.cpp GraphAlgorithms_search.cpp GraphAlgorithms_shortest_path.cpp ../s21_graph/Graph.cpp
