@@ -1,4 +1,4 @@
-SRCS = GraphAlgorithms.cpp GraphAlgorithms_utils.cpp
+SRCS = GraphAlgorithms_search.cpp GraphAlgorithms_utils.cpp GraphAlgorithms_shortest_path.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: s21_graph.a $(OBJS)

@@ -7,10 +7,10 @@
 
 using namespace s21;
 
-static int //дублирование кода search.cpp +там не изменена семантика
-validate_vertex(Graph &graph, int startVertex) { // todo: изменить индексацию с нуля на индексацию с единицы
+static int
+validate_vertex(Graph &graph, int startVertex) {
 	if (startVertex < 1 || startVertex > graph.vertices_cnt_) {
-		throw GraphAlgorithms::GraphAlgorithmsError("Start vertex for DFS should be in range of graph size");
+		throw GraphAlgorithms::GraphAlgorithmsError("\033[1;31mGraphAlgorithmsError:\033[0m Vertex for shortest path finding should be in range [1; vertices count]");
 	}
 	return startVertex - 1;
 }
@@ -92,7 +92,6 @@ getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 	// сначала минимальные расстояния от предыдущих посещенных вершин максимальны, наша задача найти минимумы
 	// номера вершин откуда пришли заполнить можно чем угодно, они должны быть перезаписаны в соответствии с минимальным расстоянием (для стартовой точки останется дефолтным)
 	std::vector<vertex> shortest_distance(graph.vertices_cnt_, vertex{NO_EXIST_VERTEX, INT_MAX});
-	std::vector<int>& shortest_path = *(new std::vector<int>);
 	std::queue<int> next_vertex_queue;
 	int next_vertex;
 

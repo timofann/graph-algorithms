@@ -15,12 +15,12 @@ namespace s21 {
 		~GraphAlgorithms();
 
 	public:
-		static std::vector<int>& depthFirstSearch(Graph &graph, int startVertex);
-		static std::vector<int>& breadthFirstSearch(Graph &graph, int startVertex);
+		static std::vector<int> depthFirstSearch(Graph &graph, int startVertex);
+		static std::vector<int> breadthFirstSearch(Graph &graph, int startVertex);
 		static std::vector<int> getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2);
 
 		struct GraphAlgorithmsError : std::runtime_error {
-			GraphAlgorithmsError(const std::string arg);
+			explicit GraphAlgorithmsError(const std::string& arg);
 		};
 	};
 
