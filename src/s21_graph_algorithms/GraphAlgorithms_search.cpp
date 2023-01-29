@@ -37,15 +37,6 @@ process_next_vertex_dfs(std::stack<int>& next_vertexes_stack, Graph& graph, // t
 			next_vertexes_stack.push(v);
 }
 
-//static bool
-//is_last_vertex_in_chain(Graph &graph, int vertex, bool is_traversed_array[graph.vertices_cnt_]) {
-//	for (int v = 0; v < graph.vertices_cnt_; v++) {
-//		if (graph.matrix_[vertex][v] && !is_traversed_array[v])
-//			return false;
-//	}
-//	return true;
-//}
-
 std::vector<int> GraphAlgorithms::
 breadthFirstSearch(Graph &graph, int startVertex) {
 
@@ -93,9 +84,6 @@ depthFirstSearch(Graph &graph, int startVertex) {
 			process_next_vertex_dfs(next_vertex_stack, graph, is_traversed_array); }
 		else
 			next_vertex_stack.pop();
-
-//		if (is_last_vertex_in_chain(graph, next_vertex, is_traversed_array))
-//			next_vertex_stack.pop();
 	}
 
 //	for (int i=0; i<traversed_vertices.size(); i++)
