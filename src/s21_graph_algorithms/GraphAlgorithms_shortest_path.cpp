@@ -19,7 +19,7 @@ struct vertex{
 	// номер вершины из которой пришли минимально по расстоянию
 	int vertex_nbr;
 	// минимальная дистанция от стартовой точки до рассматриваемой вершины
-	int distance_to_vertex;
+	std::size_t distance_to_vertex;
 };
 
 int cmp(const void *x, const void *y) {
@@ -82,7 +82,7 @@ collect_path(int vertex2,
 	return shortest_path;
 }
 
-std::vector<int> GraphAlgorithms::
+std::size_t GraphAlgorithms::
 getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 
 	vertex1 = validate_vertex(graph, vertex1);
@@ -91,7 +91,41 @@ getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 	std::vector<bool> is_traversed_array(graph.vertices_cnt_, false);
 	// сначала минимальные расстояния от предыдущих посещенных вершин максимальны, наша задача найти минимумы
 	// номера вершин откуда пришли заполнить можно чем угодно, они должны быть перезаписаны в соответствии с минимальным расстоянием (для стартовой точки останется дефолтным)
-	std::vector<vertex> shortest_distance(graph.vertices_cnt_, vertex{NO_EXIST_VERTEX, INT_MAX});
+	std::vector<vertex> shortest_distance(graph.vertices_cnt_, vertex{NO_EXIST_VERTEX, UINT_MAX});
+	std::queue<int> next_vertex_queue;
+	int next_vertex;
+
+	next_vertex_queue.push(vertex1);
+	shortest_distance[vertex1].distance_to_vertex = 0; // дистанцию до стартовой вершины
+
+	while (next_vertex_queue.size()) {
+
+		next_vertex = next_vertex_queue.front();
+		if (!is_traversed_array[next_vertex]) {
+			is_traversed_array[next_vertex] = true;
+			update_shortest_info(graph, next_vertex, shortest_distance, is_traversed_array);
+			add_children_in_queue(graph, next_vertex, next_vertex_queue, is_traversed_array);
+		}
+		next_vertex_queue.pop();
+	}
+
+//	for (int i = 0; i < shortest_path.size(); i++) //debug
+//		std::cout << shortest_path[i] << " ";
+//	std::cout << std::endl;
+
+	return shortest_distance[vertex2].distance_to_vertex;
+}
+
+std::vector<int> GraphAlgorithms::
+getShortestPathBetweenVertices_improved(Graph &graph, int vertex1, int vertex2) {
+
+	vertex1 = validate_vertex(graph, vertex1);
+	vertex2 = validate_vertex(graph, vertex2);
+
+	std::vector<bool> is_traversed_array(graph.vertices_cnt_, false);
+	// сначала минимальные расстояния от предыдущих посещенных вершин максимальны, наша задача найти минимумы
+	// номера вершин откуда пришли заполнить можно чем угодно, они должны быть перезаписаны в соответствии с минимальным расстоянием (для стартовой точки останется дефолтным)
+	std::vector<vertex> shortest_distance(graph.vertices_cnt_, vertex{NO_EXIST_VERTEX, UINT_MAX});
 	std::queue<int> next_vertex_queue;
 	int next_vertex;
 

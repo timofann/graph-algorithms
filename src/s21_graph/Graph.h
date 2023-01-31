@@ -1,13 +1,15 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#include <string>
+
 namespace s21 {
 
 
 	class Graph {
 	public:
 		int vertices_cnt_;
-		int** matrix_;
+		std::size_t** matrix_;
 		Graph();
 		~Graph();
 	};

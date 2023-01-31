@@ -18,10 +18,8 @@ int main() {
 //		std::cout << b[i] << std::endl;
 
 	try {
-	std::vector<int> vec = s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 0, 2);
-	for (int i = 0; i < vec.size(); i++)
-		std::cout << vec[i] << " ";
-	std::cout << std::endl;
+		std::size_t c = s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 1, 2);
+		std::cout << c << std::endl;
 	} catch (s21::GraphAlgorithms::GraphAlgorithmsError &e) {
 		std::cerr << e.what() << std::endl;
 	}
