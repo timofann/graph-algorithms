@@ -1,4 +1,6 @@
-SRCS = GraphAlgorithms_search.cpp GraphAlgorithms_utils.cpp GraphAlgorithms_shortest_path.cpp
+SRCS = GraphAlgorithms_search.cpp			GraphAlgorithms_utils.cpp \
+       GraphAlgorithms_shortest_path.cpp	GraphAlgorithms_additional.cpp
+
 OBJS = $(SRCS:.cpp=.o)
 
 all: s21_graph.a $(OBJS)
@@ -19,5 +21,5 @@ fclean: clean
 	rm -f s21_graph_algorithms.a
 
 test: all
-	c++ -std=c++17 graph_algorithms_test.cpp ../s21_graph/s21_graph.a s21_graph_algorithms
+	c++ -std=c++17 graph_algorithms_test.cpp ../s21_graph/s21_graph.a s21_graph_algorithms.a
 	./a.out
