@@ -125,7 +125,7 @@ getShortestPathsBetweenAllVertices(Graph &graph) {
 	for (int i = 0; i < graph.vertices_cnt_; ++i)
 		for (int j = 0; j < graph.vertices_cnt_; ++j)
 			for (int k = 0; k < graph.vertices_cnt_; ++k) {
-				if (shortest_path[j][k] and shortest_path[j][k] > shortest_path[j][i] + shortest_path[i][k]) {
+				if (shortest_path[j][k] > shortest_path[j][i] + shortest_path[i][k]) {
 					shortest_path[j][k] = shortest_path[j][i] + shortest_path[i][k];
 				}
 			}
