@@ -34,13 +34,20 @@ int main() {
 //		std::cerr << e.what() << std::endl;
 //	}
 
-	std::vector<std::vector<float>> shortest_path = s21::GraphAlgorithms::getShortestPathsBetweenAllVertices(graph);
-	std::cout << std::endl;
+//	std::vector<std::vector<float>> shortest_path = s21::GraphAlgorithms::getShortestPathsBetweenAllVertices(graph);
+//	for (int i = 0; i < graph.vertices_cnt_; ++i) {
+//		for (int j = 0; j < graph.vertices_cnt_; ++j)
+//			std::printf("%10.2f ", shortest_path[i][j]);
+//		std::cout << std::endl;
+//	}
+
+	std::vector<std::vector<int>> tree = s21::GraphAlgorithms::getLeastSpanningTree(graph);
 	for (int i = 0; i < graph.vertices_cnt_; ++i) {
 		for (int j = 0; j < graph.vertices_cnt_; ++j)
-			std::printf("%10.2f ", shortest_path[i][j]);
+			std::printf("%4d ", tree[i][j]);
 		std::cout << std::endl;
 	}
+
 }
 
 //c++ -std=c++17 graph_algorithms_test.cpp GraphAlgorithms_utils.cpp GraphAlgorithms_search.cpp GraphAlgorithms_shortest_path.cpp GraphAlgorithms_additional.cpp ../s21_graph/Graph.cpp

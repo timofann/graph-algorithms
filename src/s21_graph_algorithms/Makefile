@@ -1,5 +1,6 @@
 SRCS = GraphAlgorithms_search.cpp			GraphAlgorithms_utils.cpp \
-       GraphAlgorithms_shortest_path.cpp	GraphAlgorithms_additional.cpp
+       GraphAlgorithms_shortest_path.cpp	GraphAlgorithms_additional.cpp \
+       GraphAlgorithms_spanning_tree.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
