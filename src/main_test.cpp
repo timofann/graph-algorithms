@@ -79,4 +79,12 @@ int main() {
 	} catch (s21::GraphAlgorithms::GraphAlgorithmsError &e) {
 		std::cerr << e.what() << std::endl;
 	}
+
+	std::cout << "\033[1;36m\ngetShortestPathBetweenAllVertices\033[0m" << std::endl;
+	std::vector<std::vector<float>> g = s21::GraphAlgorithms::getShortestPathsBetweenAllVertices(graph);
+	for (int i = 0; i < graph.vertices_cnt_; ++i) {
+		for (int j = 0; j < graph.vertices_cnt_; ++j)
+			std::printf("%10.2f ", g[i][j]);
+		std::cout << std::endl;
+	}
 }

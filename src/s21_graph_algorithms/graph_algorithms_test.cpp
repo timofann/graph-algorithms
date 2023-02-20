@@ -38,7 +38,7 @@ int main() {
 	std::cout << std::endl;
 	for (int i = 0; i < graph.vertices_cnt_; ++i) {
 		for (int j = 0; j < graph.vertices_cnt_; ++j)
-			printf("%10.2f ", shortest_path[i][j]);
+			std::printf("%10.2f ", shortest_path[i][j]);
 		std::cout << std::endl;
 	}
 }
