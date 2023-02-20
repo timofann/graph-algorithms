@@ -22,7 +22,7 @@ struct vertex{
 	std::size_t distance_to_vertex;
 };
 
-int cmp(const void *x, const void *y) {
+static int cmp(const void *x, const void *y) {
 	const int arg1 = static_cast<const vertex*>(x)->distance_to_vertex;
 	const int arg2 = static_cast<const vertex*>(y)->distance_to_vertex;
 	if (arg1 < arg2) return -1;
@@ -66,22 +66,6 @@ add_children_in_queue(Graph &graph,
 	}
 }
 
-static std::vector<int>
-collect_path(int vertex2,
-			 const std::vector<vertex>& shortest_distance) {
-
-	std::vector<int> shortest_path;
-	int next_vertex;
-
-	next_vertex = vertex2; // использовать одну переменную?
-	while (next_vertex != NO_EXIST_VERTEX) {
-		shortest_path.push_back(next_vertex + 1);
-		next_vertex = shortest_distance[next_vertex].vertex_nbr;
-	}
-	std::reverse(shortest_path.begin(), shortest_path.end());
-	return shortest_path;
-}
-
 std::size_t GraphAlgorithms::
 getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 
@@ -99,7 +83,6 @@ getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 	shortest_distance[vertex1].distance_to_vertex = 0; // дистанцию до стартовой вершины
 
 	while (next_vertex_queue.size()) {
-
 		next_vertex = next_vertex_queue.front();
 		if (!is_traversed_array[next_vertex]) {
 			is_traversed_array[next_vertex] = true;
@@ -116,38 +99,35 @@ getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 	return shortest_distance[vertex2].distance_to_vertex;
 }
 
-std::vector<int> GraphAlgorithms::
-getShortestPathBetweenVertices_improved(Graph &graph, int vertex1, int vertex2) {
 
-	vertex1 = validate_vertex(graph, vertex1);
-	vertex2 = validate_vertex(graph, vertex2);
 
-	std::vector<bool> is_traversed_array(graph.vertices_cnt_, false);
-	// сначала минимальные расстояния от предыдущих посещенных вершин максимальны, наша задача найти минимумы
-	// номера вершин откуда пришли заполнить можно чем угодно, они должны быть перезаписаны в соответствии с минимальным расстоянием (для стартовой точки останется дефолтным)
-	std::vector<vertex> shortest_distance(graph.vertices_cnt_, vertex{NO_EXIST_VERTEX, UINT_MAX});
-	std::queue<int> next_vertex_queue;
-	int next_vertex;
 
-	next_vertex_queue.push(vertex1);
-	shortest_distance[vertex1].distance_to_vertex = 0; // дистанцию до стартовой вершины
 
-	while (next_vertex_queue.size()) {
 
-		next_vertex = next_vertex_queue.front();
-		if (!is_traversed_array[next_vertex]) {
-			is_traversed_array[next_vertex] = true;
-			update_shortest_info(graph, next_vertex, shortest_distance, is_traversed_array);
-			add_children_in_queue(graph, next_vertex, next_vertex_queue, is_traversed_array);
-		}
-		next_vertex_queue.pop();
-	}
-
-//	for (int i = 0; i < shortest_path.size(); i++) //debug
-//		std::cout << shortest_path[i] << " ";
-//	std::cout << std::endl;
-
-	return collect_path(vertex2, shortest_distance);
+void
+get_start_state(Graph& graph, std::vector<std::vector<float>>& shortest_path) {
+	for (int i = 0; i < graph.vertices_cnt_; ++i)
+		for (int j = 0; j < graph.vertices_cnt_; ++j)
+			if (i == j)
+				shortest_path[i][j] = 0;
+			else
+				if (graph.matrix_[i][j]) {
+					shortest_path[i][j] = graph.matrix_[i][j];
+					shortest_path[j][i] = graph.matrix_[i][j]; }
 }
 
 
+std::vector<std::vector<float>> GraphAlgorithms::
+getShortestPathsBetweenAllVertices(Graph &graph) {
+	std::vector<std::vector<float>> shortest_path = std::vector<std::vector<float>>(
+			graph.vertices_cnt_, std::vector<float>(graph.vertices_cnt_, 1.0f / 0.0f));
+	get_start_state(graph, shortest_path);
+	for (int i = 0; i < graph.vertices_cnt_; ++i)
+		for (int j = 0; j < graph.vertices_cnt_; ++j)
+			for (int k = 0; k < graph.vertices_cnt_; ++k) {
+				if (shortest_path[j][k] and shortest_path[j][k] > shortest_path[j][i] + shortest_path[i][k]) {
+					shortest_path[j][k] = shortest_path[j][i] + shortest_path[i][k];
+				}
+			}
+	return shortest_path;
+}
