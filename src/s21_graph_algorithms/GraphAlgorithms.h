@@ -19,6 +19,7 @@ namespace s21 {
 		static std::vector<int> breadthFirstSearch(Graph &graph, int startVertex);
 		static std::vector<int> getShortestPathBetweenVertices_improved(Graph &graph, int vertex1, int vertex2);
 		static std::size_t getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2);
+		static std::vector<std::vector<float>> getShortestPathsBetweenAllVertices(Graph &graph);
 
 		struct GraphAlgorithmsError : std::runtime_error {
 			explicit GraphAlgorithmsError(const std::string& arg);
