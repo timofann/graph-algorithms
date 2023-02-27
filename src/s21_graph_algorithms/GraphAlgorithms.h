@@ -6,7 +6,16 @@
 
 namespace s21 {
 
+
+
 	class GraphAlgorithms {
+
+	public:
+		struct TsmResult {
+			std::vector<int> vertices;
+			double distance;
+		}
+
 	private:
 		GraphAlgorithms(GraphAlgorithms& other);
 		GraphAlgorithms(GraphAlgorithms&& other);
@@ -21,6 +30,7 @@ namespace s21 {
 		static std::size_t getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2);
 		static std::vector<std::vector<float>> getShortestPathsBetweenAllVertices(Graph &graph);
 		static std::vector<std::vector<int>> getLeastSpanningTree(Graph &graph);
+		static TsmResult solveTravelingSalesmanProblem(Graph &graph);
 
 		struct GraphAlgorithmsError : std::runtime_error {
 			explicit GraphAlgorithmsError(const std::string& arg);
