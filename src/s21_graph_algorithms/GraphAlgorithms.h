@@ -3,6 +3,7 @@
 
 #include "../s21_graph/s21_graph.h"
 #include <system_error>
+#include <vector>
 
 namespace s21 {
 
@@ -14,7 +15,7 @@ namespace s21 {
 		struct TsmResult {
 			std::vector<int> vertices;
 			double distance;
-		}
+		};
 
 	private:
 		GraphAlgorithms(GraphAlgorithms& other);

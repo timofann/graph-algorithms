@@ -41,14 +41,17 @@ int main() {
 //		std::cout << std::endl;
 //	}
 
-	std::vector<std::vector<int>> tree = s21::GraphAlgorithms::getLeastSpanningTree(graph);
-	for (int i = 0; i < graph.vertices_cnt_; ++i) {
-		for (int j = 0; j < graph.vertices_cnt_; ++j)
-			std::printf("%4d ", tree[i][j]);
-		std::cout << std::endl;
-	}
+//	std::vector<std::vector<int>> tree = s21::GraphAlgorithms::getLeastSpanningTree(graph);
+//	for (int i = 0; i < graph.vertices_cnt_; ++i) {
+//		for (int j = 0; j < graph.vertices_cnt_; ++j)
+//			std::printf("%4d ", tree[i][j]);
+//		std::cout << std::endl;
+//	}
+
+    s21::GraphAlgorithms::TsmResult tsm = s21::GraphAlgorithms::solveTravelingSalesmanProblem(graph);
+    std::cout << tsm.distance << std::endl;
 
 }
 
-//c++ -std=c++17 graph_algorithms_test.cpp GraphAlgorithms_utils.cpp GraphAlgorithms_search.cpp GraphAlgorithms_shortest_path.cpp GraphAlgorithms_additional.cpp ../s21_graph/Graph.cpp
+//c++ -std=c++17 graph_algorithms_test.cpp GraphAlgorithms_utils.cpp GraphAlgorithms_search.cpp GraphAlgorithms_shortest_path.cpp GraphAlgorithms_additional.cpp GraphAlgorithms_salesman_problem.cpp ../s21_graph/Graph.cpp
 
