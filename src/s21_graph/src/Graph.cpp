@@ -1,6 +1,5 @@
 #include "Graph.h"
-//#include <filesystem>
-#include <experimental/filesystem>
+#include <filesystem>
 
 Graph::Graph() : a_matrix(nullptr), a_matrix_size(0), weighted(false)
 {
@@ -143,11 +142,16 @@ void Graph::check_matrix(unsigned *const *matrix, size_t size)
 	}
 }
 
+void Graph::loadGraphFromFile(const std::string &filename)
+{
+	std::cout << filename;
+}
+
 void Graph::exportGraphToDot(const std::string &filename)
 {
 	std::ofstream ofs;
 
-	std::experimental::filesystem::path filepath = filename;
+	std::filesystem::path filepath = filename;
 	if (filepath.extension() != ".gv" && filepath.extension() != ".dot")
 	{
 		throw std::invalid_argument("Wrong extension of file");

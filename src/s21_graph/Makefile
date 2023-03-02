@@ -1,9 +1,9 @@
 CC			= g++
 CCFLAGS		= -g -Wall -Wextra -Werror -std=c++17
 NAME		= s21_graph.a
-SRC_DIR		= #src/
-OBJ_DIR		= #obj/
-INCLUDE_DIR	= #include/
+SRC_DIR		= src/
+OBJ_DIR		= obj/
+INCLUDE_DIR	= include/
 INCLUDE_F	= s21_graph.h Graph.h
 SRC_FILES	= Graph.cpp
 OBJ_FILES	= $(SRC_FILES:.cpp=.o)
