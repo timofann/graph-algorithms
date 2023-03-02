@@ -5,11 +5,12 @@
 
 int main() {
 
-	s21::Graph graph;
+    unsigned** matrix = new unsigned*[2]{new unsigned[2]{0, 2}, new unsigned[2]{2, 0}}; // leak
+	s21::Graph graph(matrix, 2);
 	std::cout << "\033[1;32mGraph is created\033[0m" << std::endl;
-	for (int i = 0; i < graph.vertices_cnt_; i++) {
-		for (int j = 0; j < graph.vertices_cnt_; j++)
-			printf("%4lu ", graph.matrix_[i][j]);
+	for (int i = 0; i < graph.size(); i++) {
+		for (int j = 0; j < graph.size(); j++)
+			printf("%4u ", graph[i][j]);
 		std::cout << std::endl;
 	}
 
@@ -83,16 +84,16 @@ int main() {
 
 	std::cout << "\033[1;36m\ngetShortestPathBetweenAllVertices\033[0m" << std::endl;
 	std::vector<std::vector<float>> g = s21::GraphAlgorithms::getShortestPathsBetweenAllVertices(graph);
-	for (int i = 0; i < graph.vertices_cnt_; ++i) {
-		for (int j = 0; j < graph.vertices_cnt_; ++j)
+	for (int i = 0; i < graph.size(); ++i) {
+		for (int j = 0; j < graph.size(); ++j)
 			std::printf("%10.2f ", g[i][j]);
 		std::cout << std::endl;
 	}
 
 	std::cout << "\033[1;32m\ngetLeastSpanningTree\033[0m" << std::endl;
 	std::vector<std::vector<int>> h = s21::GraphAlgorithms::getLeastSpanningTree(graph);
-	for (int i = 0; i < graph.vertices_cnt_; ++i) {
-		for (int j = 0; j < graph.vertices_cnt_; ++j)
+	for (int i = 0; i < graph.size(); ++i) {
+		for (int j = 0; j < graph.size(); ++j)
 			std::printf("%4d ", h[i][j]);
 		std::cout << std::endl;
 	}

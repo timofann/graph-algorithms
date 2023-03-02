@@ -1,23 +1,24 @@
-CC			= g++
+CC			= c++
 CCFLAGS		= -g -Wall -Wextra -Werror -std=c++17
 NAME		= s21_graph.a
 SRC_DIR		= src/
 OBJ_DIR		= obj/
 INCLUDE_DIR	= include/
-INCLUDE_F	= s21_graph.h Graph.h
-SRC_FILES	= Graph.cpp
+INCLUDE_F	= Graph.h
+SRC_FILES	= Graph.cpp loadGraphFromFile.cpp
 OBJ_FILES	= $(SRC_FILES:.cpp=.o)
 SRC			= $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ			= $(addprefix $(OBJ_DIR), $(OBJ_FILES))
-INC			= $(addprefix $(INCLUDE_DIR), $(INCLUDE_F))
+HEADER      = s21_graph.h
+INC			= $(addprefix $(INCLUDE_DIR), $(INCLUDE_F)) $(HEADER)
 AR			= ar rcs
 RM			= rm -rf
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re test
 
-$(OBJ_DIR)%.o:$(SRC_DIR)%.cpp $(INC)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.cpp $(INC)
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CCFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+	$(CC) $(CCFLAGS) -I$(HEADER) -c $< -o $@
 
 all: $(NAME)
 
@@ -25,12 +26,13 @@ $(NAME): $(OBJ)
 	${AR} ${NAME} $?
 
 clean:
-	$(RM) $(OBJ_DIR);
+	$(RM) $(OBJ_DIR) a.out
 
 fclean: clean
 	$(RM) $(NAME)
 
 re: fclean $(NAME)
 
-test: $(OBJ)
-	rm -rf ./a.out && $(CC) $(CCFLAGS) -g main_test.cpp $< -I$(INCLUDE_DIR) -lstdc++
+test: all
+	rm -rf ./a.out && $(CC) $(CCFLAGS) -g graph_test.cpp $< -I$(INCLUDE_DIR) -lstdc++
+	./a.out

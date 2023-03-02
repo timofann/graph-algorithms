@@ -1,5 +1,7 @@
-#include "Graph.h"
+#include "../include/Graph.h"
 #include <filesystem>
+
+using namespace s21;
 
 Graph::Graph() : a_matrix(nullptr), a_matrix_size(0), weighted(false)
 {
@@ -207,4 +209,8 @@ std::ostream &operator<<(std::ostream &os, Graph *b)
 const char *Graph::WrongMatrixException::what() const noexcept
 {
 	return "wrong matrix";
+}
+
+const unsigned *Graph::operator[](size_t row) const {
+    return this->a_matrix[row];
 }

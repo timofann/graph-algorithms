@@ -3,19 +3,16 @@
 
 int main() {
 
-	s21::Graph graph;
+    unsigned** matrix = new unsigned*[2]{new unsigned[2]{0, 2}, new unsigned[2]{2, 0}};
+	s21::Graph graph(matrix, 2);
 	std::cout << "\033[1;32mGraph is created\033[0m" << std::endl;
-	for (int i = 0; i < graph.vertices_cnt_; i++) {
-		for (int j = 0; j < graph.vertices_cnt_; j++) {
-			std::cout << graph.matrix_[i][j];
-			if (j != graph.vertices_cnt_)
+	for (std::size_t i = 0; i < graph.size(); i++) {
+		for (std::size_t j = 0; j < graph.size(); j++) {
+			std::cout << graph[i][j];
+			if (j != graph.size())
 				std::cout << ' ';
 		}
 		std::cout << std::endl;
 	}
 
 }
-
-// c++ -std=c++17 graph_test.cpp Graph.cpp
-// or
-// c++ -std=c++17 graph_test.cpp s21_graph.a

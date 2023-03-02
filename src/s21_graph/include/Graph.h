@@ -9,43 +9,49 @@
 #include <sstream>
 #include <fstream>
 
-class Graph
-{
-public:
-	Graph(unsigned **matrix, size_t size);
+namespace s21 {
 
-	Graph(const Graph &other);
+    class Graph
+    {
+    public:
+        Graph(unsigned **matrix, size_t size);
 
-	~Graph();
+        Graph(const Graph &other);
 
-	Graph &operator=(const Graph &other);
+        ~Graph();
 
-	void loadGraphFromFile(const std::string &filename);
+        Graph &operator=(const Graph &other);
 
-	void exportGraphToDot(const std::string &filename);
+        void loadGraphFromFile(const std::string &filename);
 
-	[[nodiscard]] size_t size() const;
-	std::string generateDotString();
+        void exportGraphToDot(const std::string &filename);
 
-	class WrongMatrixException : public std::exception
-	{
-	public:
-		[[nodiscard]] const char *what() const noexcept override;
-	};
+        [[nodiscard]] size_t size() const;
+        std::string generateDotString();
 
-private:
-	Graph();
+        class WrongMatrixException : public std::exception
+        {
+        public:
+            [[nodiscard]] const char *what() const noexcept override;
+        };
 
-	unsigned **a_matrix;
-	size_t a_matrix_size;
-	bool weighted;
+        const unsigned *operator[](size_t) const;
 
-	void set_a_matrix(unsigned **matrix, size_t size);
+    private:
+        Graph();
 
-	static void check_matrix(unsigned int *const *matrix, size_t size);
+        unsigned **a_matrix;
+        size_t a_matrix_size;
+        bool weighted;
 
-};
+        void set_a_matrix(unsigned **matrix, size_t size);
 
-std::ostream &operator<<(std::ostream &o, Graph *a);
+        static void check_matrix(unsigned int *const *matrix, size_t size);
+
+    };
+
+} // namespace s21
+
+std::ostream &operator<<(std::ostream &o, s21::Graph *a);
 
 #endif
