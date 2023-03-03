@@ -14,6 +14,15 @@ int main() {
 		std::cout << std::endl;
 	}
 
+    s21::Graph graph2 = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
+    std::cout << "\033[1;32mGraph is created2\033[0m" << std::endl;
+    for (int i = 0; i < graph2.size(); i++) {
+        for (int j = 0; j < graph2.size(); j++)
+            printf("%4u ", graph2[i][j]);
+        std::cout << std::endl;
+    }
+
+
 	try {
 
 		std::cout << "\033[1;32m\ndepthFirstSearch\033[0m" << std::endl;

@@ -1,5 +1,7 @@
 #include "../include/Graph.h"
 
+using namespace s21;
+
 static char	**ft_error(char **tab)
 {
 	unsigned int	i;
@@ -95,7 +97,7 @@ void clear_matrix(unsigned **array_num, size_t matrix_size)
 	delete[] array_num;
 }
 
-void loadGraphFromFile(const std::string &filename) {
+Graph Graph::loadGraphFromFile(const std::string &filename) {
 	std::ifstream inf;
 	inf.open(filename, std::ifstream::in);
 	if (!inf.is_open()){
@@ -158,5 +160,5 @@ void loadGraphFromFile(const std::string &filename) {
 		i++;
 	}
 	inf.close();
-	
+    return Graph(array_num, matrix_size); //check leaks
 }

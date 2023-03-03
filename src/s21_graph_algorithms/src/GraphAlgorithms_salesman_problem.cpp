@@ -170,12 +170,13 @@ run_elite_ants(const Graph& graph, std::vector<Ant>& ants, std::vector<std::vect
     std::vector<int> available_paths;
     int path;
 
-    update_pheromone_lvl_rho(graph, pheromone_lvl);
+//    update_pheromone_lvl_rho(graph, pheromone_lvl);
     restart_ants(ants);
     for (auto ant = ants.begin(); ant != ants.end(); ant++) {
         available_paths = get_available_paths(graph, *ant);
         while (available_paths.size() > 0) {
             path = choose_elite_path(graph, pheromone_lvl, available_paths, *ant);
+            printf("path chosen");
             update_ant(graph, *ant, path);
             available_paths = get_available_paths(graph, *ant);
         }

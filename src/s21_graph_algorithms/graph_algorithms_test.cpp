@@ -50,12 +50,12 @@ int main() {
 		std::cout << std::endl;
 	}
 
-//	try {
-//        s21::GraphAlgorithms::TsmResult tsm = s21::GraphAlgorithms::solveTravelingSalesmanProblem(graph);
-//        std::cout << tsm.distance << std::endl;
-//    } catch (s21::GraphAlgorithms::GraphAlgorithmsError &e) {
-//		std::cerr << e.what() << std::endl;
-//	}
+	try {
+        s21::GraphAlgorithms::TsmResult tsm = s21::GraphAlgorithms::solveTravelingSalesmanProblem(graph);
+        std::cout << tsm.distance << std::endl;
+    } catch (s21::GraphAlgorithms::GraphAlgorithmsError &e) {
+		std::cerr << e.what() << std::endl;
+	}
 
 }
 

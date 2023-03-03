@@ -144,10 +144,10 @@ void Graph::check_matrix(unsigned *const *matrix, size_t size)
 	}
 }
 
-void Graph::loadGraphFromFile(const std::string &filename)
-{
-	std::cout << filename;
-}
+//void Graph::loadGraphFromFile(const std::string &filename)
+//{
+//	std::cout << filename;
+//}
 
 void Graph::exportGraphToDot(const std::string &filename)
 {

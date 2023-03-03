@@ -22,7 +22,7 @@ namespace s21 {
 
         Graph &operator=(const Graph &other);
 
-        void loadGraphFromFile(const std::string &filename);
+        static Graph loadGraphFromFile(const std::string &filename);
 
         void exportGraphToDot(const std::string &filename);
 
