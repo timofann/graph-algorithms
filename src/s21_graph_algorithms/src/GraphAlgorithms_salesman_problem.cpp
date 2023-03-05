@@ -159,12 +159,12 @@ run_ants(const Graph& graph, std::vector<Ant>& ants, std::vector<std::vector<dou
             update_pheromone_lvl_ant(graph, *ant, pheromone_lvl);
         }
 
-        for (int i = 0; i < (int)graph.size(); ++i) {
-            for (int j = 0; j < (int)graph.size(); ++j)
-                printf("%5.2f ", pheromone_lvl[i][j]);
-            std::cout << std::endl;
-        } //debug
-        printf("\n");
+//        for (int i = 0; i < (int)graph.size(); ++i) {
+//            for (int j = 0; j < (int)graph.size(); ++j)
+//                printf("%5.2f ", pheromone_lvl[i][j]);
+//            std::cout << std::endl;
+//        } //debug
+//        printf("\n");
 
     }
 }
@@ -177,11 +177,11 @@ run_elite_ants(const Graph& graph, std::vector<Ant>& ants, std::vector<std::vect
 
 //    update_pheromone_lvl_rho(graph, pheromone_lvl);
     restart_ants(ants);
-    for (auto ant = ants.begin(); ant != ants.end(); ant++) {
-        for (auto city = (*ant).traversed.begin(); city != (*ant).traversed.end(); city++)
-            printf("%d |", *city);
-        printf("\n"); //debug
-    } //debug
+//    for (auto ant = ants.begin(); ant != ants.end(); ant++) {
+//        for (auto city = (*ant).traversed.begin(); city != (*ant).traversed.end(); city++)
+//            printf("%d |", *city);
+//        printf("\n"); //debug
+//    } //debug
     for (auto ant = ants.begin(); ant != ants.end(); ant++) {
         available_paths = get_available_paths(graph, *ant);
         while (available_paths.size() > 0) {
@@ -194,11 +194,11 @@ run_elite_ants(const Graph& graph, std::vector<Ant>& ants, std::vector<std::vect
 //       printf("\n"); //debug
         finish_path(graph, *ant);
     }
-    for (auto ant = ants.begin(); ant != ants.end(); ant++) {
-        for (auto city = (*ant).traversed.begin(); city != (*ant).traversed.end(); city++)
-            printf("%d |", *city);
-        printf("\n"); //debug
-    }
+//    for (auto ant = ants.begin(); ant != ants.end(); ant++) {
+//        for (auto city = (*ant).traversed.begin(); city != (*ant).traversed.end(); city++)
+//            printf("%d |", *city);
+//        printf("\n"); //debug
+//    }
 }
 
 
