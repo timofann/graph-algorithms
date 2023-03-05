@@ -18,7 +18,6 @@ re: fclean all
 test:
 	g++ s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a tests/tests.cc -o test -lgtest -std=c++17
 	./test
-	rm -f test
 
 interface: $(NAME)
 	g++ main.cpp console_interface/ConsoleInterface.cpp -std=c++17 s21_graph/s21_graph.a  console_interface/ConsoleInterface_menu.cpp console_interface/ConsoleInterfaceInstance.cpp
