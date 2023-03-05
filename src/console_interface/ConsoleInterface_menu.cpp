@@ -2,19 +2,18 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define BLUE "\033[1;36m"
-#define NONE "\033[0m"
 #define WELCOME_MESSAGE "\
 Hello! You're lucky, because it is THE BEST CONSOLE INTERFACE EVER!\n\
 -------------------------------------------------------------------"
-#define START_MENU_MESSAGE "\
+#define START_MENU_MESSAGE "\n\
 Now you have the next opportunities:\n\
     1. Show the list of available files with adjacency matrices.\n\
     2. Load Graph with adjacency matrix from file.\n\
     3. Exit program.\n\n\
 You need to choose one and enter the number: "
+#define CURRENT_GRAPH "\nYou're working on graph from the file "
 #define MENU_MESSAGE "\
-Now you have the next opportunities:\n\
+and you have the next opportunities:\n\
     1. Show the list of available files with adjacency matrices.\n\
     2. Load Graph with adjacency matrix from file.\n\
     3. Breadth-first search.\n\
@@ -38,11 +37,10 @@ static int validate_and_run_start_choice(std::string&);
 static int validate_and_run_choice(std::string&);
 
 
-void ConsoleInterface::start() {
+void ConsoleInterface::start() noexcept {
     system("clear");
     std::cout << BLUE << WELCOME_MESSAGE << NONE << std::endl;
     run_arrows();
-    std::cout << std::endl;
     while (!ConsoleInterface::instance_)
         start_menu();
     while (true)
@@ -50,7 +48,7 @@ void ConsoleInterface::start() {
 }
 
 
-void ConsoleInterface::start_menu() {
+void ConsoleInterface::start_menu() noexcept {
     std::cout << BLUE << START_MENU_MESSAGE << NONE;
     std::string choice;
     std::cin >> choice;
@@ -59,7 +57,8 @@ void ConsoleInterface::start_menu() {
 }
 
 
-void ConsoleInterface::menu() {
+void ConsoleInterface::menu() noexcept {
+    std::cout << BLUE << CURRENT_GRAPH << ConsoleInterface::instance_->filename_ << NONE << std::endl;
     std::cout << BLUE << MENU_MESSAGE << NONE;
     std::string choice;
     std::cin >> choice;

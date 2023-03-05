@@ -3,8 +3,16 @@
 
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
+#include "../s21_graph/s21_graph.h"
 #include "../s21_graph_algorithms/s21_graph_algorithms.h"
+
+#define BLUE "\033[1;36m"
+#define GREY "\033[1;37m"
+#define NONE "\033[0m"
+
+#define GRAPHS_DST "tests/graphs/"
 
 namespace s21 {
 
@@ -16,15 +24,15 @@ namespace s21 {
             Graph graph_;
             std::string filename_;
             ConsoleInterfaceInstance(const std::string &filename);
-            ConsoleInterfaceInstance(ConsoleInterfaceInstance &other);
-            ConsoleInterfaceInstance(ConsoleInterfaceInstance &&other);
-            ConsoleInterfaceInstance &operator=(ConsoleInterfaceInstance &other);
-            ConsoleInterfaceInstance &operator=(ConsoleInterfaceInstance &&other);
+            ConsoleInterfaceInstance(ConsoleInterfaceInstance &other) = default;
+            ConsoleInterfaceInstance(ConsoleInterfaceInstance &&other) = default;
+            ConsoleInterfaceInstance &operator=(ConsoleInterfaceInstance &other) = default;
+            ConsoleInterfaceInstance &operator=(ConsoleInterfaceInstance &&other) = default;
             ~ConsoleInterfaceInstance();
 
-            void bfs();
+            void bfs(int);
             void dfs();
-            void dijkstra();
+            void dijkstra(int, int);
             void floydwar();
             void aco();
             void save();
@@ -32,26 +40,26 @@ namespace s21 {
 
     private:
         static ConsoleInterfaceInstance *instance_;
-        ConsoleInterface(const std::string &filename);
-        ConsoleInterface(ConsoleInterface &other);
-        ConsoleInterface(ConsoleInterface &&other);
-        ConsoleInterface &operator=(ConsoleInterface &other);
-        ConsoleInterface &operator=(ConsoleInterface &&other);
-        ~ConsoleInterface();
+        ConsoleInterface(const std::string &filename) noexcept;
+        ConsoleInterface(ConsoleInterface &other) noexcept;
+        ConsoleInterface(ConsoleInterface &&other) noexcept;
+        ConsoleInterface &operator=(ConsoleInterface &other) noexcept;
+        ConsoleInterface &operator=(ConsoleInterface &&other) noexcept;
+        ~ConsoleInterface() noexcept;
 
     public:
-        static void start();
-        static void start_menu();
-        static void menu();
-        static void load();
-        static void list();
-        static void exit();
-        static void bfs();
-        static void dfs();
-        static void dijkstra();
-        static void floydwar();
-        static void aco();
-        static void save();
+        static void start() noexcept;
+        static void start_menu() noexcept;
+        static void menu() noexcept;
+        static void load() noexcept;
+        static void list() noexcept;
+        static void exit() noexcept;
+        static void bfs() noexcept;
+        static void dfs() noexcept;
+        static void dijkstra() noexcept;
+        static void floydwar() noexcept;
+        static void aco() noexcept;
+        static void save() noexcept;
     };
 
 } // namespace s21

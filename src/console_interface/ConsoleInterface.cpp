@@ -1,46 +1,64 @@
 #include "ConsoleInterface.h"
 
-#define GREY "\033[1;37m"
-#define NONE "\033[0m"
-
 #define NOT_INITIALISED_MESSAGE "You have not load graph yet. Come later."
 
 using namespace s21;
 
 ConsoleInterface::ConsoleInterfaceInstance* ConsoleInterface::instance_ = NULL;
 
-ConsoleInterface::ConsoleInterface(const std::string &filename) {
-    if (!ConsoleInterface::instance_)
-        ConsoleInterface::instance_ = new ConsoleInterfaceInstance(filename);
+ConsoleInterface::ConsoleInterface(const std::string &filename) noexcept {
+    try {
+        if (!ConsoleInterface::instance_)
+            ConsoleInterface::instance_ = new ConsoleInterfaceInstance(filename);
+        else
+            if (ConsoleInterface::instance_->filename_ != filename)
+//                ;
+                *(ConsoleInterface::instance_) = ConsoleInterfaceInstance(filename);
+    }
+    catch (std::exception &e) {
+        std::cout << GREY << "Can't set a new graph: " << e.what() << GREY << std::endl;
+    }
 }
 
-ConsoleInterface::~ConsoleInterface() {
+ConsoleInterface::~ConsoleInterface() noexcept {}
+
+void ConsoleInterface::load() noexcept {
+    std::cout << GREY << "Run load command" << NONE << std::endl;
+    std::cout << GREY << "Choose a file to load the graph from: " << NONE;
+    std::string filename;
+    std::cin >> filename;
+    ConsoleInterface interface = ConsoleInterface(filename);
+}
+
+void ConsoleInterface::list() noexcept {
+    std::cout << GREY << "Run list command" << NONE << std::endl;
+    std::system("ls tests/graphs");
+}
+
+void ConsoleInterface::exit() noexcept {
+    std::cout << GREY << "Run exit command" << NONE << std::endl;
+    std::cout << GREY << "Goodbye!" << NONE << std::endl;
     delete ConsoleInterface::instance_;
     ConsoleInterface::instance_ = NULL;
+    std::exit(0);
 }
 
-void ConsoleInterface::load() {
-    std::cout << GREY << "Run load command" << NONE << std::endl;
-}
-
-void ConsoleInterface::list() {
-    std::cout << GREY << "Run list command" << NONE << std::endl;
-}
-
-void ConsoleInterface::exit() {
-    std::cout << GREY << "Run exit command" << NONE << std::endl;
-}
-
-void ConsoleInterface::bfs() {
+void ConsoleInterface::bfs() noexcept {
     if (!ConsoleInterface::instance_)
         std::cout << GREY << NOT_INITIALISED_MESSAGE << NONE << std::endl;
     else {
         std::cout << GREY << "Run bfs command" << NONE << std::endl;
-        ConsoleInterface::instance_->bfs();
+        std::cout << GREY << "This algorithm goes throw all the vertices." << NONE << std::endl;
+        std::string input;
+        std::cout << GREY << "Enter the start vertex number [1 - " << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
+        std::cin >> input;
+        try { ConsoleInterface::instance_->bfs(std::stoi(input)); } catch (...) {
+            std::cout << GREY << "Invalid value." << NONE << std::endl;
+        }
     }
 }
 
-void ConsoleInterface::dfs() {
+void ConsoleInterface::dfs() noexcept {
     if (!ConsoleInterface::instance_)
         std::cout << GREY << NOT_INITIALISED_MESSAGE << NONE << std::endl;
     else {
@@ -49,16 +67,25 @@ void ConsoleInterface::dfs() {
     }
 }
 
-void ConsoleInterface::dijkstra() {
+void ConsoleInterface::dijkstra() noexcept {
     if (!ConsoleInterface::instance_)
         std::cout << GREY << NOT_INITIALISED_MESSAGE << NONE << std::endl;
     else {
         std::cout << GREY << "Run dijkstra command" << NONE << std::endl;
-        ConsoleInterface::instance_->dijkstra();
+        std::cout << GREY << "This algorithm finds the path between two vertices." << NONE << std::endl;
+        std::string input1;
+        std::string input2;
+        std::cout << GREY << "Enter the first vertex number [1 - " << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
+        std::cin >> input1;
+        std::cout << GREY << "Enter the second vertex number [1 - " << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
+        std::cin >> input2;
+        try { ConsoleInterface::instance_->dijkstra(std::stoi(input1), std::stoi(input2)); } catch (...) {
+            std::cout << GREY << "Invalid value." << NONE << std::endl;
+        }
     }
 }
 
-void ConsoleInterface::floydwar() {
+void ConsoleInterface::floydwar() noexcept {
     if (!ConsoleInterface::instance_)
         std::cout << GREY << NOT_INITIALISED_MESSAGE << NONE << std::endl;
     else {
@@ -67,7 +94,7 @@ void ConsoleInterface::floydwar() {
     }
 }
 
-void ConsoleInterface::aco() {
+void ConsoleInterface::aco() noexcept {
     if (!ConsoleInterface::instance_)
         std::cout << GREY << NOT_INITIALISED_MESSAGE << NONE << std::endl;
     else {
@@ -76,7 +103,7 @@ void ConsoleInterface::aco() {
     }
 }
 
-void ConsoleInterface::save() {
+void ConsoleInterface::save() noexcept {
     if (!ConsoleInterface::instance_)
         std::cout << GREY << NOT_INITIALISED_MESSAGE << NONE << std::endl;
     else {

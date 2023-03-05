@@ -20,5 +20,5 @@ test:
 	./test
 
 interface: $(NAME)
-	g++ main.cpp console_interface/ConsoleInterface.cpp -std=c++17 s21_graph/s21_graph.a  console_interface/ConsoleInterface_menu.cpp console_interface/ConsoleInterfaceInstance.cpp
+	g++ main.cpp console_interface/ConsoleInterface.cpp -std=c++17 s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a console_interface/ConsoleInterface_menu.cpp console_interface/ConsoleInterfaceInstance.cpp
 	./a.out
