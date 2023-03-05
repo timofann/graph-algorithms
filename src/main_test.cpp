@@ -17,21 +17,21 @@ int main() {
                                            new unsigned[11]{31, 41, 27, 13, 16, 3, 99, 25, 35, 0, 38},
                                            new unsigned[11]{18, 12, 13, 25, 22, 37, 84, 13, 18, 38, 0} };
 
-    s21::Graph graph(matrix, 11);
+    s21::Graph graph2(matrix, 11);
 	std::cout << "\033[1;32mGraph is created\033[0m" << std::endl;
-	for (int i = 0; i < graph.size(); i++) {
-		for (int j = 0; j < graph.size(); j++)
-			printf("%4u ", graph[i][j]);
+	for (int i = 0; i < graph2.size(); i++) {
+		for (int j = 0; j < graph2.size(); j++)
+			printf("%4u ", graph2[i][j]);
 		std::cout << std::endl;
 	}
 
-//    s21::Graph graph2 = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
-//    std::cout << "\033[1;32mGraph is created2\033[0m" << std::endl;
-//    for (int i = 0; i < graph2.size(); i++) {
-//        for (int j = 0; j < graph2.size(); j++)
-//            printf("%4u ", graph2[i][j]);
-//        std::cout << std::endl;
-//    }
+    s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
+    std::cout << "\033[1;32m\nGraph is created2\033[0m" << std::endl;
+    for (int i = 0; i < graph.size(); i++) {
+        for (int j = 0; j < graph.size(); j++)
+            printf("%4u ", graph[i][j]);
+        std::cout << std::endl;
+    }
 
 
 	try {
