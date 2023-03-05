@@ -7,6 +7,8 @@
 #include "../../s21_containers/queue.h"
 #include <system_error>
 #include <vector>
+#include <climits>
+#include <algorithm>
 
 #include <iostream> //debug
 

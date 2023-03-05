@@ -1,4 +1,4 @@
-CC			= c++
+CC			= g++
 CCFLAGS		= -g -Wall -Wextra -Werror -std=c++17
 NAME		= s21_graph.a
 SRC_DIR		= src/
@@ -18,7 +18,7 @@ RM			= rm -rf
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp $(INC)
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CCFLAGS) -I$(HEADER) -c $< -o $@
+	$(CC) $(CCFLAGS) -I. -c $< -o $@
 
 all: $(NAME)
 
