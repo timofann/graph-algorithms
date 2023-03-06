@@ -1,3 +1,5 @@
+.PHONY: test all s21_graph.a s21_graph_algorithms.a fclean re interface
+
 all: s21_graph.a s21_graph_algorithms.a
 	g++ -std=c++17 main_test.cpp s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a
 	./a.out
@@ -16,6 +18,8 @@ fclean:
 re: fclean all
 
 test:
+	rm -f test
+	chmod 000 tests/bad_graphs/7.txt
 	g++ s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a tests/tests.cc -o test -lgtest -std=c++17
 	./test
 
