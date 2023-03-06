@@ -3,7 +3,7 @@
 
 using namespace s21;
 
-Graph::Graph() : a_matrix(nullptr), a_matrix_size(0), weighted(false)
+Graph::Graph() : a_matrix(nullptr), a_matrix_size(0), weighted(false) // можно вообще не определять конструктор, если он не используется внутри класса и является приватным. Объявить нужно, чтобы не создался конструктор по умолчанию
 {
 }
 
@@ -31,14 +31,14 @@ Graph &Graph::operator=(const Graph &other)
 	if (&other != this)
 		set_a_matrix(other.a_matrix, other.a_matrix_size);
 	return *this;
-}
+} // по правилу 5 нужно ещё 2 конструктора
 
 size_t Graph::size() const
 {
 	return this->a_matrix_size;
 }
 
-void Graph::set_a_matrix(unsigned **matrix, size_t size)
+void Graph::set_a_matrix(unsigned **matrix, size_t size) // нет проверки на нулевую матрицу или я не нашла, также нужна проверка на то, что size не больше INT_MAX, это важно в алгоритмах
 {
 	check_matrix(matrix, size);
 
@@ -138,7 +138,7 @@ void Graph::check_matrix(unsigned *const *matrix, size_t size)
 		}
 		if (res > 1)
 		{
-			throw WrongMatrixException();
+			throw WrongMatrixException(); // можно в порядке низкого приоритета все ошибки оформить вот так
 		}
 
 	}
@@ -160,9 +160,9 @@ void Graph::exportGraphToDot(const std::string &filename)
 	}
 
 	ofs.open(filename);
-	if (! ofs.is_open())
+	if (! ofs.is_open()) // Разная обработка файлов в loadGraph и exportGraph, необходимо унифицировать
 	{
-		std::cerr << "Can't open file: " << filename << std::endl;
+		std::cerr << "Can't open file: " << filename << std::endl; // библиотека не должна печатать, только кидать ошибки
 	}
 	else
 	{
@@ -200,17 +200,17 @@ std::string Graph::generateDotString()
 	return res.str();
 }
 
-std::ostream &operator<<(std::ostream &os, Graph *b)
+std::ostream &operator<<(std::ostream &os, Graph *b) // почему работаем с указателем на граф, а не с объектом? А вдруг реально будет нужно указатель распечатать?
 {
 	os << b->generateDotString();
 	return (os);
 }
 
-const char *Graph::WrongMatrixException::what() const noexcept
+const char *Graph::WrongMatrixException::what() const noexcept // можно просто унаследоваться от runtime_error или другой ошибки, тогда переопределять what не нужно. Субъективно на мой взгляд элегантнее, просто как вариант
 {
 	return "wrong matrix";
 }
 
-const unsigned *Graph::operator[](size_t row) const {
+const unsigned *Graph::operator[](size_t row) const { // нужно проверить за мной этот метод, потому что его я просто накидала, чтобы работало
     return this->a_matrix[row];
 }

@@ -78,7 +78,7 @@ static char	**ft_needle(char const *s, char c, char **arrayword)
 	return (arrayword);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c) // си! https://stackoverflow.com/questions/10058606/splitting-a-string-by-a-character это пример, может, не лучший
 {
 	char	**arrayword;
 	int		l;
@@ -109,7 +109,7 @@ size_t count_rows(const std::string &filename)
 	if (inf.eof() == true){
 		throw std::runtime_error{"Empty file"};
 	}
-	if (inf.fail() == true) {
+	if (inf.fail() == true) { // https://en.cppreference.com/w/cpp/io/basic_ios/fail пример использования
 		throw std::runtime_error{"Bad data on  file"};
 	}
 	size_t size_0 = 0;
@@ -170,29 +170,29 @@ Graph Graph::loadGraphFromFile(const std::string &filename) {
 		while (arrayword[j])
 		{
 			try {
-				array_num[i][j] = std::stoi(arrayword[j], &pos);}
+				array_num[i][j] = std::stoi(arrayword[j], &pos);} // можно обсудить, обрабатывать ли вообще конкретно эту ошибку или прокидывать наверх
 			catch(std::invalid_argument const& ex)
 			{
-				std::cout << "std::invalid_argument::what(): " << ex.what() << '\n';
+				std::cout << "std::invalid_argument::what(): " << ex.what() << '\n'; // библиотка не должна ничего печатать, только бросать ошибки, которые можно поймать и распечатать в интерфейсе
 				clear_matrix(array_num, matrix_size);
-				exit(EXIT_FAILURE);
+				exit(EXIT_FAILURE); // exit выйдет из консольного интерфейса, его обработать нельзя, а ошибку можно
 			}
 			j++;
 		}
 		if (j != matrix_size) {
-			std::cout << "std::invalid_argument::what(): length not equal to matrix width" << '\n';
+			std::cout << "std::invalid_argument::what(): length not equal to matrix width" << '\n'; //
 			clear_matrix(array_num, matrix_size);
-			exit(EXIT_FAILURE);	}
+			exit(EXIT_FAILURE);	} //
 		i++;
 	}
 	if ((size - 1) != i)
 	{
-	 	std::cout << "std::invalid_argument::what(): the number of rows is not equal to the size of the matrix" << '\n';
+	 	std::cout << "std::invalid_argument::what(): the number of rows is not equal to the size of the matrix" << '\n'; //
 	 	clear_matrix(array_num, matrix_size);
-	 	exit(0);
+	 	exit(0); //
 	}
 	inf.close();
 	Graph date(array_num, matrix_size);
 	clear_matrix(array_num, matrix_size);
-    return date; //check leaks
+    return date;
 }
