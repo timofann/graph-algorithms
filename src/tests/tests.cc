@@ -10,7 +10,36 @@
 
 /* ------------------------------------------------------------------------------------------------------------ Graph */
 
+TEST(graph, NullZeroConstruction) {
+    EXPECT_ANY_THROW(s21::Graph graph(NULL, 0));
+}
 
+TEST(graph, NonNullZeroConstruction) {
+    unsigned **matrix = new unsigned *[0];
+    EXPECT_ANY_THROW(s21::Graph graph(matrix, 0));
+    delete [] matrix;
+}
+
+TEST(graph, ElementaryConstruction) {
+    unsigned **matrix = new unsigned *[1]{new unsigned[1]{0}};
+    EXPECT_ANY_THROW(s21::Graph graph(matrix, 1));
+    delete matrix[0];
+    delete [] matrix;
+}
+
+TEST(graph, NullZeroConstruction) {
+    unsigned **matrix = new unsigned *[2]{new unsigned[2]{0, 1}, new unsigned[2]{1, 0}};
+    s21::Graph graph(matrix, 2);
+    EXPECT_EQ(graph.size(), 2);
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            EXPECT_EQ([)matrix[i][j], graph[i][j]);
+        }
+        delete matrix[i];
+    }
+    delete [] matrix;
+
+}
 
 /* ------------------------------------------------------------------------------------------------------------ Graph */
 
