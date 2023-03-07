@@ -28,7 +28,7 @@ namespace s21 {
             ConsoleInterfaceInstance(ConsoleInterfaceInstance &&other) = default;
             ConsoleInterfaceInstance &operator=(ConsoleInterfaceInstance &other) = default;
             ConsoleInterfaceInstance &operator=(ConsoleInterfaceInstance &&other) = default;
-            ~ConsoleInterfaceInstance();
+            ~ConsoleInterfaceInstance() = default;
 
             void bfs(int);
             void dfs();

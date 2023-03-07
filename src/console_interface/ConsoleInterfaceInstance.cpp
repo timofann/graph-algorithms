@@ -6,8 +6,6 @@ ConsoleInterface::ConsoleInterfaceInstance::ConsoleInterfaceInstance(const std::
         filename_(filename),
         graph_(Graph::loadGraphFromFile(GRAPHS_DST + filename)) {}
 
-ConsoleInterface::ConsoleInterfaceInstance::~ConsoleInterfaceInstance() {}
-
 void ConsoleInterface::ConsoleInterfaceInstance::bfs(int v) {
     std::cout << GREY << "Inner run bfs" << NONE << std::endl;
     std::vector<int> a = s21::GraphAlgorithms::breadthFirstSearch(graph_, v);

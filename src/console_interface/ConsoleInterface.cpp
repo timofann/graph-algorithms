@@ -6,28 +6,19 @@ using namespace s21;
 
 ConsoleInterface::ConsoleInterfaceInstance* ConsoleInterface::instance_ = NULL;
 
-ConsoleInterface::ConsoleInterface(const std::string &filename) noexcept {
-    try {
-        if (!ConsoleInterface::instance_)
-            ConsoleInterface::instance_ = new ConsoleInterfaceInstance(filename);
-        else
-            if (ConsoleInterface::instance_->filename_ != filename)
-//                ;
-                *(ConsoleInterface::instance_) = ConsoleInterfaceInstance(filename);
-    }
-    catch (std::exception &e) {
-        std::cout << GREY << "Can't set a new graph: " << e.what() << GREY << std::endl;
-    }
-}
-
-ConsoleInterface::~ConsoleInterface() noexcept {}
-
 void ConsoleInterface::load() noexcept {
     std::cout << GREY << "Run load command" << NONE << std::endl;
     std::cout << GREY << "Choose a file to load the graph from: " << NONE;
     std::string filename;
     std::cin >> filename;
-    ConsoleInterface interface = ConsoleInterface(filename);
+    try {
+        if (!ConsoleInterface::instance_)
+            ConsoleInterface::instance_ = new ConsoleInterfaceInstance(filename);
+        else
+            if (ConsoleInterface::instance_->filename_ != filename)
+                *(ConsoleInterface::instance_) = ConsoleInterfaceInstance(filename);
+    } catch (std::exception &e) {
+        std::cout << GREY << "Can't set a new graph: " << e.what() << GREY << std::endl; }
 }
 
 void ConsoleInterface::list() noexcept {
