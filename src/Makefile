@@ -19,8 +19,8 @@ re: fclean all
 
 test:
 	rm -f test
-	chmod 000 tests/bad_graphs/7.txt
-	g++ s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a tests/tests.cc -o test -lgtest -std=c++17
+
+	g++ s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a tests/tests.cc -o test -lgtest -std=c++17 -lgvc -lcgraph
 	./test
 
 interface: $(NAME)

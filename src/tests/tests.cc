@@ -1,7 +1,19 @@
 #include <gtest/gtest.h>
+#include <graphviz/gvc.h>
+#include <graphviz/cgraph.h>
 
 #include "../s21_graph/s21_graph.h"
 #include "../s21_graph_algorithms/s21_graph_algorithms.h"
+
+// g++ s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a tests/tests.cc -o test -lgtest -std=c++17 -lgvc -lcgraph
+
+
+/* ------------------------------------------------------------------------------------------------------------ Graph */
+
+
+
+/* ------------------------------------------------------------------------------------------------------------ Graph */
+
 
 /* ------------------------------------------------------------------------------------------------ loadGraphFromFile */
 
@@ -45,9 +57,10 @@ TEST(graph, loadGraphFromEmptyFile) {
 }
 
 TEST(graph, loadGraphFromNonReadableFile) {
-    s21::Graph graph = s21::Graph::loadGraphFromFile("tests/bad_graphs/7.txt");
-    EXPECT_EQ(graph.size(), 11); // не та ошибка бросается: файл есть, нет прав на чтение
-}
+    std::system("chmod 000 tests/bad_graphs/7.txt");
+    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/7.txt"));
+    std::system("chmod 777 tests/bad_graphs/7.txt");
+} // не та ошибка бросается: файл есть, нет прав на чтение
 
 //TEST(graph, loadGraphFromFileWithoutRowsNumber) {
 //    s21::Graph graph = s21::Graph::loadGraphFromFile("tests/bad_graphs/8.txt");
@@ -106,14 +119,70 @@ TEST(graph, loadGraphFromNonReadableFile) {
 
 /* ------------------------------------------------------------------------------------------------- exportGraphToDot */
 
-TEST(graph, exportGraphToDot) {
+TEST(graph, exportStandardGraphToDot) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
     graph.exportGraphToDot("test_graph.dot");
+    GVC_t *gvc;
+    Agraph_t *g;
+    FILE *fp;
+    gvc = gvContext();
+    fp = fopen("test_graph.dot", "r");
+    g = agread(fp, 0);
+    int agraph_size = agnnodes(g);
+    gvFreeLayout(gvc, g);
+    agclose(g);
+    fclose(fp);
+    gvFreeContext(gvc);
+    EXPECT_EQ(graph.size(), agraph_size);
 }
 
-TEST(graph, exportGraphToDot2) {
+TEST(graph, exportIncompleteGraphToDot) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/5.txt");
-    graph.exportGraphToDot("test_graph2.dot");
+    graph.exportGraphToDot("test_graph2.gv");
+    GVC_t *gvc;
+    Agraph_t *g;
+    FILE *fp;
+    gvc = gvContext();
+    fp = fopen("test_graph2.gv", "r");
+    g = agread(fp, 0);
+    int agraph_size = agnnodes(g);
+    gvFreeLayout(gvc, g);
+    agclose(g);
+    fclose(fp);
+    gvFreeContext(gvc);
+    EXPECT_EQ(graph.size(), agraph_size);
+}
+
+TEST(graph, exportGraphToDotWithoutExtension) {
+    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/graphs/5.txt").exportGraphToDot("test_graph"));
+}
+
+TEST(graph, exportGraphToDotWrongExtension) {
+    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/graphs/5.txt").exportGraphToDot("test_graph.hello"));
+}
+
+TEST(graph, exportGraphToNonWritableDot) {
+    std::system("chmod 000 tests/dot_files/test_graph.dot");
+    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/graphs/5.txt").exportGraphToDot("tests/dot_files/test_graph.dot"));
+    std::system("chmod 777 tests/dot_files/test_graph.dot");
+}
+
+TEST(graph, exportGraphToExistingDot) {
+    s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
+    graph.exportGraphToDot("tests/dot_files/test_graph2.dot");
+    GVC_t *gvc;
+    Agraph_t *g;
+    FILE *fp;
+    gvc = gvContext();
+    fp = fopen("tests/dot_files/test_graph2.dot", "r");
+    g = agread(fp, 0);
+    int agraph_size = agnnodes(g);
+    gvFreeLayout(gvc, g);
+    agclose(g);
+    fclose(fp);
+    gvFreeContext(gvc);
+    EXPECT_EQ(graph.size(), agraph_size);
+    s21::Graph::loadGraphFromFile("tests/graphs/5.txt").exportGraphToDot("tests/dot_files/test_graph2.dot");
 }
 
 /* ------------------------------------------------------------------------------------------------- exportGraphToDot */
@@ -159,10 +228,10 @@ TEST(graph_algorithms, breadthFirstSearchErrorZeroVertex) {
     EXPECT_THROW(s21::GraphAlgorithms::breadthFirstSearch(graph, 0), s21::GraphAlgorithms::GraphAlgorithmsError);
 }
 
-TEST(graph_algorithms, depthFirstSearchStandard) {
+TEST(graph_algorithms, depthFirstSearchIncomplete) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/4.txt");
     std::vector<int> res = s21::GraphAlgorithms::depthFirstSearch(graph, 2);
-    std::vector<int> vec{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+    std::vector<int> vec{ 2, 1, 3, 4, 5 };
     EXPECT_EQ(res, vec);
 }
 
