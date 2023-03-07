@@ -23,7 +23,7 @@ namespace s21 {
             friend ConsoleInterface;
             Graph graph_;
             std::string filename_;
-            ConsoleInterfaceInstance(const std::string &filename);
+            explicit ConsoleInterfaceInstance(const std::string &filename);
             ConsoleInterfaceInstance(ConsoleInterfaceInstance &other) = default;
             ConsoleInterfaceInstance(ConsoleInterfaceInstance &&other) = default;
             ConsoleInterfaceInstance &operator=(ConsoleInterfaceInstance &other) = default;
@@ -40,12 +40,11 @@ namespace s21 {
 
     private:
         static ConsoleInterfaceInstance *instance_;
-        ConsoleInterface(const std::string &filename) noexcept;
-        ConsoleInterface(ConsoleInterface &other) noexcept;
-        ConsoleInterface(ConsoleInterface &&other) noexcept;
-        ConsoleInterface &operator=(ConsoleInterface &other) noexcept;
-        ConsoleInterface &operator=(ConsoleInterface &&other) noexcept;
-        ~ConsoleInterface() noexcept;
+        ConsoleInterface(ConsoleInterface &other) = delete;
+        ConsoleInterface(ConsoleInterface &&other) = delete;
+        ConsoleInterface &operator=(ConsoleInterface &other) = delete;
+        ConsoleInterface &operator=(ConsoleInterface &&other) = delete;
+        ~ConsoleInterface() = delete;
 
     public:
         static void start() noexcept;
