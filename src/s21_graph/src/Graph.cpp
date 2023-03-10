@@ -21,7 +21,7 @@ Graph::~Graph()
 }
 
 Graph::Graph(const Graph &other) :
-a_matrix(nullptr), a_matrix_size(0), weighted(false)
+a_matrix(nullptr), a_matrix_size(0), weighted(false) // неконстантные и нессылочные поля не обязательно здесь определять, они автоматически заполнятся значениями по умолчанию
 {
 	set_a_matrix(other.a_matrix, other.a_matrix_size);
 }

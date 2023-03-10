@@ -14,20 +14,20 @@ namespace s21 {
     class Graph
     {
     public:
-        Graph(unsigned **matrix, size_t size);
+        Graph(unsigned **matrix, size_t size); //explicit
 
         Graph(const Graph &other);
 
-        ~Graph();
+        ~Graph(); // правило пяти
 
         Graph &operator=(const Graph &other);
 
         static Graph loadGraphFromFile(const std::string &filename);
 
-        void exportGraphToDot(const std::string &filename);
+        void exportGraphToDot(const std::string &filename); // const
 
-        [[nodiscard]] size_t size() const;
-        std::string generateDotString();
+        [[nodiscard]] size_t size() const; //noexcept
+        std::string generateDotString(); // const
 
         class WrongMatrixException : public std::exception
         {
@@ -40,13 +40,13 @@ namespace s21 {
     private:
         Graph();
 
-        unsigned **a_matrix;
+        unsigned **a_matrix; // google style названия приватных переменных должны заканчиваться знаком подчеркивания _
         size_t a_matrix_size;
         bool weighted;
 
         void set_a_matrix(unsigned **matrix, size_t size);
 
-        static void check_matrix(unsigned int *const *matrix, size_t size);
+        static void check_matrix(unsigned int *const *matrix, size_t size); // const
 
     };
 
