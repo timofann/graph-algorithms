@@ -1,8 +1,8 @@
 .PHONY: test all s21_graph.a s21_graph_algorithms.a fclean re interface
 
 all: s21_graph.a s21_graph_algorithms.a
-	g++ -std=c++17 main_test.cpp s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a
-	./a.out
+	g++ main.cpp console_interface/ConsoleInterface.cpp -std=c++17 s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a console_interface/ConsoleInterface_menu.cpp console_interface/ConsoleInterfaceInstance.cpp -o run
+	./run
 
 s21_graph.a:
 	cd s21_graph; make
@@ -18,11 +18,6 @@ fclean:
 re: fclean all
 
 test:
-	rm -f test
-
-	g++ s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a tests/tests.cc -o test -lgtest -std=c++17 -lgvc -lcgraph
-	./test
-
-interface: $(NAME)
-	g++ main.cpp console_interface/ConsoleInterface.cpp -std=c++17 s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a console_interface/ConsoleInterface_menu.cpp console_interface/ConsoleInterfaceInstance.cpp
-	./a.out
+	g++ tests/tests.cpp s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a -o tests/test -lgtest -std=c++17 -lgvc -lcgraph
+	./tests/test
+	rm -f tests/test tests/test_graph.dot tests/test_graph2.gv
