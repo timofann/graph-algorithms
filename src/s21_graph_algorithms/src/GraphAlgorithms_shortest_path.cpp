@@ -1,5 +1,4 @@
 #include "../include/GraphAlgorithms.h"
-
 #define NO_EXIST_VERTEX -1
 
 using namespace s21;
@@ -57,38 +56,69 @@ add_children_in_queue(Graph &graph,
 	}
 }
 
+static std::vector<vertex>
+getShortestPathBetweenVertices_inner(Graph &graph, int vertex1) {
+
+    std::vector<bool> is_traversed_array(graph.size(), false);
+    // сначала минимальные расстояния от предыдущих посещенных вершин максимальны, наша задача найти минимумы
+    // номера вершин откуда пришли заполнить можно чем угодно, они должны быть перезаписаны в соответствии с минимальным расстоянием (для стартовой точки останется дефолтным)
+    std::vector<vertex> shortest_distance(graph.size(), vertex{NO_EXIST_VERTEX, 1.0 / 0.0});
+    queue<int> next_vertex_queue;
+    int next_vertex;
+
+    next_vertex_queue.push(vertex1);
+    shortest_distance[vertex1].distance_to_vertex = 0; // дистанцию до стартовой вершины
+
+    while (next_vertex_queue.size()) {
+        next_vertex = next_vertex_queue.front();
+        if (!is_traversed_array[next_vertex]) {
+            is_traversed_array[next_vertex] = true;
+            update_shortest_info(graph, next_vertex, shortest_distance, is_traversed_array);
+            add_children_in_queue(graph, next_vertex, next_vertex_queue, is_traversed_array);
+        }
+        next_vertex_queue.pop();
+    }
+    return shortest_distance;
+}
+
+static std::vector<int>
+collect_path(int vertex2, const std::vector<vertex>& shortest_distance) {
+
+	std::vector<int> shortest_path;
+	int next_vertex;
+
+	next_vertex = vertex2; // использовать одну переменную?
+	while (next_vertex != NO_EXIST_VERTEX) {
+		shortest_path.push_back(next_vertex + 1);
+		next_vertex = shortest_distance[next_vertex].vertex_nbr;
+	}
+	std::reverse(shortest_path.begin(), shortest_path.end());
+	return shortest_path;
+}
+
 double GraphAlgorithms::
 getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 
 	vertex1 = GraphAlgorithms::validate_vertex(graph, vertex1);
 	vertex2 = GraphAlgorithms::validate_vertex(graph, vertex2);
 
-	std::vector<bool> is_traversed_array(graph.size(), false);
-	// сначала минимальные расстояния от предыдущих посещенных вершин максимальны, наша задача найти минимумы
-	// номера вершин откуда пришли заполнить можно чем угодно, они должны быть перезаписаны в соответствии с минимальным расстоянием (для стартовой точки останется дефолтным)
-	std::vector<vertex> shortest_distance(graph.size(), vertex{NO_EXIST_VERTEX, 1.0 / 0.0});
-	queue<int> next_vertex_queue;
-	int next_vertex;
-
-	next_vertex_queue.push(vertex1);
-	shortest_distance[vertex1].distance_to_vertex = 0; // дистанцию до стартовой вершины
-
-	while (next_vertex_queue.size()) {
-		next_vertex = next_vertex_queue.front();
-		if (!is_traversed_array[next_vertex]) {
-			is_traversed_array[next_vertex] = true;
-			update_shortest_info(graph, next_vertex, shortest_distance, is_traversed_array);
-			add_children_in_queue(graph, next_vertex, next_vertex_queue, is_traversed_array);
-		}
-		next_vertex_queue.pop();
-	}
-
-//	for (int i = 0; i < shortest_path.size(); i++) //debug
-//		std::cout << shortest_path[i] << " ";
-//	std::cout << std::endl;
+    std::vector<vertex> shortest_distance = getShortestPathBetweenVertices_inner(graph, vertex1);
 
 	return shortest_distance[vertex2].distance_to_vertex;
 }
+
+std::vector<int> GraphAlgorithms::
+getShortestPathBetweenVertices_improved(Graph &graph, int vertex1, int vertex2) {
+
+	vertex1 = GraphAlgorithms::validate_vertex(graph, vertex1);
+	vertex2 = GraphAlgorithms::validate_vertex(graph, vertex2);
+
+
+    std::vector<vertex> shortest_distance = getShortestPathBetweenVertices_inner(graph, vertex1);
+
+	return collect_path(vertex2, shortest_distance);
+}
+
 
 void
 get_start_state(Graph& graph, std::vector<std::vector<double>>& shortest_path) {
@@ -101,6 +131,8 @@ get_start_state(Graph& graph, std::vector<std::vector<double>>& shortest_path) {
 					shortest_path[i][j] = (double)graph[i][j];
 					shortest_path[j][i] = (double)graph[i][j]; }
 }
+
+
 
 std::vector<std::vector<double>> GraphAlgorithms::
 getShortestPathsBetweenAllVertices(Graph &graph) {
