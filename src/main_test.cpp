@@ -103,7 +103,7 @@ int main() {
 	}
 
 	std::cout << "\033[1;36m\ngetShortestPathBetweenAllVertices\033[0m" << std::endl;
-	std::vector<std::vector<float>> g = s21::GraphAlgorithms::getShortestPathsBetweenAllVertices(graph);
+	std::vector<std::vector<double>> g = s21::GraphAlgorithms::getShortestPathsBetweenAllVertices(graph);
 	for (int i = 0; i < graph.size(); ++i) {
 		for (int j = 0; j < graph.size(); ++j)
 			std::printf("%10.2f ", g[i][j]);
