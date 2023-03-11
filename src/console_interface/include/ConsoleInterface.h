@@ -5,8 +5,8 @@
 #include <string>
 #include <cstdlib>
 
-#include "../s21_graph/s21_graph.h"
-#include "../s21_graph_algorithms/s21_graph_algorithms.h"
+#include "../../s21_graph/s21_graph.h"
+#include "../../s21_graph_algorithms/s21_graph_algorithms.h"
 
 #define BLUE "\033[1;36m"
 #define GREY "\033[1;37m"

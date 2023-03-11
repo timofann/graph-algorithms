@@ -1,4 +1,4 @@
-#include "ConsoleInterface.h"
+#include "../include/ConsoleInterface.h"
 #include <unistd.h>
 #include <stdlib.h>
 

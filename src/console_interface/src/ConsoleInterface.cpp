@@ -1,4 +1,4 @@
-#include "ConsoleInterface.h"
+#include "../include/ConsoleInterface.h"
 
 #define NOT_INITIALISED_MESSAGE "You have not load graph yet. Come later."
 

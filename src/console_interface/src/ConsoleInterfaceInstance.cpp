@@ -1,4 +1,4 @@
-#include "ConsoleInterface.h"
+#include "../include/ConsoleInterface.h"
 
 using namespace s21;
 

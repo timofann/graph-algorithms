@@ -1,4 +1,4 @@
-#include "console_interface/ConsoleInterface.h"
+#include "console_interface/include/ConsoleInterface.h"
 
 int main() {
     s21::ConsoleInterface::start();

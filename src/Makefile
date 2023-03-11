@@ -1,7 +1,21 @@
-.PHONY: test all s21_graph.a s21_graph_algorithms.a fclean re interface
+.PHONY: test all s21_graph.a s21_graph_algorithms.a fclean re
 
-all: s21_graph.a s21_graph_algorithms.a
-	g++ main.cpp console_interface/ConsoleInterface.cpp -std=c++17 s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a console_interface/ConsoleInterface_menu.cpp console_interface/ConsoleInterfaceInstance.cpp -o run
+CC = g++
+CCFLAGS = -std=c++17 -Wall -Werror -Wextra
+SRC_FILES = ConsoleInterface.cpp ConsoleInterface_menu.cpp ConsoleInterfaceInstance.cpp
+SRC_DIR = console_interface/src/
+SRCS = $(addprefix $(SRC_DIR), $(SRC_FILES))
+OBJ_DIR = console_interface/obj/
+OBJ_FILES = $(SRC_FILES:.cpp=.o)
+OBJS = $(addprefix $(OBJ_DIR), $(OBJ_FILES))
+
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CCFLAGS) -Iconsole_interface/include -c $< -o $@
+
+all: s21_graph.a s21_graph_algorithms.a $(OBJS) console_interface/include/ConsoleInterface.h
+	g++ main.cpp $(OBJS) -std=c++17 -Iconsole_interface/include s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a -o run
 	./run
 
 s21_graph.a:
@@ -20,4 +34,4 @@ re: fclean all
 test:
 	g++ tests/tests.cpp s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a -o tests/test -lgtest -std=c++17 -lgvc -lcgraph
 	./tests/test
-	rm -f tests/test tests/test_graph.dot tests/test_graph2.gv
+	cd tests; rm -f test test_graph.dot test_graph2.gv
