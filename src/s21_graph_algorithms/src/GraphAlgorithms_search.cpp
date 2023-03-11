@@ -2,14 +2,6 @@
 
 using namespace s21;
 
-static int
-validate_vertex(const Graph &graph, int startVertex) {
-  if (startVertex < 1 || startVertex > (int)graph.size()) {
-    throw GraphAlgorithms::VertexIsOutOfRange("\033[1;31mGraphAlgorithmsError:\033[0m Vertex for shortest path finding should be in range [1; vertices count]");
-  }
-  return startVertex - 1;
-}
-
 template <typename T>
 static void
 process_next_vertex(T& next_vertexes_container, Graph& graph,
@@ -21,7 +13,7 @@ process_next_vertex(T& next_vertexes_container, Graph& graph,
 }
 
 template <typename T>
-static std::vector<int>
+std::vector<int> GraphAlgorithms::
 search(Graph &graph, int startVertex) {
 
   std::vector<bool> is_traversed_array(graph.size(), false);
@@ -29,7 +21,7 @@ search(Graph &graph, int startVertex) {
   std::vector<int> traversed_vertices;
   int next_vertex;
 
-  startVertex = validate_vertex(graph, startVertex);
+  startVertex = GraphAlgorithms::validate_vertex(graph, startVertex);
   next_vertex_container.push(startVertex);
 
   while (next_vertex_container.size()) {

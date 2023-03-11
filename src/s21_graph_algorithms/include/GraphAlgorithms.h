@@ -38,6 +38,13 @@ namespace s21 {
 		static std::vector<std::vector<int>> getLeastSpanningTree(Graph &graph);
 		static TsmResult solveTravelingSalesmanProblem(Graph &graph);
 
+        private:
+                static int validate_vertex(const Graph &graph, int startVertex);
+
+                template <typename T>
+                static std::vector<int> search(Graph &graph, int startVertex);
+
+        public:
 		struct GraphAlgorithmsError : std::runtime_error {
 			explicit GraphAlgorithmsError(const std::string& arg);
 		};
