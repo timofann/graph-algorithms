@@ -228,7 +228,7 @@ solveTravelingSalesmanProblem(Graph &graph) {
 
     Ant* best_ant = NULL;
 	init_pheromone_lvl(graph, pheromone_lvl);
-    for (int iter = 0; iter < ANTS_NUM; ++iter) {
+    for (int iter = 0; iter < ANTS_NUM / 2; ++iter) {
         run_ants(graph, ants, pheromone_lvl);
         find_best_ant(graph, ants, &best_ant);
         run_elite_ants(graph, ants, pheromone_lvl);
