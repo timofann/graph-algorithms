@@ -207,7 +207,7 @@ collect_path(const Graph& graph, std::vector<Ant>& elite_ants) {
         }
     }
     if (best_ant == NULL)
-        throw GraphAlgorithms::GraphAlgorithmsError("Ants couldn't find the shortest path.");
+        throw GraphAlgorithms::NoSolution("Ants couldn't find the shortest path");
     for (auto city = best_ant->traversed.begin(); city != best_ant->traversed.end(); city++)
         *city = *city + 1;
     return GraphAlgorithms::TsmResult{best_ant->traversed, best_ant->length};

@@ -42,6 +42,14 @@ namespace s21 {
 		struct GraphAlgorithmsError : std::runtime_error {
 			explicit GraphAlgorithmsError(const std::string& arg);
 		};
+
+        struct VertexIsOutOfRange : GraphAlgorithmsError {
+            explicit VertexIsOutOfRange(const std::string& arg);
+        };
+
+        struct NoSolution : GraphAlgorithmsError {
+            explicit NoSolution(const std::string& arg);
+        };
 	};
 
 } // namespace s21

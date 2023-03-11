@@ -258,12 +258,12 @@ TEST(ExportGraphToDot, ExistingFile) {
 
 TEST(DepthFirstSearch, LargeVertex) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/2.txt");
-    EXPECT_THROW(s21::GraphAlgorithms::breadthFirstSearch(graph, 3), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::breadthFirstSearch(graph, 3), s21::GraphAlgorithms::VertexIsOutOfRange);
 }
 
 TEST(DepthFirstSearch, ZeroVertex) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/2.txt");
-    EXPECT_THROW(s21::GraphAlgorithms::breadthFirstSearch(graph, 0), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::breadthFirstSearch(graph, 0), s21::GraphAlgorithms::VertexIsOutOfRange);
 }
 
 TEST(DepthFirstSearch, RightAnswer) {
@@ -287,12 +287,12 @@ TEST(DepthFirstSearch, IncompleteGraph) {
 
 TEST(BreadthFirstSearch, LargeVertex) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/2.txt");
-    EXPECT_THROW(s21::GraphAlgorithms::breadthFirstSearch(graph, 3), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::breadthFirstSearch(graph, 3), s21::GraphAlgorithms::VertexIsOutOfRange);
 }
 
 TEST(BreadthFirstSearch, ZeroVertex) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/2.txt");
-    EXPECT_THROW(s21::GraphAlgorithms::breadthFirstSearch(graph, 0), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::breadthFirstSearch(graph, 0), s21::GraphAlgorithms::VertexIsOutOfRange);
 }
 
 TEST(BreadthFirstSearch, RightAnswer) {
@@ -321,14 +321,14 @@ TEST(BreadthFirstSearch, IncompleteGraph) {
 
 TEST(GetShortestPathBetweenVertices, ZeroVertex) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
-    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 0, 4), s21::GraphAlgorithms::GraphAlgorithmsError);
-    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 1, 0), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 0, 4), s21::GraphAlgorithms::VertexIsOutOfRange);
+    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 1, 0), s21::GraphAlgorithms::VertexIsOutOfRange);
 }
 
 TEST(GetShortestPathBetweenVertices, LargeVertex) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
-    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 12, 1), s21::GraphAlgorithms::GraphAlgorithmsError);
-    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 3, 14), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 12, 1), s21::GraphAlgorithms::VertexIsOutOfRange);
+    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 3, 14), s21::GraphAlgorithms::VertexIsOutOfRange);
 }
 
 TEST(GetShortestPathBetweenVertices, RightAnswer) {
@@ -347,14 +347,14 @@ TEST(GetShortestPathBetweenVertices, OneVertex) {
 
 TEST(GetShortestPathBetweenVerticesImproved, ZeroVertex) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
-    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 0, 4), s21::GraphAlgorithms::GraphAlgorithmsError);
-    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 1, 0), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 0, 4), s21::GraphAlgorithms::VertexIsOutOfRange);
+    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 1, 0), s21::GraphAlgorithms::VertexIsOutOfRange);
 }
 
 TEST(GetShortestPathBetweenVerticesImproved, LargeVertex) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
-    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 12, 1), s21::GraphAlgorithms::GraphAlgorithmsError);
-    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 3, 14), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 12, 1), s21::GraphAlgorithms::VertexIsOutOfRange);
+    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 3, 14), s21::GraphAlgorithms::VertexIsOutOfRange);
 }
 
 TEST(GetShortestPathBetweenVerticesImproved, RightAnswer) {
@@ -601,10 +601,10 @@ TEST(SolveTravelingSalesmanProblem, RightAnswer) {
 
 TEST(SolveTravelingSalesmanProblem, Error) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/4.txt");
-    EXPECT_THROW(s21::GraphAlgorithms::solveTravelingSalesmanProblem(graph), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::solveTravelingSalesmanProblem(graph), s21::GraphAlgorithms::NoSolution);
 
     graph = s21::Graph::loadGraphFromFile("tests/graphs/5.txt");
-    EXPECT_THROW(s21::GraphAlgorithms::solveTravelingSalesmanProblem(graph), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::solveTravelingSalesmanProblem(graph), s21::GraphAlgorithms::NoSolution);
 }
 
 /* ----------------------------------------------------------------------------- GraphAlgorithmsAntColonyOptimization */
