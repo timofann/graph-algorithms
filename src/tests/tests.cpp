@@ -32,6 +32,14 @@ TEST(GraphMatrixConstructor, NonNullElementaryMatrixConstructorThrowsException) 
 //    EXPECT_ANY_THROW(s21::Graph graph(NULL, 1));
 //} segmentation
 
+//TEST(GraphMatrixConstructor, LargeSize) {
+//    unsigned **matrix = new unsigned *[0];
+//    EXPECT_ANY_THROW(s21::Graph graph(matrix, INT_MAX));
+//    EXPECT_ANY_THROW(s21::Graph graph(matrix, (unsigned)INT_MAX + 1u));
+//    EXPECT_ANY_THROW(s21::Graph graph(matrix, (unsigned)INT_MAX + 10u));
+//    delete [] matrix;
+//}
+
 /* ------------------------------------------------------------------------------------------- GraphMatrixConstructor */
 
 
@@ -325,16 +333,16 @@ TEST(GetShortestPathBetweenVertices, LargeVertex) {
 
 TEST(GetShortestPathBetweenVertices, RightAnswer) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
-    EXPECT_EQ(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 1, 4), 20u);
-    EXPECT_EQ(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 1, 11), 18u);
+    EXPECT_EQ(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 1, 4), 20.0);
+    EXPECT_EQ(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 1, 11), 18.0);
     graph = s21::Graph::loadGraphFromFile("tests/graphs/4.txt");
-    EXPECT_EQ(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 1, 5), 6u);
+    EXPECT_EQ(s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 1, 5), 6.0);
 }
 
 TEST(GetShortestPathBetweenVertices, OneVertex) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/4.txt");
-    std::size_t res = s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 1, 1);
-    EXPECT_EQ(res, 0);
+    double res = s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 1, 1);
+    EXPECT_EQ(res, 0.0);
 }
 
 TEST(GetShortestPathBetweenVerticesImproved, ZeroVertex) {
@@ -366,7 +374,7 @@ TEST(GetShortestPathBetweenVerticesImproved, OneVertex) {
 TEST(GetShortestPathBetweenAllVertices, RightSizedMatrix) {
 
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
-    std::vector<std::vector<float>> res = s21::GraphAlgorithms::getShortestPathsBetweenAllVertices(graph);
+    std::vector<std::vector<double>> res = s21::GraphAlgorithms::getShortestPathsBetweenAllVertices(graph);
     EXPECT_EQ(res.size(), 11);
     for (int i = 0; i < 11; ++i)
         EXPECT_EQ(res[i].size(), 11);
@@ -399,7 +407,7 @@ TEST(GetShortestPathBetweenAllVertices, RightSizedMatrix) {
 TEST(GetShortestPathBetweenAllVertices, RightAnswer) {
 
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
-    std::vector<std::vector<float>> res = s21::GraphAlgorithms::getShortestPathsBetweenAllVertices(graph);
+    std::vector<std::vector<double>> res = s21::GraphAlgorithms::getShortestPathsBetweenAllVertices(graph);
     unsigned **expected_res = new unsigned *[11]{new unsigned[11]{  0u,  29u,  20u,  20u,  16u,  31u, 100u,  12u,   4u,  31u,  18u},
                                                  new unsigned[11]{ 29u,   0u,  15u,  29u,  28u,  40u,  72u,  21u,  29u,  41u,  12u},
                                                  new unsigned[11]{ 20u,  15u,   0u,  15u,  14u,  25u,  81u,   9u,  23u,  27u,  13u},
