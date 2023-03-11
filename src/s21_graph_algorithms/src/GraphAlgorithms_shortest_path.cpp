@@ -3,6 +3,14 @@
 
 using namespace s21;
 
+static int
+validate_vertex(const Graph &graph, int startVertex) {
+  if (startVertex < 1 || startVertex > (int)graph.size()) {
+    throw GraphAlgorithms::VertexIsOutOfRange("\033[1;31mGraphAlgorithmsError:\033[0m Vertex for shortest path finding should be in range [1; vertices count]");
+  }
+  return startVertex - 1;
+}
+
 struct vertex{
 	// номер вершины из которой пришли минимально по расстоянию
 	int vertex_nbr;
@@ -99,8 +107,8 @@ collect_path(int vertex2, const std::vector<vertex>& shortest_distance) {
 double GraphAlgorithms::
 getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 
-	vertex1 = GraphAlgorithms::validate_vertex(graph, vertex1);
-	vertex2 = GraphAlgorithms::validate_vertex(graph, vertex2);
+	vertex1 = validate_vertex(graph, vertex1);
+	vertex2 = validate_vertex(graph, vertex2);
     std::vector<vertex> shortest_distance = getShortestPathBetweenVerticesInner(graph, vertex1);
 	return shortest_distance[vertex2].distance_to_vertex;
 }
@@ -108,8 +116,8 @@ getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 std::vector<int> GraphAlgorithms::
 getShortestPathBetweenVerticesImproved(Graph &graph, int vertex1, int vertex2) {
 
-	vertex1 = GraphAlgorithms::validate_vertex(graph, vertex1);
-	vertex2 = GraphAlgorithms::validate_vertex(graph, vertex2);
+	vertex1 = validate_vertex(graph, vertex1);
+	vertex2 = validate_vertex(graph, vertex2);
     std::vector<vertex> shortest_distance = getShortestPathBetweenVerticesInner(graph, vertex1);
 	return collect_path(vertex2, shortest_distance);
 }

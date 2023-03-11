@@ -23,12 +23,11 @@ namespace s21 {
 		};
 
 	private:
-		GraphAlgorithms(GraphAlgorithms& other);
-		GraphAlgorithms(GraphAlgorithms&& other);
-		GraphAlgorithms& operator=(GraphAlgorithms& other);
-		GraphAlgorithms& operator=(GraphAlgorithms&& other);
-		~GraphAlgorithms();
-        static int validate_vertex(const Graph &graph, int vertex);
+		GraphAlgorithms(GraphAlgorithms& other) = delete;
+		GraphAlgorithms(GraphAlgorithms&& other) = delete;
+		GraphAlgorithms& operator=(GraphAlgorithms& other) = delete;
+		GraphAlgorithms& operator=(GraphAlgorithms&& other) = delete;
+		~GraphAlgorithms() = delete;
 
 	public:
 		static std::vector<int> depthFirstSearch(Graph &graph, int startVertex);
@@ -43,13 +42,13 @@ namespace s21 {
 			explicit GraphAlgorithmsError(const std::string& arg);
 		};
 
-        struct VertexIsOutOfRange : GraphAlgorithmsError {
-            explicit VertexIsOutOfRange(const std::string& arg);
-        };
+                struct VertexIsOutOfRange : GraphAlgorithmsError {
+                    explicit VertexIsOutOfRange(const std::string& arg);
+                };
 
-        struct NoSolution : GraphAlgorithmsError {
-            explicit NoSolution(const std::string& arg);
-        };
+                struct NoSolution : GraphAlgorithmsError {
+                    explicit NoSolution(const std::string& arg);
+                };
 	};
 
 } // namespace s21

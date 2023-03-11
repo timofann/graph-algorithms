@@ -2,80 +2,58 @@
 
 using namespace s21;
 
-static void
-process_next_vertex_bfs(queue<int>& next_vertexes_to_process, Graph& graph,
-						const std::vector<bool>& is_traversed_array) {
-	int current_vertex = next_vertexes_to_process.front();
-//	std::cout << "add_all_connected_start" << current_vertex << std::endl; //debug
-	for (std::size_t v = 0; v < graph.size(); v++) {
-		if (graph[current_vertex][v] && !is_traversed_array[v]) {
-			next_vertexes_to_process.push(v);
-//			is_traversed_array[v] = 1;
-//			std::cout << v << std::endl; //debug
-		}
-	}
+static int
+validate_vertex(const Graph &graph, int startVertex) {
+  if (startVertex < 1 || startVertex > (int)graph.size()) {
+    throw GraphAlgorithms::VertexIsOutOfRange("\033[1;31mGraphAlgorithmsError:\033[0m Vertex for shortest path finding should be in range [1; vertices count]");
+  }
+  return startVertex - 1;
 }
 
+template <typename T>
 static void
-process_next_vertex_dfs(stack<int>& next_vertexes_stack, Graph& graph, // todo:заменить дублирующиеся функции на шаблонные
-						const std::vector<bool>& is_traversed_array) {
-	int current_vertex = next_vertexes_stack.top();
-//	std::cout << "process_next_vertex_dfs" << current_vertex << std::endl; //debug
-	for (int v = graph.size() -1; v >= 0; v--)
-		if (graph[current_vertex][v] && !is_traversed_array[v])
-			next_vertexes_stack.push(v);
+process_next_vertex(T& next_vertexes_container, Graph& graph,
+                    const std::vector<bool>& is_traversed_array) {
+    int current_vertex = next_vertexes_container.get_start_element();
+    for (std::size_t v = 0; v < graph.size(); v++)
+        if (graph[current_vertex][v] && !is_traversed_array[v])
+            next_vertexes_container.push(v);
+}
+
+template <typename T>
+static std::vector<int>
+search(Graph &graph, int startVertex) {
+
+  std::vector<bool> is_traversed_array(graph.size(), false);
+  T next_vertex_container;
+  std::vector<int> traversed_vertices;
+  int next_vertex;
+
+  startVertex = validate_vertex(graph, startVertex);
+  next_vertex_container.push(startVertex);
+
+  while (next_vertex_container.size()) {
+    next_vertex = next_vertex_container.get_start_element();
+    //		std::cout << next_vertex << std::endl; //debug
+    if (!is_traversed_array[next_vertex]) {
+      is_traversed_array[next_vertex] = true;
+      traversed_vertices.push_back(next_vertex + 1);
+      process_next_vertex(next_vertex_container, graph, is_traversed_array); }
+    else
+      next_vertex_container.pop();
+  }
+
+  //	for (int i=0; i<traversed_vertices.size(); i++)
+  //		std::cout << traversed_vertices[i] << std::endl; //debug
+  return traversed_vertices;
 }
 
 std::vector<int> GraphAlgorithms::
 breadthFirstSearch(Graph &graph, int startVertex) {
-
-	std::vector<bool> is_traversed_array(graph.size(), false);
-	queue<int> next_vertex_queue;
-	std::vector<int> traversed_vertices;
-	int next_vertex;
-
-	startVertex = GraphAlgorithms::validate_vertex(graph, startVertex);
-	next_vertex_queue.push(startVertex);
-
-	while (next_vertex_queue.size()) {
-		next_vertex = next_vertex_queue.front();
-//		std::cout << next_vertex << std::endl; //debug
-		if (!is_traversed_array[next_vertex]) {
-			is_traversed_array[next_vertex] = true;
-			traversed_vertices.push_back(next_vertex + 1);
-			process_next_vertex_bfs(next_vertex_queue, graph, is_traversed_array); }
-		else
-			next_vertex_queue.pop();
-	}
-
-//	for (int i=0; i<traversed_vertices.size(); i++)
-//		std::cout << traversed_vertices[i] << std::endl; //debug
-	return traversed_vertices;
+  return search<queue<int>>(graph, startVertex);
 }
 
 std::vector<int> GraphAlgorithms::
 depthFirstSearch(Graph &graph, int startVertex) {
-
-	std::vector<bool> is_traversed_array(graph.size(), false);
-	stack<int> next_vertex_stack;
-	std::vector<int> traversed_vertices;
-	int next_vertex;
-
-	startVertex = GraphAlgorithms::validate_vertex(graph, startVertex);
-	next_vertex_stack.push(startVertex);
-
-	while (next_vertex_stack.size()) {
-		next_vertex = next_vertex_stack.top();
-//		std::cout << next_vertex << std::endl; //debug
-		if (!is_traversed_array[next_vertex]) {
-			is_traversed_array[next_vertex] = true;
-			traversed_vertices.push_back(next_vertex + 1);
-			process_next_vertex_dfs(next_vertex_stack, graph, is_traversed_array); }
-		else
-			next_vertex_stack.pop();
-	}
-
-//	for (int i=0; i<traversed_vertices.size(); i++)
-//		std::cout << traversed_vertices[i] << std::endl; //debug
-	return traversed_vertices;
+  return search<stack<int>>(graph, startVertex);
 }
