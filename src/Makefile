@@ -31,7 +31,7 @@ fclean:
 
 re: fclean all
 
-test:
+test: s21_graph.a s21_graph_algorithms.a
 	g++ tests/tests.cpp s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a -o tests/test -lgtest -std=c++17 -lgvc -lcgraph
 	./tests/test
 	cd tests; rm -f test test_graph.dot test_graph2.gv
