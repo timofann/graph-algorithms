@@ -4,14 +4,6 @@
 
 using namespace s21;
 
-static int //todo: избавиться от дублирования кода
-validate_vertex(const Graph &graph, int startVertex) {
-	if (startVertex < 1 || startVertex > (int)graph.size()) {
-		throw GraphAlgorithms::GraphAlgorithmsError("\033[1;31mGraphAlgorithmsError:\033[0m Vertex for shortest path finding should be in range [1; vertices count]");
-	}
-	return startVertex - 1;
-}
-
 struct vertex{
 	// номер вершины из которой пришли минимально по расстоянию
 	int vertex_nbr;
@@ -19,14 +11,16 @@ struct vertex{
 	double distance_to_vertex;
 };
 
-static int cmp(const void *x, const void *y) {
+static int
+cmp(const void *x, const void *y) {
 	const double arg1 = static_cast<const vertex*>(x)->distance_to_vertex;
 	const double arg2 = static_cast<const vertex*>(y)->distance_to_vertex;
 	if (arg1 < arg2) return -1;
 	return 1;
 }
 
-static void sort_vertex_vector(std::vector<vertex>& vec) {
+static void
+sort_vertex_vector(std::vector<vertex>& vec) {
 	std::qsort(vec.data(), vec.size(), sizeof(vertex), cmp);
 }
 
@@ -66,8 +60,8 @@ add_children_in_queue(Graph &graph,
 double GraphAlgorithms::
 getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 
-	vertex1 = validate_vertex(graph, vertex1);
-	vertex2 = validate_vertex(graph, vertex2);
+	vertex1 = GraphAlgorithms::validate_vertex(graph, vertex1);
+	vertex2 = GraphAlgorithms::validate_vertex(graph, vertex2);
 
 	std::vector<bool> is_traversed_array(graph.size(), false);
 	// сначала минимальные расстояния от предыдущих посещенных вершин максимальны, наша задача найти минимумы

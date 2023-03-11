@@ -62,5 +62,5 @@ int main() {
     delete [] matrix;
 }
 
-//g++ -std=c++17 graph_algorithms_test.cpp src/GraphAlgorithms_utils.cpp src/GraphAlgorithms_search.cpp src/GraphAlgorithms_shortest_path.cpp src/GraphAlgorithms_additional.cpp src/GraphAlgorithms_salesman_problem.cpp ../s21_graph/src/Graph.cpp
+// make test
 

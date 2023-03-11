@@ -28,6 +28,7 @@ namespace s21 {
 		GraphAlgorithms& operator=(GraphAlgorithms& other);
 		GraphAlgorithms& operator=(GraphAlgorithms&& other);
 		~GraphAlgorithms();
+        static int validate_vertex(const Graph &graph, int vertex);
 
 	public:
 		static std::vector<int> depthFirstSearch(Graph &graph, int startVertex);

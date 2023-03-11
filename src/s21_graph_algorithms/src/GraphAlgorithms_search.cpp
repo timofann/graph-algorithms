@@ -2,14 +2,6 @@
 
 using namespace s21;
 
-static int
-validate_vertex(const Graph &graph, int startVertex) {
-	if (startVertex < 1 || startVertex > (int)graph.size()) {
-		throw GraphAlgorithms::GraphAlgorithmsError("\033[1;31mGraphAlgorithmsError:\033[0m Start vertex for search algorithm should be in range [1; vertices count]");
-	}
-	return startVertex - 1;
-}
-
 static void
 process_next_vertex_bfs(queue<int>& next_vertexes_to_process, Graph& graph,
 						const std::vector<bool>& is_traversed_array) {
@@ -42,7 +34,7 @@ breadthFirstSearch(Graph &graph, int startVertex) {
 	std::vector<int> traversed_vertices;
 	int next_vertex;
 
-	startVertex = validate_vertex(graph, startVertex);
+	startVertex = GraphAlgorithms::validate_vertex(graph, startVertex);
 	next_vertex_queue.push(startVertex);
 
 	while (next_vertex_queue.size()) {
@@ -69,7 +61,7 @@ depthFirstSearch(Graph &graph, int startVertex) {
 	std::vector<int> traversed_vertices;
 	int next_vertex;
 
-	startVertex = validate_vertex(graph, startVertex);
+	startVertex = GraphAlgorithms::validate_vertex(graph, startVertex);
 	next_vertex_stack.push(startVertex);
 
 	while (next_vertex_stack.size()) {

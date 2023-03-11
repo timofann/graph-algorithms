@@ -10,14 +10,6 @@ struct vertex{ //todo: дублирование
 	double distance_to_vertex;
 };
 
-static int
-validate_vertex(Graph &graph, int startVertex) {
-	if (startVertex < 1 || startVertex > (int)graph.size()) {
-		throw GraphAlgorithms::GraphAlgorithmsError("\033[1;31mGraphAlgorithmsError:\033[0m Vertex for shortest path finding should be in range [1; vertices count]");
-	}
-	return startVertex - 1;
-}
-
 static int cmp(const void *x, const void *y) {
 	const double arg1 = static_cast<const vertex*>(x)->distance_to_vertex;
 	const double arg2 = static_cast<const vertex*>(y)->distance_to_vertex;
@@ -81,8 +73,8 @@ collect_path(int vertex2,
 std::vector<int> GraphAlgorithms::
 getShortestPathBetweenVertices_improved(Graph &graph, int vertex1, int vertex2) {
 
-	vertex1 = validate_vertex(graph, vertex1);
-	vertex2 = validate_vertex(graph, vertex2);
+	vertex1 = GraphAlgorithms::validate_vertex(graph, vertex1);
+	vertex2 = GraphAlgorithms::validate_vertex(graph, vertex2);
 
 	std::vector<bool> is_traversed_array(graph.size(), false);
 	// сначала минимальные расстояния от предыдущих посещенных вершин максимальны, наша задача найти минимумы
