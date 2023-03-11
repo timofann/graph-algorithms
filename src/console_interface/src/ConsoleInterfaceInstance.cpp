@@ -3,14 +3,14 @@
 using namespace s21;
 
 ConsoleInterface::ConsoleInterfaceInstance::ConsoleInterfaceInstance(const std::string &filename) :
-        filename_(filename),
-        graph_(Graph::loadGraphFromFile(GRAPHS_DST + filename)) {}
+        graph_(Graph::loadGraphFromFile(GRAPHS_DST + filename)),
+        filename_(filename) {}
 
 void ConsoleInterface::ConsoleInterfaceInstance::bfs(int v) {
     std::cout << GREY << "Inner run bfs" << NONE << std::endl;
     std::vector<int> a = s21::GraphAlgorithms::breadthFirstSearch(graph_, v);
     std::cout << "> > > > RESULT" << std::endl;
-    for (int i = 0; i < a.size(); i++)
+    for (std::size_t i = 0; i < a.size(); i++)
         printf("%d ", a[i]);
     std::cout << std::endl;
 }
@@ -24,7 +24,7 @@ void ConsoleInterface::ConsoleInterfaceInstance::dijkstra(int v1, int v2) {
     std::vector<int> a = GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph_, v1, v2);
     std::size_t b = GraphAlgorithms::getShortestPathBetweenVertices(graph_, v1, v2);
     std::cout << "> > > > RESULT" << std::endl;
-    for (int i = 0; i < a.size(); i++)
+    for (std::size_t i = 0; i < a.size(); i++)
         printf("%d ", a[i]);
     std::cout << "- distance " << b << std::endl;
 }
