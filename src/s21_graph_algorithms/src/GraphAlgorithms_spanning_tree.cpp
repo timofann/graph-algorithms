@@ -18,7 +18,7 @@ getLeastSpanningTree(Graph &graph) {
 		for (int i = 0; i < (int)graph.size(); ++i)
 			if (is_traversed[i]) {
 				for (int j = 0; j < (int)graph.size(); ++j)
-					if (!is_traversed[j] && (min_distance == 0 || min_distance > graph[i][j])) {
+					if (!is_traversed[j] && graph[i][j] && (min_distance == 0 || min_distance > graph[i][j])) {
 						min_distance = graph[i][j];
 						from = i;
 						to = j; }}
