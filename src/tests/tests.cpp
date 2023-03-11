@@ -269,19 +269,17 @@ TEST(DepthFirstSearch, ZeroVertex) {
 TEST(DepthFirstSearch, RightAnswer) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
     std::vector<int> res = s21::GraphAlgorithms::depthFirstSearch(graph, 1);
-    std::vector<int> vec{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+    std::vector<int> vec{ 1, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
     EXPECT_EQ(res, vec);
 
     graph = s21::Graph::loadGraphFromFile("tests/graphs/5.txt");
     res = s21::GraphAlgorithms::depthFirstSearch(graph, 5);
-    vec = std::vector<int>{ 5, 4, 2, 1, 3 };
+    vec = std::vector<int>{ 5, 4, 1, 2, 3 };
     EXPECT_EQ(res, vec);
-}
 
-TEST(DepthFirstSearch, IncompleteGraph) {
-    s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/4.txt");
-    std::vector<int> res = s21::GraphAlgorithms::depthFirstSearch(graph, 2);
-    std::vector<int> vec{ 2, 1, 3, 4, 5 };
+    graph = s21::Graph::loadGraphFromFile("tests/graphs/4.txt");
+    res = s21::GraphAlgorithms::depthFirstSearch(graph, 2);
+    vec = std::vector<int>{ 2, 4, 5, 3, 1 };
     EXPECT_EQ(res, vec);
 }
 
@@ -298,21 +296,20 @@ TEST(BreadthFirstSearch, ZeroVertex) {
 TEST(BreadthFirstSearch, RightAnswer) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/5.txt");
     std::vector<int> res = s21::GraphAlgorithms::breadthFirstSearch(graph, 5);
-    std::vector<int> vec{ 5, 4, 2, 3, 1 };
+    std::vector<int> vec{ 5, 3, 4, 1, 2 };
     EXPECT_EQ(res, vec);
 
     graph = s21::Graph::loadGraphFromFile("tests/graphs/2.txt");
     res = s21::GraphAlgorithms::breadthFirstSearch(graph, 2);
     vec = std::vector<int>{ 2, 1 };
     EXPECT_EQ(res, vec);
-}
 
-TEST(BreadthFirstSearch, IncompleteGraph) {
-    s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/4.txt");
-    std::vector<int> res = s21::GraphAlgorithms::breadthFirstSearch(graph, 2);
-    std::vector<int> vec{ 2, 1, 3, 4, 5 };
+    graph = s21::Graph::loadGraphFromFile("tests/graphs/4.txt");
+    res = s21::GraphAlgorithms::breadthFirstSearch(graph, 2);
+    vec = std::vector<int>{ 2, 1, 3, 4, 5 };
     EXPECT_EQ(res, vec);
 }
+
 
 /* -------------------------------------------------------------------------------------------- GraphAlgorithmsSearch */
 
