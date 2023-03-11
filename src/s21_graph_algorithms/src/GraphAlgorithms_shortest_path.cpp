@@ -16,12 +16,12 @@ struct vertex{
 	// номер вершины из которой пришли минимально по расстоянию
 	int vertex_nbr;
 	// минимальная дистанция от стартовой точки до рассматриваемой вершины
-	std::size_t distance_to_vertex;
+	double distance_to_vertex;
 };
 
 static int cmp(const void *x, const void *y) {
-	const int arg1 = static_cast<const vertex*>(x)->distance_to_vertex;
-	const int arg2 = static_cast<const vertex*>(y)->distance_to_vertex;
+	const double arg1 = static_cast<const vertex*>(x)->distance_to_vertex;
+	const double arg2 = static_cast<const vertex*>(y)->distance_to_vertex;
 	if (arg1 < arg2) return -1;
 	return 1;
 }
@@ -38,8 +38,8 @@ update_shortest_info(Graph &graph,
 
 	for (int v = 0; v < (int)graph.size(); v++) {
 		if (!is_traversed_array[v] && graph[next_vertex][v]
-			&& graph[next_vertex][v] + shortest_distance[next_vertex].distance_to_vertex <= shortest_distance[v].distance_to_vertex) {
-			shortest_distance[v] = {next_vertex, graph[next_vertex][v] + shortest_distance[next_vertex].distance_to_vertex};
+			&& (double)graph[next_vertex][v] + shortest_distance[next_vertex].distance_to_vertex <= shortest_distance[v].distance_to_vertex) {
+			shortest_distance[v] = {next_vertex, (double)graph[next_vertex][v] + shortest_distance[next_vertex].distance_to_vertex};
 //					std::cout << "to vert:" << v << " shortest_distance:" << shortest_distance[v].distance_to_vertex << std::endl;
 		}
 	}
@@ -55,7 +55,7 @@ add_children_in_queue(Graph &graph,
 
 	for (int v = 0; v < (int)graph.size(); v++) {
 		if (!is_traversed_array[v] && graph[next_vertex][v])
-			vertices_to_add_in_queue.push_back(vertex{v, graph[next_vertex][v]});
+			vertices_to_add_in_queue.push_back(vertex{v, (double)graph[next_vertex][v]});
 	}
 	sort_vertex_vector(vertices_to_add_in_queue);
 	for (int v = 0; v < (int)vertices_to_add_in_queue.size(); v++) {
@@ -63,7 +63,7 @@ add_children_in_queue(Graph &graph,
 	}
 }
 
-std::size_t GraphAlgorithms::
+double GraphAlgorithms::
 getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 
 	vertex1 = validate_vertex(graph, vertex1);
@@ -72,7 +72,7 @@ getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 	std::vector<bool> is_traversed_array(graph.size(), false);
 	// сначала минимальные расстояния от предыдущих посещенных вершин максимальны, наша задача найти минимумы
 	// номера вершин откуда пришли заполнить можно чем угодно, они должны быть перезаписаны в соответствии с минимальным расстоянием (для стартовой точки останется дефолтным)
-	std::vector<vertex> shortest_distance(graph.size(), vertex{NO_EXIST_VERTEX, UINT_MAX});
+	std::vector<vertex> shortest_distance(graph.size(), vertex{NO_EXIST_VERTEX, 1.0 / 0.0});
 	queue<int> next_vertex_queue;
 	int next_vertex;
 
@@ -97,21 +97,21 @@ getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 }
 
 void
-get_start_state(Graph& graph, std::vector<std::vector<float>>& shortest_path) {
+get_start_state(Graph& graph, std::vector<std::vector<double>>& shortest_path) {
 	for (int i = 0; i < (int)graph.size(); ++i)
 		for (int j = 0; j < (int)graph.size(); ++j)
 			if (i == j)
-				shortest_path[i][j] = 0;
+				shortest_path[i][j] = 0.0;
 			else
 				if (graph[i][j]) {
-					shortest_path[i][j] = graph[i][j];
-					shortest_path[j][i] = graph[i][j]; }
+					shortest_path[i][j] = (double)graph[i][j];
+					shortest_path[j][i] = (double)graph[i][j]; }
 }
 
-std::vector<std::vector<float>> GraphAlgorithms::
+std::vector<std::vector<double>> GraphAlgorithms::
 getShortestPathsBetweenAllVertices(Graph &graph) {
-	std::vector<std::vector<float>> shortest_path = std::vector<std::vector<float>>(
-			graph.size(), std::vector<float>(graph.size(), 1.0f / 0.0f));
+	std::vector<std::vector<double>> shortest_path = std::vector<std::vector<double>>(
+			graph.size(), std::vector<double>(graph.size(), 1.0 / 0.0));
 	get_start_state(graph, shortest_path);
 	for (int i = 0; i < (int)graph.size(); ++i)
 		for (int j = 0; j < (int)graph.size(); ++j)

@@ -33,8 +33,8 @@ namespace s21 {
 		static std::vector<int> depthFirstSearch(Graph &graph, int startVertex);
 		static std::vector<int> breadthFirstSearch(Graph &graph, int startVertex);
 		static std::vector<int> getShortestPathBetweenVertices_improved(Graph &graph, int vertex1, int vertex2);
-		static std::size_t getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2);
-		static std::vector<std::vector<float>> getShortestPathsBetweenAllVertices(Graph &graph);
+		static double getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2);
+		static std::vector<std::vector<double>> getShortestPathsBetweenAllVertices(Graph &graph);
 		static std::vector<std::vector<int>> getLeastSpanningTree(Graph &graph);
 		static TsmResult solveTravelingSalesmanProblem(Graph &graph);
 

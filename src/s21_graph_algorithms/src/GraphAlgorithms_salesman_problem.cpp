@@ -13,7 +13,7 @@ struct Ant {
 	std::vector<bool> is_traversed;
 	std::vector<int> traversed;
 	int current_city;
-	std::size_t length;
+	double length;
 };
 
 static void
@@ -24,7 +24,7 @@ restart_ants(std::vector<Ant>& ants) {
 		ants[i].traversed.push_back(i % ANTS_NUM);
         ants[i].is_traversed = std::vector<bool>(ants.size(), false);
 		ants[i].is_traversed[i % ANTS_NUM] = true;
-        ants[i].length = 0;
+        ants[i].length = 0.0;
 	}
 }
 
@@ -94,7 +94,7 @@ choose_elite_path(const Graph &graph, const std::vector<std::vector<double>>& ph
 
 static void
 update_ant(const Graph &graph, Ant& ant, int path) {
-	ant.length += graph[ant.current_city][path];
+	ant.length += (double)graph[ant.current_city][path];
 	ant.traversed.push_back(path);
 	ant.is_traversed[path] = true;
 	ant.current_city = path;
@@ -112,7 +112,7 @@ update_pheromone_lvl_rho(const Graph& graph, std::vector<std::vector<double>>& p
 static void
 finish_path(const Graph& graph, Ant& ant) {
     if (graph[ant.traversed.back()][ant.traversed.front()]) {
-        ant.length += graph[ant.traversed.back()][ant.traversed.front()];
+        ant.length += (double)graph[ant.traversed.back()][ant.traversed.front()];
         ant.traversed.push_back(ant.traversed.front());
     }
 }
@@ -210,7 +210,7 @@ collect_path(const Graph& graph, std::vector<Ant>& elite_ants) {
         throw GraphAlgorithms::GraphAlgorithmsError("Ants couldn't find the shortest path.");
     for (auto city = best_ant->traversed.begin(); city != best_ant->traversed.end(); city++)
         *city = *city + 1;
-    return GraphAlgorithms::TsmResult{best_ant->traversed, (double)best_ant->length};
+    return GraphAlgorithms::TsmResult{best_ant->traversed, best_ant->length};
 }
 
 

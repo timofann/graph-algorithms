@@ -5,8 +5,8 @@
 
 int main() {
 
-    unsigned** matrix = new unsigned*[11]{ new unsigned[11]{0, 0, 20, 21, 16, 31, 100, 12, 4, 31, 18}, //[1]: 29
-                                           new unsigned[11]{0, 0, 15, 29, 28, 40, 72, 21, 29, 41, 12}, //[0]: 29
+    unsigned** matrix = new unsigned*[11]{ new unsigned[11]{0, 29, 20, 21, 16, 31, 100, 12, 4, 31, 18},
+                                           new unsigned[11]{29, 0, 15, 29, 28, 40, 72, 21, 29, 41, 12},
                                            new unsigned[11]{20, 15, 0, 15, 14, 25, 81, 9, 23, 27, 13},
                                            new unsigned[11]{21, 29, 15, 0, 4, 12, 92, 12, 25, 13, 25},
                                            new unsigned[11]{16, 28, 14, 4, 0, 16, 94, 9, 20, 16, 22},
@@ -17,19 +17,19 @@ int main() {
                                            new unsigned[11]{31, 41, 27, 13, 16, 3, 99, 25, 35, 0, 38},
                                            new unsigned[11]{18, 12, 13, 25, 22, 37, 84, 13, 18, 38, 0} };
 
-    s21::Graph graph2(matrix, 11);
+    s21::Graph graph(matrix, 11);
 	std::cout << "\033[1;32mGraph is created\033[0m" << std::endl;
-	for (int i = 0; i < graph2.size(); i++) {
-		for (int j = 0; j < graph2.size(); j++)
-			printf("%4u ", graph2[i][j]);
+	for (int i = 0; i < graph.size(); i++) {
+		for (int j = 0; j < graph.size(); j++)
+			printf("%4u ", graph[i][j]);
 		std::cout << std::endl;
 	}
 
-    s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
+    s21::Graph graph2 = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
     std::cout << "\033[1;32m\nGraph is created2\033[0m" << std::endl;
-    for (int i = 0; i < graph.size(); i++) {
-        for (int j = 0; j < graph.size(); j++)
-            printf("%4u ", graph[i][j]);
+    for (int i = 0; i < graph2.size(); i++) {
+        for (int j = 0; j < graph2.size(); j++)
+            printf("%4u ", graph2[i][j]);
         std::cout << std::endl;
     }
 

@@ -1,5 +1,5 @@
 CC			= g++
-CCFLAGS		= -g -Wall -Wextra -Werror -std=c++17
+CCFLAGS		= -Wall -Wextra -Werror -std=c++17
 NAME		= s21_graph_algorithms.a
 SRC_DIR		= src/
 OBJ_DIR		= obj/
@@ -12,7 +12,7 @@ OBJ			= $(addprefix $(OBJ_DIR), $(OBJ_FILES))
 HEADER      = s21_graph_algorithms.h
 INC         = include/GraphAlgorithms.h $(HEADER)
 
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re test s21_graph.a
 
 all : s21_graph.a $(NAME)
 
@@ -35,5 +35,5 @@ fclean: clean
 re: fclean $(NAME)
 
 test: all
-	c++ -std=c++17 graph_algorithms_test.cpp ../s21_graph/s21_graph.a s21_graph_algorithms.a
+	$(CC) $(CCFLAGS) graph_algorithms_test.cpp ../s21_graph/s21_graph.a s21_graph_algorithms.a
 	./a.out
