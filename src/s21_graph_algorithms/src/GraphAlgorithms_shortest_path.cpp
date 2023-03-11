@@ -123,7 +123,7 @@ getShortestPathBetweenVerticesImproved(Graph &graph, int vertex1, int vertex2) {
 }
 
 
-void
+static void
 get_start_state(Graph& graph, std::vector<std::vector<double>>& shortest_path) {
 
 	for (int i = 0; i < (int)graph.size(); ++i)
