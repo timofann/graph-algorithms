@@ -72,14 +72,14 @@ int main() {
 
 	try {
 
-		std::cout << "\033[1;34m\ngetShortestPathBetweenVertices_improved\033[0m" << std::endl;
-		std::vector<int> vec1 = s21::GraphAlgorithms::getShortestPathBetweenVertices_improved(graph, 1, 2);
+		std::cout << "\033[1;34m\ngetShortestPathBetweenVerticesImproved\033[0m" << std::endl;
+		std::vector<int> vec1 = s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 1, 2);
 		for (int i = 0; i < vec1.size(); i++)
 			std::cout << vec1[i] << " ";
 		std::cout << std::endl;
 
-		std::cout << "\033[1;34m\ngetShortestPathBetweenVertices_improved\033[0m" << std::endl;
-		std::vector<int> vec2 = s21::GraphAlgorithms::getShortestPathBetweenVertices_improved(graph, 0, 2);
+		std::cout << "\033[1;34m\ngetShortestPathBetweenVerticesImproved\033[0m" << std::endl;
+		std::vector<int> vec2 = s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 0, 2);
 		for (int i = 0; i < vec2.size(); i++)
 			std::cout << vec2[i] << " ";
 		std::cout << std::endl;

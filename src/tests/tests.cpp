@@ -347,26 +347,26 @@ TEST(GetShortestPathBetweenVertices, OneVertex) {
 
 TEST(GetShortestPathBetweenVerticesImproved, ZeroVertex) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
-    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVertices_improved(graph, 0, 4), s21::GraphAlgorithms::GraphAlgorithmsError);
-    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVertices_improved(graph, 1, 0), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 0, 4), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 1, 0), s21::GraphAlgorithms::GraphAlgorithmsError);
 }
 
 TEST(GetShortestPathBetweenVerticesImproved, LargeVertex) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
-    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVertices_improved(graph, 12, 1), s21::GraphAlgorithms::GraphAlgorithmsError);
-    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVertices_improved(graph, 3, 14), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 12, 1), s21::GraphAlgorithms::GraphAlgorithmsError);
+    EXPECT_THROW(s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 3, 14), s21::GraphAlgorithms::GraphAlgorithmsError);
 }
 
 TEST(GetShortestPathBetweenVerticesImproved, RightAnswer) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
-    std::vector<int> res = s21::GraphAlgorithms::getShortestPathBetweenVertices_improved(graph, 1, 4);
+    std::vector<int> res = s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 1, 4);
     std::vector<int> vec{ 1, 5, 4 };
     EXPECT_EQ(res, vec);
 }
 
 TEST(GetShortestPathBetweenVerticesImproved, OneVertex) {
     s21::Graph graph = s21::Graph::loadGraphFromFile("tests/graphs/4.txt");
-    std::vector<int> res = s21::GraphAlgorithms::getShortestPathBetweenVertices_improved(graph, 1, 1);
+    std::vector<int> res = s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 1, 1);
     std::vector<int> vec{ 1 };
     EXPECT_EQ(res, vec);
 }

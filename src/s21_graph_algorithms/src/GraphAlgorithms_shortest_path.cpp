@@ -57,7 +57,7 @@ add_children_in_queue(Graph &graph,
 }
 
 static std::vector<vertex>
-getShortestPathBetweenVertices_inner(Graph &graph, int vertex1) {
+getShortestPathBetweenVerticesInner(Graph &graph, int vertex1) {
 
     std::vector<bool> is_traversed_array(graph.size(), false);
     // сначала минимальные расстояния от предыдущих посещенных вершин максимальны, наша задача найти минимумы
@@ -101,27 +101,23 @@ getShortestPathBetweenVertices(Graph &graph, int vertex1, int vertex2) {
 
 	vertex1 = GraphAlgorithms::validate_vertex(graph, vertex1);
 	vertex2 = GraphAlgorithms::validate_vertex(graph, vertex2);
-
-    std::vector<vertex> shortest_distance = getShortestPathBetweenVertices_inner(graph, vertex1);
-
+    std::vector<vertex> shortest_distance = getShortestPathBetweenVerticesInner(graph, vertex1);
 	return shortest_distance[vertex2].distance_to_vertex;
 }
 
 std::vector<int> GraphAlgorithms::
-getShortestPathBetweenVertices_improved(Graph &graph, int vertex1, int vertex2) {
+getShortestPathBetweenVerticesImproved(Graph &graph, int vertex1, int vertex2) {
 
 	vertex1 = GraphAlgorithms::validate_vertex(graph, vertex1);
 	vertex2 = GraphAlgorithms::validate_vertex(graph, vertex2);
-
-
-    std::vector<vertex> shortest_distance = getShortestPathBetweenVertices_inner(graph, vertex1);
-
+    std::vector<vertex> shortest_distance = getShortestPathBetweenVerticesInner(graph, vertex1);
 	return collect_path(vertex2, shortest_distance);
 }
 
 
 void
 get_start_state(Graph& graph, std::vector<std::vector<double>>& shortest_path) {
+
 	for (int i = 0; i < (int)graph.size(); ++i)
 		for (int j = 0; j < (int)graph.size(); ++j)
 			if (i == j)
@@ -136,6 +132,7 @@ get_start_state(Graph& graph, std::vector<std::vector<double>>& shortest_path) {
 
 std::vector<std::vector<double>> GraphAlgorithms::
 getShortestPathsBetweenAllVertices(Graph &graph) {
+
 	std::vector<std::vector<double>> shortest_path = std::vector<std::vector<double>>(
 			graph.size(), std::vector<double>(graph.size(), 1.0 / 0.0));
 	get_start_state(graph, shortest_path);

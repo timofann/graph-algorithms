@@ -21,7 +21,7 @@ void ConsoleInterface::ConsoleInterfaceInstance::dfs() {
 
 void ConsoleInterface::ConsoleInterfaceInstance::dijkstra(int v1, int v2) {
     std::cout << GREY << "Inner run dijkstra" << NONE << std::endl;
-    std::vector<int> a = GraphAlgorithms::getShortestPathBetweenVertices_improved(graph_, v1, v2);
+    std::vector<int> a = GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph_, v1, v2);
     std::size_t b = GraphAlgorithms::getShortestPathBetweenVertices(graph_, v1, v2);
     std::cout << "> > > > RESULT" << std::endl;
     for (int i = 0; i < a.size(); i++)
