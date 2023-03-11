@@ -3,9 +3,9 @@
 using namespace s21;
 
 #define Q_VAL 10000.0 // количество фермента, которое муравей может распределить по пути
-#define ANTS_NUM 20 // количество муравьев в каждом городе
-#define ALPHA 1.0 // степень влияния количества ферромона на выбор пути (0 - остальные муравьи безразличны, обычный жадный алгоритм: хватай, что поближе)
-#define BETA 1.0 // степень влияния обратного расстояния на выбор пути (0 - игнорирование близости и дальности городов, реагируем только на ферромон)
+#define ANTS_NUM 100 // количество муравьев в каждом городе
+#define ALPHA 0.7 // степень влияния количества ферромона на выбор пути (0 - остальные муравьи безразличны, обычный жадный алгоритм: хватай, что поближе)
+#define BETA 0.7 // степень влияния обратного расстояния на выбор пути (0 - игнорирование близости и дальности городов, реагируем только на ферромон)
 #define RHO 0.3 // коэффициент забывчивости [0, 1] (1 - не обращаем внимания на других муравьёв, 0 - помним всё)
 
 
@@ -134,31 +134,29 @@ run_ants(const Graph& graph, std::vector<Ant>& ants, std::vector<std::vector<dou
     std::vector<int> available_paths;
     int path;
 
-    for (int iter = 0; iter < ANTS_NUM; ++iter) {
-        update_pheromone_lvl_rho(graph, pheromone_lvl);
-        restart_ants(ants);
-        for (auto ant = ants.begin(); ant != ants.end(); ant++) {
+    update_pheromone_lvl_rho(graph, pheromone_lvl);
+    restart_ants(ants);
+    for (auto ant = ants.begin(); ant != ants.end(); ant++) {
+        available_paths = get_available_paths(graph, *ant);
+        while (available_paths.size() > 0) {
+            path = choose_path(graph, pheromone_lvl, available_paths, *ant);
+            update_ant(graph, *ant, path);
             available_paths = get_available_paths(graph, *ant);
-            while (available_paths.size() > 0) {
-                path = choose_path(graph, pheromone_lvl, available_paths, *ant);
-                update_ant(graph, *ant, path);
-                available_paths = get_available_paths(graph, *ant);
-            }
-//        for (auto city = ant->traversed.begin(); city != ant->traversed.end(); ++city)
-//            printf("%3d ", *city);
-//        printf("\n"); //debug
-            finish_path(graph, *ant);
-            update_pheromone_lvl_ant(graph, *ant, pheromone_lvl);
         }
-
-//        for (int i = 0; i < (int)graph.size(); ++i) {
-//            for (int j = 0; j < (int)graph.size(); ++j)
-//                printf("%5.2f ", pheromone_lvl[i][j]);
-//            std::cout << std::endl;
-//        } //debug
-//        printf("\n");
-
+//    for (auto city = ant->traversed.begin(); city != ant->traversed.end(); ++city)
+//        printf("%3d ", *city);
+//    printf("\n"); //debug
+        finish_path(graph, *ant);
+        update_pheromone_lvl_ant(graph, *ant, pheromone_lvl);
     }
+
+//    for (int i = 0; i < (int)graph.size(); ++i) {
+//        for (int j = 0; j < (int)graph.size(); ++j)
+//            printf("%5.2f ", pheromone_lvl[i][j]);
+//        std::cout << std::endl;
+//    } //debug
+//    printf("\n");
+
 }
 
 
@@ -185,6 +183,7 @@ run_elite_ants(const Graph& graph, std::vector<Ant>& ants, std::vector<std::vect
 //           printf("%3d ", *city);
 //       printf("\n"); //debug
         finish_path(graph, *ant);
+        update_pheromone_lvl_ant(graph, *ant, pheromone_lvl);
     }
 //    for (auto ant = ants.begin(); ant != ants.end(); ant++) {
 //        for (auto city = (*ant).traversed.begin(); city != (*ant).traversed.end(); city++)
@@ -193,19 +192,24 @@ run_elite_ants(const Graph& graph, std::vector<Ant>& ants, std::vector<std::vect
 //    }
 }
 
-
-static GraphAlgorithms::TsmResult
-collect_path(const Graph& graph, std::vector<Ant>& elite_ants) {
-    Ant* best_ant = NULL;
-//    printf("size %lu\n", graph.size());
-    for (auto ant = elite_ants.begin(); ant != elite_ants.end(); ++ant) {
+void
+find_best_ant(const Graph& graph, std::vector<Ant>& ants, Ant** best_ant) {
+    for (auto ant = ants.begin(); ant != ants.end(); ++ant) {
 //        for (auto city = (*ant).traversed.begin(); city != (*ant).traversed.end(); city++)
 //            printf("%d |", *city);
 //        printf("\n"); //debug
-        if (ant->traversed.size() == graph.size() + 1) {
-            best_ant = &(*ant);
+        if (ant->traversed.size() == graph.size() + 1 && ((*best_ant) == NULL || ant->length < (*best_ant)->length)) {
+            if (*best_ant == NULL)
+                *best_ant = new Ant(*ant);
+            else
+                **best_ant = *ant;
         }
     }
+}
+
+static GraphAlgorithms::TsmResult
+collect_path(Ant* best_ant) {
+
     if (best_ant == NULL)
         throw GraphAlgorithms::NoSolution("Ants couldn't find the shortest path");
     for (auto city = best_ant->traversed.begin(); city != best_ant->traversed.end(); city++)
@@ -222,9 +226,14 @@ solveTravelingSalesmanProblem(Graph &graph) {
 	std::vector<std::vector<double>> pheromone_lvl = std::vector<std::vector<double>>(
 			graph.size(), std::vector<double>(graph.size(), 0.0));
 
+    Ant* best_ant = NULL;
 	init_pheromone_lvl(graph, pheromone_lvl);
-    run_ants(graph, ants, pheromone_lvl);
-    run_elite_ants(graph, ants, pheromone_lvl);
+    for (int iter = 0; iter < ANTS_NUM; ++iter) {
+        run_ants(graph, ants, pheromone_lvl);
+        find_best_ant(graph, ants, &best_ant);
+        run_elite_ants(graph, ants, pheromone_lvl);
+        find_best_ant(graph, ants, &best_ant);
+    }
 
-    return collect_path(graph, ants);
+    return collect_path(best_ant);
 }
