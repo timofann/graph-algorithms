@@ -1,5 +1,4 @@
-//#include "../include/Graph.h"
-//#include "../s21_graph.h"
+#include "../include/Graph.h"
 
 #include <iostream>
 #include <vector>
@@ -11,22 +10,22 @@
 #include <iterator>
 #include <algorithm>
 
-//using namespace s21;
+using namespace s21;
 
 
 static void clear_matrix(unsigned **array_num, size_t matrix_size) 
 {
-    for (size_t s = 0; s < matrix_size; s++) 
+    for (std::size_t s = 0; s < matrix_size; s++)
         delete[] array_num[s];
     delete[] array_num;
 }
 
-static size_t count_rows(const std::string &filename)
+static std::size_t count_rows(const std::string &filename)
 {
     std::ifstream inf;
 	inf.open(filename, std::ifstream::in);
 	std::string str0;;
-    size_t matrix_size = 0;
+    std::size_t matrix_size = 0;
     std::getline(inf, str0);
 	while (!inf.eof())
 	{
@@ -45,11 +44,10 @@ static size_t count_rows(const std::string &filename)
 	return matrix_size;
 }
 
-//Graph Graph::loadGraphFromFile(const std::string &filename) {
-void loadGraphFromFile(const std::string &filename) {
+Graph Graph::loadGraphFromFile(const std::string &filename) {
     std::ifstream inf;
-    size_t size = 0;
-    size_t rows = 0;
+    std::size_t size = 0;
+    std::size_t rows = 0;
     
 	std::string str2;	
     std::size_t pos{};
@@ -70,7 +68,7 @@ void loadGraphFromFile(const std::string &filename) {
  size_t count = 0;
   std::getline(inf, str2);
 	unsigned **array_num = new unsigned*[size];//выделяем память под строки
-    for (size_t i = 0; i < size; i++)
+    for (std::size_t i = 0; i < size; i++)
     {
 		std::getline(inf, str2);
 		if (str2.empty())
@@ -91,44 +89,17 @@ void loadGraphFromFile(const std::string &filename) {
         }
         array_num[i] = new unsigned[tmp.size()];
         std::copy(tmp.begin(), tmp.end(), array_num[i]);
-        
-        //для проверки
-        for (size_t col = 0; col < size; col++) 
-        {
-            std::cout << "arr " << i << "-" << array_num[i][col] << ' ';
-        }
-        std::cout << std::endl;
-        //для проверки
         tmp.clear();
         count++;
 	}
-        std::cout << "tmp.size 1 " << tmp.size() << " count " << count <<std::endl;
+//        std::cout << "tmp.size 1 " << tmp.size() << " count " << count <<std::endl;
     if (count != rows)
     {
         clear_matrix(array_num, size);
         throw std::runtime_error("wrong matrix");
     }
 	inf.close();
-	//Graph date(array_num, size);
+	Graph date(array_num, size);
 	clear_matrix(array_num, size);
-    //return date; //check leaks
-}
-
-
-int main() {
-	// loadGraphFromFile("test.txt");
-    // loadGraphFromFile("bad_graphs/1.txt");
-    // loadGraphFromFile("bad_graphs/2.txt");
-    // loadGraphFromFile("bad_graphs/3.txt");
-    // loadGraphFromFile("bad_graphs/4.txt");
-    // loadGraphFromFile("bad_graphs/6.txt");
-    // loadGraphFromFile("bad_graphs/7.txt");
-    // loadGraphFromFile("bad_graphs/8.txt");
-    //  loadGraphFromFile("bad_graphs/9.txt");
-    // loadGraphFromFile("bad_graphs/10.txt"); 
-    //loadGraphFromFile("bad_graphs/11.txt"); 
-    // loadGraphFromFile("bad_graphs/12.txt"); 
-    // loadGraphFromFile("bad_graphs/13.txt");
-    // loadGraphFromFile("bad_graphs/14.txt");
-    // loadGraphFromFile("bad_graphs/15.txt");
+    return date;
 }
