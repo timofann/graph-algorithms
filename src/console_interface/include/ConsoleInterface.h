@@ -51,7 +51,7 @@ private:
 
 public:
   static void start() noexcept;
-  static void start_menu() noexcept;
+  static void startMenu() noexcept;
   static void menu() noexcept;
   static void load() noexcept;
   static void list() noexcept;

@@ -12,7 +12,7 @@ GraphAlgorithms::VertexIsOutOfRange::VertexIsOutOfRange(const std::string &arg)
 GraphAlgorithms::NoSolution::NoSolution(const std::string &arg)
     : GraphAlgorithms::GraphAlgorithmsError(arg) {}
 
-int GraphAlgorithms::validate_vertex(const Graph &graph, int startVertex) {
+int GraphAlgorithms::validateVertex(const Graph &graph, int startVertex) {
   if (startVertex < 1 || startVertex > (int)graph.size()) {
     throw GraphAlgorithms::VertexIsOutOfRange(
         "Vertex for algorithm "

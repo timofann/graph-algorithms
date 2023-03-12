@@ -16,11 +16,11 @@ static int cmp(const void *x, const void *y) {
   return 1;
 }
 
-static void sort_vertex_vector(std::vector<vertex> &vec) {
+static void sortVertexVector(std::vector<vertex> &vec) {
   std::qsort(vec.data(), vec.size(), sizeof(vertex), cmp);
 }
 
-static void update_shortest_info(Graph &graph, int next_vertex,
+static void updateShortestInfo(Graph &graph, int next_vertex,
                                  std::vector<vertex> &shortest_distance,
                                  const std::vector<bool> &is_traversed_array) {
 
@@ -36,7 +36,7 @@ static void update_shortest_info(Graph &graph, int next_vertex,
   }
 }
 
-static void add_children_in_queue(Graph &graph, int next_vertex,
+static void addChildrenInQueue(Graph &graph, int next_vertex,
                                   queue<int> &next_vertex_queue,
                                   const std::vector<bool> &is_traversed_array) {
 
@@ -47,7 +47,7 @@ static void add_children_in_queue(Graph &graph, int next_vertex,
       vertices_to_add_in_queue.push_back(
           vertex{v, (double)graph[next_vertex][v]});
   }
-  sort_vertex_vector(vertices_to_add_in_queue);
+  sortVertexVector(vertices_to_add_in_queue);
   for (int v = 0; v < (int)vertices_to_add_in_queue.size(); v++) {
     next_vertex_queue.push(vertices_to_add_in_queue[v].vertex_nbr);
   }
@@ -69,9 +69,9 @@ static std::vector<vertex> getShortestPathBetweenVerticesInner(Graph &graph,
     next_vertex = next_vertex_queue.front();
     if (!is_traversed_array[next_vertex]) {
       is_traversed_array[next_vertex] = true;
-      update_shortest_info(graph, next_vertex, shortest_distance,
+      updateShortestInfo(graph, next_vertex, shortest_distance,
                            is_traversed_array);
-      add_children_in_queue(graph, next_vertex, next_vertex_queue,
+      addChildrenInQueue(graph, next_vertex, next_vertex_queue,
                             is_traversed_array);
     }
     next_vertex_queue.pop();
@@ -80,7 +80,7 @@ static std::vector<vertex> getShortestPathBetweenVerticesInner(Graph &graph,
 }
 
 static std::vector<int>
-collect_path(int vertex2, const std::vector<vertex> &shortest_distance) {
+collectPath(int vertex2, const std::vector<vertex> &shortest_distance) {
 
   std::vector<int> shortest_path;
   int next_vertex;
@@ -98,8 +98,8 @@ double GraphAlgorithms::getShortestPathBetweenVertices(Graph &graph,
                                                        int vertex1,
                                                        int vertex2) {
 
-  vertex1 = GraphAlgorithms::validate_vertex(graph, vertex1);
-  vertex2 = GraphAlgorithms::validate_vertex(graph, vertex2);
+  vertex1 = GraphAlgorithms::validateVertex(graph, vertex1);
+  vertex2 = GraphAlgorithms::validateVertex(graph, vertex2);
   std::vector<vertex> shortest_distance =
       getShortestPathBetweenVerticesInner(graph, vertex1);
   return shortest_distance[vertex2].distance_to_vertex;
@@ -108,14 +108,14 @@ double GraphAlgorithms::getShortestPathBetweenVertices(Graph &graph,
 std::vector<int> GraphAlgorithms::getShortestPathBetweenVerticesImproved(
     Graph &graph, int vertex1, int vertex2) {
 
-  vertex1 = GraphAlgorithms::validate_vertex(graph, vertex1);
-  vertex2 = GraphAlgorithms::validate_vertex(graph, vertex2);
+  vertex1 = GraphAlgorithms::validateVertex(graph, vertex1);
+  vertex2 = GraphAlgorithms::validateVertex(graph, vertex2);
   std::vector<vertex> shortest_distance =
       getShortestPathBetweenVerticesInner(graph, vertex1);
-  return collect_path(vertex2, shortest_distance);
+  return collectPath(vertex2, shortest_distance);
 }
 
-static void get_start_state(Graph &graph,
+static void getStartState(Graph &graph,
                             std::vector<std::vector<double>> &shortest_path) {
 
   for (int i = 0; i < (int)graph.size(); ++i)
@@ -134,7 +134,7 @@ GraphAlgorithms::getShortestPathsBetweenAllVertices(Graph &graph) {
   std::vector<std::vector<double>> shortest_path =
       std::vector<std::vector<double>>(
           graph.size(), std::vector<double>(graph.size(), 1.0 / 0.0));
-  get_start_state(graph, shortest_path);
+  getStartState(graph, shortest_path);
   for (int i = 0; i < (int)graph.size(); ++i)
     for (int j = 0; j < (int)graph.size(); ++j)
       for (int k = 0; k < (int)graph.size(); ++k) {

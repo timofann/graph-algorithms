@@ -3,7 +3,7 @@
 using namespace s21;
 
 template <typename T>
-static void process_next_vertex(T &next_vertexes_container, Graph &graph,
+static void processNextVertex(T &next_vertexes_container, Graph &graph,
                                 std::vector<bool> &is_already_added) {
 
   int current_vertex = next_vertexes_container.get_start_element();
@@ -23,7 +23,7 @@ std::vector<int> GraphAlgorithms::search(Graph &graph, int startVertex) {
   std::vector<int> traversed_vertices;
   int next_vertex;
 
-  startVertex = GraphAlgorithms::validate_vertex(graph, startVertex);
+  startVertex = GraphAlgorithms::validateVertex(graph, startVertex);
   next_vertex_container.push(startVertex);
   is_already_added[startVertex] = true;
 
@@ -32,7 +32,7 @@ std::vector<int> GraphAlgorithms::search(Graph &graph, int startVertex) {
     if (!is_traversed_array[next_vertex]) {
       is_traversed_array[next_vertex] = true;
       traversed_vertices.push_back(next_vertex + 1);
-      process_next_vertex(next_vertex_container, graph, is_already_added);
+      processNextVertex(next_vertex_container, graph, is_already_added);
     } else
       next_vertex_container.pop();
   }
