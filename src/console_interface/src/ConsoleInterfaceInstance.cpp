@@ -7,36 +7,58 @@ ConsoleInterface::ConsoleInterfaceInstance::ConsoleInterfaceInstance(const std::
         filename_(filename) {}
 
 void ConsoleInterface::ConsoleInterfaceInstance::bfs(int v) {
-    std::cout << GREY << "Inner run bfs" << NONE << std::endl;
     std::vector<int> a = s21::GraphAlgorithms::breadthFirstSearch(graph_, v);
-    std::cout << "> > > > RESULT" << std::endl;
-    for (std::size_t i = 0; i < a.size(); i++)
-        printf("%d ", a[i]);
-    std::cout << std::endl;
+    std::cout << std::endl << "> > > > RESULT" << std::endl;
+    for (std::size_t i = 0; i < a.size() - 1; i++)
+        printf("%d -> ", a[i]);
+    std::cout << a.back() << std::endl;
 }
 
-void ConsoleInterface::ConsoleInterfaceInstance::dfs() {
-    std::cout << GREY << "Inner run dfs" << NONE << std::endl;
+void ConsoleInterface::ConsoleInterfaceInstance::dfs(int v) {
+    std::vector<int> a = s21::GraphAlgorithms::breadthFirstSearch(graph_, v);
+    std::cout << std::endl << "> > > > RESULT" << std::endl;
+    for (std::size_t i = 0; i < a.size() - 1; i++)
+        printf("%d -> ", a[i]);
+    std::cout << a.back() << std::endl;
 }
 
 void ConsoleInterface::ConsoleInterfaceInstance::dijkstra(int v1, int v2) {
-    std::cout << GREY << "Inner run dijkstra" << NONE << std::endl;
     std::vector<int> a = GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph_, v1, v2);
     std::size_t b = GraphAlgorithms::getShortestPathBetweenVertices(graph_, v1, v2);
-    std::cout << "> > > > RESULT" << std::endl;
-    for (std::size_t i = 0; i < a.size(); i++)
-        printf("%d ", a[i]);
-    std::cout << "- distance " << b << std::endl;
+    std::cout << std::endl << "> > > > RESULT" << std::endl;
+    for (std::size_t i = 0; i < a.size() - 1; i++)
+        printf("%d -> ", a[i]);
+    std::cout << a.back() << " | distance: " << b << std::endl;
 }
 
 void ConsoleInterface::ConsoleInterfaceInstance::floydwar() {
-    std::cout << GREY << "Inner run floydwar" << NONE << std::endl;
+    std::vector<std::vector<double>> a = GraphAlgorithms::getShortestPathsBetweenAllVertices(graph_);
+    std::cout << std::endl << "> > > > RESULT" << std::endl << std::endl;
+    printf("       ");
+    for (std::size_t i = 1; i < a.size() + 1; i++)
+        printf("%4lu  ", i);
+    std::cout << std::endl;
+    printf("       ");
+    for (std::size_t i = 0; i < a.size(); i++)
+        printf("------");
+    std::cout << std::endl;
+    for (std::size_t i = 0; i < a.size(); i++) {
+        printf("%4lu  |", i + 1);
+        for (std::size_t j = 0; j < a[i].size(); j++)
+            printf("%5.1f ", a[i][j]);
+        std::cout << std::endl;
+    }
 }
 
 void ConsoleInterface::ConsoleInterfaceInstance::aco() {
-    std::cout << GREY << "Inner run aco" << NONE << std::endl;
+    GraphAlgorithms::TsmResult a = GraphAlgorithms::solveTravelingSalesmanProblem(graph_);
+    std::cout << std::endl << "> > > > RESULT" << std::endl;
+    for (std::size_t i = 0; i < a.vertices.size() - 1; i++)
+        printf("%d -> ", a.vertices[i]);
+    std::cout << a.vertices.back() << " | distance: " << a.distance << std::endl;
 }
 
-void ConsoleInterface::ConsoleInterfaceInstance::save() {
-    std::cout << GREY << "Inner run save" << NONE << std::endl;
+void ConsoleInterface::ConsoleInterfaceInstance::save(const std::string& filename) {
+    graph_.exportGraphToDot(filename);
+    std::cout << std::endl << GREY << "Graph saved to file " << NONE << filename << std::endl;
 }

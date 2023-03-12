@@ -11,6 +11,7 @@
 #define BLUE "\033[1;36m"
 #define GREY "\033[1;37m"
 #define NONE "\033[0m"
+#define RED "\033[1;31m"
 
 #define GRAPHS_DST "tests/graphs/"
 
@@ -31,11 +32,11 @@ namespace s21 {
             ~ConsoleInterfaceInstance() = default;
 
             void bfs(int);
-            void dfs();
+            void dfs(int);
             void dijkstra(int, int);
             void floydwar();
             void aco();
-            void save();
+            void save(const std::string& filename);
         };
 
     private:

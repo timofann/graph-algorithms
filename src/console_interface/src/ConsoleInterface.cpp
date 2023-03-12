@@ -22,7 +22,7 @@ void ConsoleInterface::load() noexcept {
 }
 
 void ConsoleInterface::list() noexcept {
-    std::cout << GREY << "Run list command" << NONE << std::endl;
+    std::cout << GREY << "Next files are available:" << NONE << std::endl;
     std::system("ls tests/graphs");
 }
 
@@ -43,8 +43,8 @@ void ConsoleInterface::bfs() noexcept {
         std::string input;
         std::cout << GREY << "Enter the start vertex number [1 - " << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
         std::cin >> input;
-        try { ConsoleInterface::instance_->bfs(std::stoi(input)); } catch (...) {
-            std::cout << GREY << "Invalid value." << NONE << std::endl;
+        try { ConsoleInterface::instance_->bfs(std::stoi(input)); } catch (std::exception &e) {
+            std::cout << std::endl << GREY << "Stop: " << e.what() << NONE << std::endl;
         }
     }
 }
@@ -54,7 +54,13 @@ void ConsoleInterface::dfs() noexcept {
         std::cout << GREY << NOT_INITIALISED_MESSAGE << NONE << std::endl;
     else {
         std::cout << GREY << "Run dfs command" << NONE << std::endl;
-        ConsoleInterface::instance_->dfs();
+        std::cout << GREY << "This algorithm goes throw all the vertices." << NONE << std::endl;
+        std::string input;
+        std::cout << GREY << "Enter the start vertex number [1 - " << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
+        std::cin >> input;
+        try { ConsoleInterface::instance_->dfs(std::stoi(input)); } catch (std::exception &e) {
+            std::cout << std::endl << GREY << "Stop: " << e.what() << NONE << std::endl;
+        }
     }
 }
 
@@ -70,8 +76,8 @@ void ConsoleInterface::dijkstra() noexcept {
         std::cin >> input1;
         std::cout << GREY << "Enter the second vertex number [1 - " << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
         std::cin >> input2;
-        try { ConsoleInterface::instance_->dijkstra(std::stoi(input1), std::stoi(input2)); } catch (...) {
-            std::cout << GREY << "Invalid value." << NONE << std::endl;
+        try { ConsoleInterface::instance_->dijkstra(std::stoi(input1), std::stoi(input2)); } catch (std::exception &e) {
+            std::cout << std::endl << GREY << "Stop: " << e.what() << NONE << std::endl;
         }
     }
 }
@@ -81,6 +87,7 @@ void ConsoleInterface::floydwar() noexcept {
         std::cout << GREY << NOT_INITIALISED_MESSAGE << NONE << std::endl;
     else {
         std::cout << GREY << "Run floydwar command" << NONE << std::endl;
+        std::cout << GREY << "This algorithm finds paths between all vertices." << NONE << std::endl;
         ConsoleInterface::instance_->floydwar();
     }
 }
@@ -90,7 +97,10 @@ void ConsoleInterface::aco() noexcept {
         std::cout << GREY << NOT_INITIALISED_MESSAGE << NONE << std::endl;
     else {
         std::cout << GREY << "Run aco command" << NONE << std::endl;
-        ConsoleInterface::instance_->aco();
+        std::cout << GREY << "This algorithm solves travelling salesman problem." << NONE << std::endl;
+        try { ConsoleInterface::instance_->aco(); } catch (std::exception &e) {
+            std::cout << std::endl << GREY << "Stop: " << e.what() << NONE << std::endl;
+        }
     }
 }
 
@@ -99,185 +109,11 @@ void ConsoleInterface::save() noexcept {
         std::cout << GREY << NOT_INITIALISED_MESSAGE << NONE << std::endl;
     else {
         std::cout << GREY << "Run save command" << NONE << std::endl;
-        ConsoleInterface::instance_->save();
+        std::cout << GREY << "Choose a file to save the graph to (it should have extention .gv or .dot): " << NONE;
+        std::string filename;
+        std::cin >> filename;
+        try { ConsoleInterface::instance_->save(filename); } catch (std::exception &e) {
+            std::cout << std::endl << GREY << "Can't save graph: " << e.what() << NONE << std::endl;
+        }
     }
 }
-
-
-
-
-
-
-
-
-
-//
-//void ConsoleInterface::BreadthDepthFirstSearch(int choice) {
-//  try {
-//    std::cout << font_ << "\n\tEnter starting vertex from 1 to "
-//              << graph_.GetSize() << std::endl;
-//    int num = CheckInput();
-//    if (num != -1 && num < (graph_.GetSize() + 1) && num > 0) {
-//      std::vector<int> path;
-//      if (choice == 2) {
-//        path = algorithm_.BreadthFirstSearch(graph_, num);
-//      } else {
-//        path = algorithm_.DepthFirstSearch(graph_, num);
-//      }
-//      std::cout << font_ << "\n\t";
-//      PrintVector(path);
-//      std::cout << color_off_;
-//      WhatIsNext();
-//    } else {
-//      std::cout << font_ << "\n\tError: incorrect input, try again"
-//                << color_off_ << std::endl;
-//      BreadthDepthFirstSearch(choice);
-//    }
-//  } catch (std::exception &e) {
-//    std::cerr << font_ << "\nError: " << e.what() << color_off_ << "\n";
-//    WhatIsNext();
-//  }
-//}
-//
-//void ConsoleInterface::DijkstrasAlgorithm() {
-//  try {
-//    std::cout << font_ << "\n\tEnter starting vertex from 1 to "
-//              << graph_.GetSize() << std::endl;
-//    int start = CheckInput();
-//    std::cout << font_ << "\n\tEnter finishing vertex from 1 to "
-//              << graph_.GetSize() << std::endl;
-//    int finish = CheckInput();
-//    if (start != -1 && finish != -1 && start < (graph_.GetSize() + 1) &&
-//        finish < (graph_.GetSize() + 1) && start > 0 && finish > 0) {
-//      int distance =
-//          algorithm_.GetShortestPathBetweenVertices(graph_, start, finish);
-//      std::cout << font_ << "\n\tDistance: " << distance << color_off_
-//                << std::endl;
-//      WhatIsNext();
-//    } else {
-//      std::cout << font_ << "\n\tError: incorrect input, try again"
-//                << color_off_ << std::endl;
-//      DijkstrasAlgorithm();
-//    }
-//  } catch (std::exception &e) {
-//    std::cerr << font_ << "\n\tError: " << e.what() << color_off_ << "\n";
-//    WhatIsNext();
-//  }
-//}
-//
-//void ConsoleInterface::FloydWarshallPrimsAlgorithm(int choice) {
-//  try {
-//    Matrix res;
-//    if (choice == 5) {
-//      res = algorithm_.GetShortestPathsBetweenAllVertices(graph_);
-//    } else {
-//      res = algorithm_.GetLeastSpanningTree(graph_);
-//    }
-//    std::cout << font_ << "\n\t";
-//    PrintMatrix(res);
-//    std::cout << color_off_;
-//    WhatIsNext();
-//  } catch (std::exception &e) {
-//    std::cerr << font_ << "\n\tError: " << e.what() << color_off_ << "\n";
-//    WhatIsNext();
-//  }
-//}
-//
-//void ConsoleInterface::AntColonyAlgorithm() {
-//  try {
-//    TsmResult res;
-//    res = algorithm_.TSPAntColonyOptimization(graph_);
-//    if (!std::isinf(res.distance)) {
-//      std::cout << font_ << "\n\tRoute length: " << res.distance;
-//      std::cout << "\n\tSequence of traversing vertices: ";
-//      PrintVector(res.vertices);
-//      std::cout << color_off_;
-//    } else {
-//      std::cout << font_ << "\n\tNo path found!\n" << color_off_;
-//    }
-//    WhatIsNext();
-//  } catch (std::exception &e) {
-//    std::cerr << font_ << "\n\tError: " << e.what() << color_off_ << "\n";
-//    WhatIsNext();
-//  }
-//}
-//
-//void ConsoleInterface::ComparisonTSP() {
-//  try {
-//    std::vector<std::tuple<std::string, double, std::vector<int>, double>> res;
-//    std::cout << font_ << "\n\tEnter how many times to execute each algorithm"
-//              << std::endl;
-//
-//    int num = CheckInput();
-//    if (num != -1 && num < 1001 && num > 0) {
-//      res = algorithm_.TSPComparison(graph_, num);
-//      ComparisonOutput(res);
-//    } else {
-//      std::cout << font_ << "\n\tError: incorrect input, try again"
-//                << color_off_ << std::endl;
-//      ComparisonTSP();
-//    }
-//    WhatIsNext();
-//  } catch (std::exception &e) {
-//    std::cerr << font_ << "\n\tError: " << e.what() << color_off_ << "\n";
-//    WhatIsNext();
-//  }
-//}
-//
-//void ConsoleInterface::Save() {
-//  std::cout << font_ << "\n\tEnter file name to save graph with .dot extension"
-//            << std::endl;
-//  std::string filename;
-//  std::cout << "\t";
-//  std::cin >> filename;
-//  graph_.ExportGraphToDot(filename);
-//  std::cout << "\tFile is saved" << color_off_ << std::endl;
-//  WhatIsNext();
-//}
-//
-//void ConsoleInterface::ComparisonOutput(
-//    const std::vector<std::tuple<std::string, double, std::vector<int>, double>>
-//        &v) {
-//  for (auto [A, B, C, D] : v) {
-//    if (!std::isinf(B)) {
-//      std::cout << font_ << "\n\tUsing algorithm: " << A;
-//      std::cout << "\n\tRoute length: " << B;
-//      std::cout << "\n\tSequence of traversing vertices: ";
-//      auto &vec = C;
-//      for (auto &it : vec) {
-//        std::cout << it << " ";
-//      }
-//      std::cout << "\n\tExecution time: " << D << " sec" << std::endl;
-//    } else {
-//      std::cout << font_ << "\n\tUsing algorithm: " << A;
-//      std::cout << "\n\tNo path found!\n" << color_off_;
-//    }
-//  }
-//}
-//
-//int ConsoleInterface::CheckInput() {
-//  std::string choice;
-//  int num;
-//  std::cout << "\t";
-//  std::cin >> choice;
-//  std::cout << color_off_;
-//
-//  return IsNumber(choice) == 1 ? num = std::stoi(choice) : -1;
-//}
-//
-//template <typename T>
-//void ConsoleInterface::PrintVector(std::vector<T> &v) {
-//  for (auto &elem : v) {
-//    std::cout << elem << " ";
-//  }
-//  std::cout << std::endl;
-//}
-//
-//void ConsoleInterface::PrintMatrix(Matrix &m) {
-//  for (unsigned int i = 0; i < m.GetSize(); i++) {
-//    for (unsigned int j = 0; j < m.GetSize(); j++) {
-//      std::cout << m(i, j) << ' ';
-//    }
-//    std::cout << "\n\t";
-//  }
-//}

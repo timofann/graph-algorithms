@@ -18,10 +18,10 @@ and you have the next opportunities:\n\
     2. Load Graph with adjacency matrix from file.\n\
     3. Breadth-first search.\n\
     4. Depth-first search.\n\
-    5. Dijkstra's algorithm\n\
-    6. Floyd-Warshall algorithm\n\
-    7. Ant colony algorithm\n\
-    8. Save to .dot\n\
+    5. Dijkstra's algorithm.\n\
+    6. Floyd-Warshall algorithm.\n\
+    7. Ant colony algorithm.\n\
+    8. Save to .dot.\n\
     9. Exit program.\n\n\
 You need to choose one and enter the number: "
 
