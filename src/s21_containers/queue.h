@@ -46,7 +46,7 @@ namespace s21 {
       QueueNode<T> *n = q.pFront;
       while (n != nullptr) {
         size_cont++;
-        QueueNode<T> *n = new QueueNode<T>(n->key, pBack, nullptr);
+        n = new QueueNode<T>(n->key, pBack, nullptr);
         if (pBack != nullptr) {
           pBack->pNext = n;
         } else {
