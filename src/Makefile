@@ -15,8 +15,8 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
 	$(CC) $(CCFLAGS) -Iconsole_interface/include -c $< -o $@
 
 all: s21_graph.a s21_graph_algorithms.a $(OBJS) console_interface/include/ConsoleInterface.h
-	g++ main.cpp $(OBJS) -std=c++17 -Iconsole_interface/include s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a -o run
-	./run
+	g++ main.cpp $(OBJS) -std=c++17 -Iconsole_interface/include s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a -o run_console_interface
+	./run_console_interface
 
 s21_graph.a:
 	cd s21_graph; make
@@ -24,14 +24,23 @@ s21_graph.a:
 s21_graph_algorithms.a:
 	cd s21_graph_algorithms; make
 
+clean:
+	rm -rf $(OBJ_DIR) rm -f tests/test_graph.dot tests/test_graph2.gv
+	cd s21_graph; make clean
+	cd s21_graph_algorithms; make clean
+
 fclean:
 	cd s21_graph; make fclean
 	cd s21_graph_algorithms; make fclean
-	rm -f a.out
+	rm -f run_console_interface tests/test
 
 re: fclean all
 
 test: s21_graph.a s21_graph_algorithms.a
 	g++ tests/tests.cpp s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a -o tests/test -lgtest -std=c++17 -lgvc -lcgraph
 	./tests/test
-	cd tests; rm -f test test_graph.dot test_graph2.gv
+
+norminette:
+	cppcheck .
+	clang-format -n s21_containers/*.h s21_graph/src/*.cpp s21_graph/include/*.h s21_graph_algorithms/src/*.cpp s21_graph_algorithms/include/*.h console_interface/include/*.h console_interface/src/*.cpp tests/tests.cpp main.cpp -Werror
+
