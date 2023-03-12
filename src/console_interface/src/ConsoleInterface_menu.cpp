@@ -47,7 +47,7 @@ void ConsoleInterface::start() noexcept {
   std::cout << BLUE << WELCOME_MESSAGE << NONE << std::endl;
   runArrows();
   while (!ConsoleInterface::instance_)
-    start_menu();
+    startMenu();
   while (true)
     menu();
 }
