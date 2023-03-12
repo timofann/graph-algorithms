@@ -166,34 +166,34 @@ TEST(LoadGraphFromFile, NonReadableFile) {
   std::system("chmod 777 tests/bad_graphs/7.txt");
 }
 
- TEST(LoadGraphFromFile, WithoutRowsNumber) {
-     EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/8.txt"));
- }
+TEST(LoadGraphFromFile, WithoutRowsNumber) {
+    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/8.txt"));
+}
 
- TEST(LoadGraphFromFile, InvalidLength) {
-     EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/9.txt"))
- }
+TEST(LoadGraphFromFile, InvalidLength) {
+    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/9.txt"));
+}
 
- TEST(LoadGraphFromFile, InvalidWidth) {
-     EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/10.txt"));
-     EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/11.txt"));
- }
+TEST(LoadGraphFromFile, InvalidWidth) {
+    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/10.txt"));
+    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/11.txt"));
+}
 
- TEST(LoadGraphFromFile, InvalidRowsNumber) {
-     EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/12.txt"));
- }
+TEST(LoadGraphFromFile, InvalidRowsNumber) {
+    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/12.txt"));
+}
 
- TEST(LoadGraphFromFile, InvalidElement) {
-     EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/13.txt"));
- }
+TEST(LoadGraphFromFile, InvalidElement) {
+    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/13.txt"));
+}
 
- TEST(LoadGraphFromFile, OnlyRowNumber) {
-     EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/14.txt"));
- }
+TEST(LoadGraphFromFile, OnlyRowNumber) {
+    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/14.txt"));
+}
 
- TEST(LoadGraphFromFile, AlmostEmptyFile) {
-     EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/15.txt"));
- }
+TEST(LoadGraphFromFile, AlmostEmptyFile) {
+    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/15.txt"));
+}
 
 /* -------------------------------------------------------- loadGraphFromFile */
 
