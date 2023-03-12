@@ -10,8 +10,6 @@
 #include <system_error>
 #include <vector>
 
-#include <iostream> //debug
-
 namespace s21 {
 
 class GraphAlgorithms {

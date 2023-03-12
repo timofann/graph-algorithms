@@ -4,9 +4,7 @@
 using namespace s21;
 
 struct vertex {
-  // номер вершины из которой пришли минимально по расстоянию
   int vertex_nbr;
-  // минимальная дистанция от стартовой точки до рассматриваемой вершины
   double distance_to_vertex;
 };
 
@@ -34,9 +32,6 @@ static void update_shortest_info(Graph &graph, int next_vertex,
       shortest_distance[v] = {
           next_vertex, (double)graph[next_vertex][v] +
                            shortest_distance[next_vertex].distance_to_vertex};
-      //					std::cout << "to vert:" << v <<
-      //" shortest_distance:" << shortest_distance[v].distance_to_vertex <<
-      //std::endl;
     }
   }
 }
@@ -62,18 +57,13 @@ static std::vector<vertex> getShortestPathBetweenVerticesInner(Graph &graph,
                                                                int vertex1) {
 
   std::vector<bool> is_traversed_array(graph.size(), false);
-  // сначала минимальные расстояния от предыдущих посещенных вершин максимальны,
-  // наша задача найти минимумы номера вершин откуда пришли заполнить можно чем
-  // угодно, они должны быть перезаписаны в соответствии с минимальным
-  // расстоянием (для стартовой точки останется дефолтным)
   std::vector<vertex> shortest_distance(graph.size(),
                                         vertex{NO_EXIST_VERTEX, 1.0 / 0.0});
   queue<int> next_vertex_queue;
   int next_vertex;
 
   next_vertex_queue.push(vertex1);
-  shortest_distance[vertex1].distance_to_vertex =
-      0; // дистанцию до стартовой вершины
+  shortest_distance[vertex1].distance_to_vertex = 0;
 
   while (next_vertex_queue.size()) {
     next_vertex = next_vertex_queue.front();
@@ -95,7 +85,7 @@ collect_path(int vertex2, const std::vector<vertex> &shortest_distance) {
   std::vector<int> shortest_path;
   int next_vertex;
 
-  next_vertex = vertex2; // использовать одну переменную?
+  next_vertex = vertex2;
   while (next_vertex != NO_EXIST_VERTEX) {
     shortest_path.push_back(next_vertex + 1);
     next_vertex = shortest_distance[next_vertex].vertex_nbr;

@@ -5,6 +5,7 @@ using namespace s21;
 template <typename T>
 static void process_next_vertex(T &next_vertexes_container, Graph &graph,
                                 std::vector<bool> &is_already_added) {
+
   int current_vertex = next_vertexes_container.get_start_element();
   for (std::size_t v = 0; v < graph.size(); v++)
     if (graph[current_vertex][v] && !is_already_added[v]) {
@@ -28,7 +29,6 @@ std::vector<int> GraphAlgorithms::search(Graph &graph, int startVertex) {
 
   while (next_vertex_container.size()) {
     next_vertex = next_vertex_container.get_start_element();
-    //		std::cout << next_vertex << std::endl; //debug
     if (!is_traversed_array[next_vertex]) {
       is_traversed_array[next_vertex] = true;
       traversed_vertices.push_back(next_vertex + 1);
@@ -36,9 +36,6 @@ std::vector<int> GraphAlgorithms::search(Graph &graph, int startVertex) {
     } else
       next_vertex_container.pop();
   }
-
-  //	for (int i=0; i<traversed_vertices.size(); i++)
-  //		std::cout << traversed_vertices[i] << std::endl; //debug
   return traversed_vertices;
 }
 
