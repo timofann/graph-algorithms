@@ -5,8 +5,7 @@ using namespace s21;
 
 Graph Graph::loadGraphFromFile(const std::string &filename) {
     std::ifstream inf;
-    std::size_t size = 0;    
-	std::string str1;
+    std::size_t size = 0;
     std::vector<unsigned> tmp;
 	
     inf.open(filename, std::ifstream::in);
@@ -23,6 +22,7 @@ Graph Graph::loadGraphFromFile(const std::string &filename) {
 	unsigned **array_num = new unsigned*[size];
     for (size_t i = 0; i < size; ++i)
     {
+        tmp.clear();
         for (size_t j = 0; j < size; ++j){
             if (inf.peek() == std::ifstream::traits_type::eof()) {
                 throw std::runtime_error{"Incorrect file"};
