@@ -1,5 +1,5 @@
 #ifndef STACK_H
-# define STACK_H
+#define STACK_H
 
 #include <cstddef>
 #include <iostream>
@@ -131,6 +131,6 @@ public:
   const T &get_start_element() const { return this->top(); }
 };
 
-}
+} // namespace s21
 
 #endif
