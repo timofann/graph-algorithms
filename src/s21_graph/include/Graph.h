@@ -45,6 +45,10 @@ namespace s21 {
         bool weighted;
 
         void set_a_matrix(unsigned **matrix, size_t size);
+        
+        /*loadGraphFromFile*/
+        void clearMatrix(unsigned **matrix, size_t rows);
+        /*loadGraphFromFile*/
 
         static void check_matrix(unsigned int *const *matrix, size_t size); // const
 
