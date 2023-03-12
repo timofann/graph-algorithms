@@ -3,7 +3,7 @@
 using namespace s21;
 
 template <typename T>
-static void processNextVertex(T &next_vertexes_container, Graph &graph,
+static void processNextVertex(T &next_vertexes_container, const Graph &graph,
                                 std::vector<bool> &is_already_added) {
 
   int current_vertex = next_vertexes_container.get_start_element();
@@ -15,7 +15,7 @@ static void processNextVertex(T &next_vertexes_container, Graph &graph,
 }
 
 template <typename T>
-std::vector<int> GraphAlgorithms::search(Graph &graph, int startVertex) {
+std::vector<int> GraphAlgorithms::search(const Graph &graph, int startVertex) {
 
   std::vector<bool> is_traversed_array(graph.size(), false);
   std::vector<bool> is_already_added(graph.size(), false);
@@ -39,12 +39,12 @@ std::vector<int> GraphAlgorithms::search(Graph &graph, int startVertex) {
   return traversed_vertices;
 }
 
-std::vector<int> GraphAlgorithms::breadthFirstSearch(Graph &graph,
+std::vector<int> GraphAlgorithms::breadthFirstSearch(const Graph &graph,
                                                      int startVertex) {
   return search<queue<int>>(graph, startVertex);
 }
 
-std::vector<int> GraphAlgorithms::depthFirstSearch(Graph &graph,
+std::vector<int> GraphAlgorithms::depthFirstSearch(const Graph &graph,
                                                    int startVertex) {
   return search<stack<int>>(graph, startVertex);
 }

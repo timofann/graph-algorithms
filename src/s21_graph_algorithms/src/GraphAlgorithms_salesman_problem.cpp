@@ -195,7 +195,7 @@ static GraphAlgorithms::TsmResult collectPath(Ant *best_ant) {
 }
 
 GraphAlgorithms::TsmResult
-GraphAlgorithms::solveTravelingSalesmanProblem(Graph &graph) {
+GraphAlgorithms::solveTravelingSalesmanProblem(const Graph &graph) {
 
   std::vector<Ant> ants =
       std::vector<Ant>(graph.size(), Ant{std::vector<bool>(graph.size(), false),

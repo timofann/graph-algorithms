@@ -33,12 +33,12 @@ private:
     operator=(ConsoleInterfaceInstance &&other) = default;
     ~ConsoleInterfaceInstance() = default;
 
-    void bfs(int);
-    void dfs(int);
-    void dijkstra(int, int);
-    void floydwar();
-    void aco();
-    void save(const std::string &filename);
+    void bfs(int) const;
+    void dfs(int) const;
+    void dijkstra(int, int) const;
+    void floydwar() const;
+    void aco() const;
+    void save(const std::string &filename) const;
   };
 
 private:

@@ -28,23 +28,23 @@ private:
   ~GraphAlgorithms() = delete;
 
 public:
-  static std::vector<int> depthFirstSearch(Graph &graph, int startVertex);
-  static std::vector<int> breadthFirstSearch(Graph &graph, int startVertex);
-  static std::vector<int> getShortestPathBetweenVerticesImproved(Graph &graph,
+  static std::vector<int> depthFirstSearch(const Graph &graph, int startVertex);
+  static std::vector<int> breadthFirstSearch(const Graph &graph, int startVertex);
+  static std::vector<int> getShortestPathBetweenVerticesImproved(const Graph &graph,
                                                                  int vertex1,
                                                                  int vertex2);
-  static double getShortestPathBetweenVertices(Graph &graph, int vertex1,
+  static double getShortestPathBetweenVertices(const Graph &graph, int vertex1,
                                                int vertex2);
   static std::vector<std::vector<double>>
-  getShortestPathsBetweenAllVertices(Graph &graph);
-  static std::vector<std::vector<int>> getLeastSpanningTree(Graph &graph);
-  static TsmResult solveTravelingSalesmanProblem(Graph &graph);
+  getShortestPathsBetweenAllVertices(const Graph &graph);
+  static std::vector<std::vector<int>> getLeastSpanningTree(const Graph &graph);
+  static TsmResult solveTravelingSalesmanProblem(const Graph &graph);
 
 private:
   static int validateVertex(const Graph &graph, int startVertex);
 
   template <typename T>
-  static std::vector<int> search(Graph &graph, int startVertex);
+  static std::vector<int> search(const Graph &graph, int startVertex);
 
 public:
   struct GraphAlgorithmsError : std::runtime_error {

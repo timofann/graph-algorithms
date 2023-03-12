@@ -158,7 +158,7 @@ void Graph::check_matrix(unsigned *const *matrix, size_t size)
 //	std::cout << filename;
 //}
 
-void Graph::exportGraphToDot(const std::string &filename)
+void Graph::exportGraphToDot(const std::string &filename) const
 {
 	std::ofstream ofs;
 

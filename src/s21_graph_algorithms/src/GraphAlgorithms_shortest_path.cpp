@@ -20,7 +20,7 @@ static void sortVertexVector(std::vector<vertex> &vec) {
   std::qsort(vec.data(), vec.size(), sizeof(vertex), cmp);
 }
 
-static void updateShortestInfo(Graph &graph, int next_vertex,
+static void updateShortestInfo(const Graph &graph, int next_vertex,
                                  std::vector<vertex> &shortest_distance,
                                  const std::vector<bool> &is_traversed_array) {
 
@@ -36,7 +36,7 @@ static void updateShortestInfo(Graph &graph, int next_vertex,
   }
 }
 
-static void addChildrenInQueue(Graph &graph, int next_vertex,
+static void addChildrenInQueue(const Graph &graph, int next_vertex,
                                   queue<int> &next_vertex_queue,
                                   const std::vector<bool> &is_traversed_array) {
 
@@ -53,7 +53,7 @@ static void addChildrenInQueue(Graph &graph, int next_vertex,
   }
 }
 
-static std::vector<vertex> getShortestPathBetweenVerticesInner(Graph &graph,
+static std::vector<vertex> getShortestPathBetweenVerticesInner(const Graph &graph,
                                                                int vertex1) {
 
   std::vector<bool> is_traversed_array(graph.size(), false);
@@ -94,7 +94,7 @@ collectPath(int vertex2, const std::vector<vertex> &shortest_distance) {
   return shortest_path;
 }
 
-double GraphAlgorithms::getShortestPathBetweenVertices(Graph &graph,
+double GraphAlgorithms::getShortestPathBetweenVertices(const Graph &graph,
                                                        int vertex1,
                                                        int vertex2) {
 
@@ -106,7 +106,7 @@ double GraphAlgorithms::getShortestPathBetweenVertices(Graph &graph,
 }
 
 std::vector<int> GraphAlgorithms::getShortestPathBetweenVerticesImproved(
-    Graph &graph, int vertex1, int vertex2) {
+    const Graph &graph, int vertex1, int vertex2) {
 
   vertex1 = GraphAlgorithms::validateVertex(graph, vertex1);
   vertex2 = GraphAlgorithms::validateVertex(graph, vertex2);
@@ -115,7 +115,7 @@ std::vector<int> GraphAlgorithms::getShortestPathBetweenVerticesImproved(
   return collectPath(vertex2, shortest_distance);
 }
 
-static void getStartState(Graph &graph,
+static void getStartState(const Graph &graph,
                             std::vector<std::vector<double>> &shortest_path) {
 
   for (int i = 0; i < (int)graph.size(); ++i)
@@ -129,7 +129,7 @@ static void getStartState(Graph &graph,
 }
 
 std::vector<std::vector<double>>
-GraphAlgorithms::getShortestPathsBetweenAllVertices(Graph &graph) {
+GraphAlgorithms::getShortestPathsBetweenAllVertices(const Graph &graph) {
 
   std::vector<std::vector<double>> shortest_path =
       std::vector<std::vector<double>>(
