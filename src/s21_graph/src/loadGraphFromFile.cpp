@@ -36,6 +36,6 @@ Graph Graph::loadGraphFromFile(const std::string &filename) {
     }
 	inf.close();
 	Graph date(array_num, size);
-	Graph::check_matrix(array_num, size);
+	Graph clearMatrix(array_num, size);
     return date;
 }

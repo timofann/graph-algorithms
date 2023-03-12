@@ -20,6 +20,15 @@ Graph::~Graph()
 	delete[] a_matrix;
 }
 
+/*loadGraphFromFile*/
+void Graph::clearMatrix(unsigned **matrix, size_t rows)
+{
+	if (matrix != nullptr) {
+		for (size_t i = 0; i < rows; i++) {
+			delete[] matrix[i];}
+		delete[] matrix;}
+}
+
 Graph::Graph(const Graph &other) :
 a_matrix(nullptr), a_matrix_size(0), weighted(false) // неконстантные и нессылочные поля не обязательно здесь определять, они автоматически заполнятся значениями по умолчанию
 {
