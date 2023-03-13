@@ -3,10 +3,6 @@
 
 using namespace s21;
 
-Graph::Graph() : a_matrix(nullptr), a_matrix_size(0), weighted(false) // можно вообще не определять конструктор, если он не используется внутри класса и является приватным. Объявить нужно, чтобы не создался конструктор по умолчанию
-{
-}
-
 Graph::Graph(unsigned **matrix, size_t size) :
 		a_matrix(nullptr), a_matrix_size(0), weighted(false)
 {
@@ -30,7 +26,7 @@ void Graph::clearMatrix(unsigned **matrix, size_t rows)
 }
 
 Graph::Graph(const Graph &other) :
-a_matrix(nullptr), a_matrix_size(0), weighted(false) // неконстантные и нессылочные поля не обязательно здесь определять, они автоматически заполнятся значениями по умолчанию
+a_matrix(nullptr), a_matrix_size(0), weighted(false)
 {
 	set_a_matrix(other.a_matrix, other.a_matrix_size);
 }
@@ -47,7 +43,7 @@ size_t Graph::size() const
 	return this->a_matrix_size;
 }
 
-void Graph::set_a_matrix(unsigned **matrix, size_t size) // нет проверки на нулевую матрицу или я не нашла, также нужна проверка на то, что size не больше INT_MAX, это важно в алгоритмах
+void Graph::set_a_matrix(unsigned **matrix, size_t size)
 {
 	check_matrix(matrix, size);
 
@@ -109,7 +105,8 @@ std::string *generate_node_names(unsigned count)
 		if (i > 25)
 		{
 			s = {c, char(base_len + 48)};
-		} else
+		}
+		else
 		{
 			s = {c};
 		}
@@ -121,6 +118,9 @@ std::string *generate_node_names(unsigned count)
 
 void Graph::check_matrix(unsigned *const *matrix, size_t size)
 {
+	if (size > INT32_MAX || size == 0)
+		throw WrongMatrixException();
+
 	std::vector<bool> used;
 
 	int res = 0;
@@ -149,14 +149,8 @@ void Graph::check_matrix(unsigned *const *matrix, size_t size)
 		{
 			throw WrongMatrixException(); // можно в порядке низкого приоритета все ошибки оформить вот так
 		}
-
 	}
 }
-
-//void Graph::loadGraphFromFile(const std::string &filename)
-//{
-//	std::cout << filename;
-//}
 
 void Graph::exportGraphToDot(const std::string &filename)
 {
@@ -169,15 +163,23 @@ void Graph::exportGraphToDot(const std::string &filename)
 	}
 
 	ofs.open(filename);
-	if (! ofs.is_open()) // Разная обработка файлов в loadGraph и exportGraph, необходимо унифицировать
-	{
-		std::cerr << "Can't open file: " << filename << std::endl; // библиотека не должна печатать, только кидать ошибки
-	}
+	if (! ofs.is_open())
+		throw_cant_open_file(filename);
 	else
 	{
 		ofs << this;
 		ofs.close();
 	}
+}
+
+void Graph::throw_cant_open_file(const std::string &filename)
+{
+	std::string err_str;
+	std::stringstream ss;
+
+	ss << "Can't open file: " << filename;
+	ss >> err_str;
+	throw std::runtime_error{err_str};
 }
 
 std::string Graph::generateDotString()
@@ -209,13 +211,13 @@ std::string Graph::generateDotString()
 	return res.str();
 }
 
-std::ostream &operator<<(std::ostream &os, Graph *b) // почему работаем с указателем на граф, а не с объектом? А вдруг реально будет нужно указатель распечатать?
+std::ostream &operator<<(std::ostream &os, Graph &b) // почему работаем с указателем на граф, а не с объектом? А вдруг реально будет нужно указатель распечатать?
 {
-	os << b->generateDotString();
+	os << b.generateDotString();
 	return (os);
 }
 
-const char *Graph::WrongMatrixException::what() const noexcept // можно просто унаследоваться от runtime_error или другой ошибки, тогда переопределять what не нужно. Субъективно на мой взгляд элегантнее, просто как вариант
+const char *Graph::WrongMatrixException::what() const noexcept
 {
 	return "wrong matrix";
 }

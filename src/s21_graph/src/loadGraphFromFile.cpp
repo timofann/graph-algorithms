@@ -8,18 +8,18 @@ Graph Graph::loadGraphFromFile(const std::string &filename) {
     std::size_t size = 0;    
 	std::string str1;
     std::vector<unsigned> tmp;
-	
+
     inf.open(filename, std::ifstream::in);
 	if (!inf.is_open()){
-		throw std::runtime_error{"Incorrect file path"};
+		throw_cant_open_file(filename);
 	}
 	if (inf.eof() == true){
 		throw std::runtime_error{"Empty file"};
 	}
     inf >> size;
-   if (inf.fail() == true || size < 2) {
+	if (inf.fail() == true || size < 2) {
 		throw std::runtime_error{"Bad data on file"};
-   }
+	}
 	unsigned **array_num = new unsigned*[size];
     for (size_t i = 0; i < size; ++i)
     {

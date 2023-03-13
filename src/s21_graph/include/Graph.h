@@ -52,7 +52,8 @@ namespace s21 {
 
         static void check_matrix(unsigned int *const *matrix, size_t size); // const
 
-    };
+		static void throw_cant_open_file(const std::string &filename) ;
+	};
 
 } // namespace s21
 
