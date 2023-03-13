@@ -3,7 +3,7 @@
 using namespace s21;
 
 std::vector<std::vector<int>>
-GraphAlgorithms::getLeastSpanningTree(Graph &graph) {
+GraphAlgorithms::getLeastSpanningTree(const Graph &graph) {
 
   std::vector<std::vector<int>> tree = std::vector<std::vector<int>>(
       graph.size(), std::vector<int>(graph.size(), 0));

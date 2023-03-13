@@ -33,12 +33,12 @@ private:
     operator=(ConsoleInterfaceInstance &&other) = default;
     ~ConsoleInterfaceInstance() = default;
 
-    void bfs(int);
-    void dfs(int);
-    void dijkstra(int, int);
-    void floydwar();
-    void aco();
-    void save(const std::string &filename);
+    void bfs(int) const;
+    void dfs(int) const;
+    void dijkstra(int, int) const;
+    void floydwar() const;
+    void aco() const;
+    void save(const std::string &filename) const;
   };
 
 private:
@@ -51,7 +51,7 @@ private:
 
 public:
   static void start() noexcept;
-  static void start_menu() noexcept;
+  static void startMenu() noexcept;
   static void menu() noexcept;
   static void load() noexcept;
   static void list() noexcept;

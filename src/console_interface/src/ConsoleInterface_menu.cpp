@@ -38,25 +38,25 @@ You need to choose one and enter the number: "
 
 using namespace s21;
 
-static void run_arrows();
-static int validate_and_run_start_choice(std::string &);
-static int validate_and_run_choice(std::string &);
+static void runArrows();
+static int validateAndRunStartChoice(std::string &);
+static int validateAndRunChoice(std::string &);
 
 void ConsoleInterface::start() noexcept {
   system("clear");
   std::cout << BLUE << WELCOME_MESSAGE << NONE << std::endl;
-  run_arrows();
+  runArrows();
   while (!ConsoleInterface::instance_)
-    start_menu();
+    startMenu();
   while (true)
     menu();
 }
 
-void ConsoleInterface::start_menu() noexcept {
+void ConsoleInterface::startMenu() noexcept {
   std::cout << BLUE << START_MENU_MESSAGE << NONE;
   std::string choice;
   std::cin >> choice;
-  while (validate_and_run_start_choice(choice))
+  while (validateAndRunStartChoice(choice))
     input();
 }
 
@@ -66,12 +66,12 @@ void ConsoleInterface::menu() noexcept {
   std::cout << BLUE << MENU_MESSAGE << NONE;
   std::string choice;
   std::cin >> choice;
-  while (validate_and_run_choice(choice))
+  while (validateAndRunChoice(choice))
     input();
 }
 
-static int validate_and_run_start_choice(std::string &choice) {
-  run_arrows();
+static int validateAndRunStartChoice(std::string &choice) {
+  runArrows();
   if (!choice.compare("1")) {
     ConsoleInterface::list();
     return 0;
@@ -87,8 +87,8 @@ static int validate_and_run_start_choice(std::string &choice) {
   return 1;
 }
 
-static int validate_and_run_choice(std::string &choice) {
-  run_arrows();
+static int validateAndRunChoice(std::string &choice) {
+  runArrows();
   if (!choice.compare("1")) {
     ConsoleInterface::list();
     return 0;
@@ -128,7 +128,7 @@ static int validate_and_run_choice(std::string &choice) {
   return 1;
 }
 
-static void run_arrows() {
+static void runArrows() {
   for (int i = 0; i < 60; ++i) {
     write(0, BLUE, 8);
     for (int j = 0; j < i; ++j)

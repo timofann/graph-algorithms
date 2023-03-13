@@ -29,7 +29,7 @@ clean:
 	cd s21_graph; make clean
 	cd s21_graph_algorithms; make clean
 
-fclean:
+fclean: clean
 	cd s21_graph; make fclean
 	cd s21_graph_algorithms; make fclean
 	rm -f run_console_interface tests/test

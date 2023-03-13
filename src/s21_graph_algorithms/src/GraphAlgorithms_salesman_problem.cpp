@@ -15,7 +15,7 @@ struct Ant {
   double length;
 };
 
-static void restart_ants(std::vector<Ant> &ants) {
+static void restartAnts(std::vector<Ant> &ants) {
 
   for (int i = 0; i < (int)ants.size(); ++i) {
     ants[i].current_city = i % ANTS_NUM;
@@ -28,7 +28,7 @@ static void restart_ants(std::vector<Ant> &ants) {
 }
 
 static void
-init_pheromone_lvl(const Graph &graph,
+initPheromoneLvl(const Graph &graph,
                    std::vector<std::vector<double>> &pheromone_lvl) {
 
   for (int i = 0; i < (int)graph.size(); ++i)
@@ -37,7 +37,7 @@ init_pheromone_lvl(const Graph &graph,
         pheromone_lvl[i][j] = 1;
 }
 
-static std::vector<int> get_available_paths(const Graph &graph,
+static std::vector<int> getAvailablePaths(const Graph &graph,
                                             const Ant &ant) {
 
   std::vector<int> available_paths;
@@ -47,7 +47,7 @@ static std::vector<int> get_available_paths(const Graph &graph,
   return available_paths;
 }
 
-static int choose_path(const Graph &graph,
+static int choosePath(const Graph &graph,
                        const std::vector<std::vector<double>> &pheromone_lvl,
                        const std::vector<int> &available_paths,
                        const Ant &ant) {
@@ -77,7 +77,7 @@ static int choose_path(const Graph &graph,
 }
 
 static int
-choose_elite_path(const Graph &graph,
+chooseElitePath(const Graph &graph,
                   const std::vector<std::vector<double>> &pheromone_lvl,
                   const std::vector<int> &available_paths, const Ant &ant) {
 
@@ -94,7 +94,7 @@ choose_elite_path(const Graph &graph,
   return available_paths[max_index];
 }
 
-static void update_ant(const Graph &graph, Ant &ant, int path) {
+static void updateAnt(const Graph &graph, Ant &ant, int path) {
 
   ant.length += (double)graph[ant.current_city][path];
   ant.traversed.push_back(path);
@@ -103,7 +103,7 @@ static void update_ant(const Graph &graph, Ant &ant, int path) {
 }
 
 static void
-update_pheromone_lvl_rho(const Graph &graph,
+updatePheromoneLvlRho(const Graph &graph,
                          std::vector<std::vector<double>> &pheromone_lvl) {
 
   for (int i = 0; i < (int)graph.size(); ++i)
@@ -111,7 +111,7 @@ update_pheromone_lvl_rho(const Graph &graph,
       pheromone_lvl[i][j] *= (1.0 - RHO);
 }
 
-static void finish_path(const Graph &graph, Ant &ant) {
+static void finishPath(const Graph &graph, Ant &ant) {
 
   if (graph[ant.traversed.back()][ant.traversed.front()]) {
     ant.length += (double)graph[ant.traversed.back()][ant.traversed.front()];
@@ -120,7 +120,7 @@ static void finish_path(const Graph &graph, Ant &ant) {
 }
 
 static void
-update_pheromone_lvl_ant(const Graph &graph, const Ant &ant,
+updatePheromoneLvlAnt(const Graph &graph, const Ant &ant,
                          std::vector<std::vector<double>> &pheromone_lvl) {
 
   double delta;
@@ -133,46 +133,45 @@ update_pheromone_lvl_ant(const Graph &graph, const Ant &ant,
   }
 }
 
-static void run_ants(const Graph &graph, std::vector<Ant> &ants,
+static void runAnts(const Graph &graph, std::vector<Ant> &ants,
                      std::vector<std::vector<double>> &pheromone_lvl) {
 
   std::vector<int> available_paths;
   int path;
 
-  update_pheromone_lvl_rho(graph, pheromone_lvl);
-  restart_ants(ants);
+  restartAnts(ants);
   for (auto ant = ants.begin(); ant != ants.end(); ant++) {
-    available_paths = get_available_paths(graph, *ant);
+    available_paths = getAvailablePaths(graph, *ant);
     while (available_paths.size() > 0) {
-      path = choose_path(graph, pheromone_lvl, available_paths, *ant);
-      update_ant(graph, *ant, path);
-      available_paths = get_available_paths(graph, *ant);
+      path = choosePath(graph, pheromone_lvl, available_paths, *ant);
+      updateAnt(graph, *ant, path);
+      available_paths = getAvailablePaths(graph, *ant);
     }
-    finish_path(graph, *ant);
-    update_pheromone_lvl_ant(graph, *ant, pheromone_lvl);
+    finishPath(graph, *ant);
+    updatePheromoneLvlAnt(graph, *ant, pheromone_lvl);
   }
 }
 
-static void run_elite_ants(const Graph &graph, std::vector<Ant> &ants,
+static void runEliteAnts(const Graph &graph, std::vector<Ant> &ants,
                            std::vector<std::vector<double>> &pheromone_lvl) {
 
   std::vector<int> available_paths;
   int path;
 
-  restart_ants(ants);
+  restartAnts(ants);
   for (auto ant = ants.begin(); ant != ants.end(); ant++) {
-    available_paths = get_available_paths(graph, *ant);
+    available_paths = getAvailablePaths(graph, *ant);
     while (available_paths.size() > 0) {
-      path = choose_elite_path(graph, pheromone_lvl, available_paths, *ant);
-      update_ant(graph, *ant, path);
-      available_paths = get_available_paths(graph, *ant);
+      path = chooseElitePath(graph, pheromone_lvl, available_paths, *ant);
+      updateAnt(graph, *ant, path);
+      available_paths = getAvailablePaths(graph, *ant);
     }
-    finish_path(graph, *ant);
-    update_pheromone_lvl_ant(graph, *ant, pheromone_lvl);
+    finishPath(graph, *ant);
+    updatePheromoneLvlAnt(graph, *ant, pheromone_lvl);
   }
 }
 
-void find_best_ant(const Graph &graph, std::vector<Ant> &ants, Ant **best_ant) {
+void findBestAnt(const Graph &graph, std::vector<Ant> &ants, Ant **best_ant) {
 
   for (auto ant = ants.begin(); ant != ants.end(); ++ant) {
     if (ant->traversed.size() == graph.size() + 1 &&
@@ -185,7 +184,7 @@ void find_best_ant(const Graph &graph, std::vector<Ant> &ants, Ant **best_ant) {
   }
 }
 
-static GraphAlgorithms::TsmResult collect_path(Ant *best_ant) {
+static GraphAlgorithms::TsmResult collectPath(Ant *best_ant) {
 
   if (best_ant == NULL)
     throw GraphAlgorithms::NoSolution("Ants couldn't find the shortest path");
@@ -196,7 +195,7 @@ static GraphAlgorithms::TsmResult collect_path(Ant *best_ant) {
 }
 
 GraphAlgorithms::TsmResult
-GraphAlgorithms::solveTravelingSalesmanProblem(Graph &graph) {
+GraphAlgorithms::solveTravelingSalesmanProblem(const Graph &graph) {
 
   std::vector<Ant> ants =
       std::vector<Ant>(graph.size(), Ant{std::vector<bool>(graph.size(), false),
@@ -206,12 +205,13 @@ GraphAlgorithms::solveTravelingSalesmanProblem(Graph &graph) {
                                        std::vector<double>(graph.size(), 0.0));
 
   Ant *best_ant = NULL;
-  init_pheromone_lvl(graph, pheromone_lvl);
+  initPheromoneLvl(graph, pheromone_lvl);
   for (int iter = 0; iter < ANTS_NUM / 2; ++iter) {
-    run_ants(graph, ants, pheromone_lvl);
-    find_best_ant(graph, ants, &best_ant);
-    run_elite_ants(graph, ants, pheromone_lvl);
-    find_best_ant(graph, ants, &best_ant);
+    updatePheromoneLvlRho(graph, pheromone_lvl);
+    runAnts(graph, ants, pheromone_lvl);
+    findBestAnt(graph, ants, &best_ant);
+    runEliteAnts(graph, ants, pheromone_lvl);
+    findBestAnt(graph, ants, &best_ant);
   }
-  return collect_path(best_ant);
+  return collectPath(best_ant);
 }

@@ -8,9 +8,9 @@ ConsoleInterface::ConsoleInterfaceInstance *ConsoleInterface::instance_ = NULL;
 
 void ConsoleInterface::load() noexcept {
   std::cout << GREY << "Choose a file to load the graph from: " << NONE;
+  try {
   std::string filename;
   std::cin >> filename;
-  try {
     if (!ConsoleInterface::instance_)
       ConsoleInterface::instance_ = new ConsoleInterfaceInstance(filename);
     else if (ConsoleInterface::instance_->filename_ != filename)
@@ -39,11 +39,11 @@ void ConsoleInterface::bfs() noexcept {
   else {
     std::cout << GREY << "This algorithm goes throw all the vertices." << NONE
               << std::endl;
-    std::string input;
-    std::cout << GREY << "Enter the start vertex number [1 - "
-              << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
-    std::cin >> input;
     try {
+      std::string input;
+      std::cout << GREY << "Enter the start vertex number [1 - "
+                << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
+      std::cin >> input;
       ConsoleInterface::instance_->bfs(std::stoi(input));
     } catch (std::exception &e) {
       std::cout << std::endl
@@ -58,11 +58,11 @@ void ConsoleInterface::dfs() noexcept {
   else {
     std::cout << GREY << "This algorithm goes throw all the vertices." << NONE
               << std::endl;
-    std::string input;
-    std::cout << GREY << "Enter the start vertex number [1 - "
-              << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
-    std::cin >> input;
     try {
+      std::string input;
+      std::cout << GREY << "Enter the start vertex number [1 - "
+                << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
+      std::cin >> input;
       ConsoleInterface::instance_->dfs(std::stoi(input));
     } catch (std::exception &e) {
       std::cout << std::endl
@@ -77,15 +77,15 @@ void ConsoleInterface::dijkstra() noexcept {
   else {
     std::cout << GREY << "This algorithm finds the path between two vertices."
               << NONE << std::endl;
-    std::string input1;
-    std::string input2;
-    std::cout << GREY << "Enter the first vertex number [1 - "
-              << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
-    std::cin >> input1;
-    std::cout << GREY << "Enter the second vertex number [1 - "
-              << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
-    std::cin >> input2;
     try {
+      std::string input1;
+      std::string input2;
+      std::cout << GREY << "Enter the first vertex number [1 - "
+                << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
+      std::cin >> input1;
+      std::cout << GREY << "Enter the second vertex number [1 - "
+                << ConsoleInterface::instance_->graph_.size() << "]: " << NONE;
+      std::cin >> input2;
       ConsoleInterface::instance_->dijkstra(std::stoi(input1),
                                             std::stoi(input2));
     } catch (std::exception &e) {
@@ -101,7 +101,12 @@ void ConsoleInterface::floydwar() noexcept {
   else {
     std::cout << GREY << "This algorithm finds paths between all vertices."
               << NONE << std::endl;
-    ConsoleInterface::instance_->floydwar();
+    try {
+      ConsoleInterface::instance_->floydwar();
+    } catch (std::exception &e) {
+      std::cout << std::endl
+                << GREY << "Stop: " << e.what() << NONE << std::endl;
+    }
   }
 }
 
@@ -128,9 +133,9 @@ void ConsoleInterface::save() noexcept {
               << "Choose a file to save the graph to (it should have extention "
                  ".gv or .dot): "
               << NONE;
-    std::string filename;
-    std::cin >> filename;
     try {
+      std::string filename;
+      std::cin >> filename;
       ConsoleInterface::instance_->save(filename);
     } catch (std::exception &e) {
       std::cout << std::endl

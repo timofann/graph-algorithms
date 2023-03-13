@@ -24,7 +24,7 @@ namespace s21 {
 
         static Graph loadGraphFromFile(const std::string &filename);
 
-        void exportGraphToDot(const std::string &filename); // const
+        void exportGraphToDot(const std::string &filename) const; // const
 
         [[nodiscard]] size_t size() const; //noexcept
         std::string generateDotString(); // const

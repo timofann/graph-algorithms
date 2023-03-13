@@ -7,7 +7,7 @@ ConsoleInterface::ConsoleInterfaceInstance::ConsoleInterfaceInstance(
     : graph_(Graph::loadGraphFromFile(GRAPHS_DST + filename)),
       filename_(filename) {}
 
-void ConsoleInterface::ConsoleInterfaceInstance::bfs(int v) {
+void ConsoleInterface::ConsoleInterfaceInstance::bfs(int v) const {
   std::vector<int> a = s21::GraphAlgorithms::breadthFirstSearch(graph_, v);
   std::cout << std::endl << "> > > > RESULT" << std::endl;
   for (std::size_t i = 0; i < a.size() - 1; i++)
@@ -15,7 +15,7 @@ void ConsoleInterface::ConsoleInterfaceInstance::bfs(int v) {
   std::cout << a.back() << std::endl;
 }
 
-void ConsoleInterface::ConsoleInterfaceInstance::dfs(int v) {
+void ConsoleInterface::ConsoleInterfaceInstance::dfs(int v) const {
   std::vector<int> a = s21::GraphAlgorithms::breadthFirstSearch(graph_, v);
   std::cout << std::endl << "> > > > RESULT" << std::endl;
   for (std::size_t i = 0; i < a.size() - 1; i++)
@@ -23,7 +23,7 @@ void ConsoleInterface::ConsoleInterfaceInstance::dfs(int v) {
   std::cout << a.back() << std::endl;
 }
 
-void ConsoleInterface::ConsoleInterfaceInstance::dijkstra(int v1, int v2) {
+void ConsoleInterface::ConsoleInterfaceInstance::dijkstra(int v1, int v2) const {
   std::vector<int> a =
       GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph_, v1, v2);
   std::size_t b =
@@ -34,7 +34,7 @@ void ConsoleInterface::ConsoleInterfaceInstance::dijkstra(int v1, int v2) {
   std::cout << a.back() << " | distance: " << b << std::endl;
 }
 
-void ConsoleInterface::ConsoleInterfaceInstance::floydwar() {
+void ConsoleInterface::ConsoleInterfaceInstance::floydwar() const {
   std::vector<std::vector<double>> a =
       GraphAlgorithms::getShortestPathsBetweenAllVertices(graph_);
   std::cout << std::endl << "> > > > RESULT" << std::endl << std::endl;
@@ -54,7 +54,7 @@ void ConsoleInterface::ConsoleInterfaceInstance::floydwar() {
   }
 }
 
-void ConsoleInterface::ConsoleInterfaceInstance::aco() {
+void ConsoleInterface::ConsoleInterfaceInstance::aco() const {
   GraphAlgorithms::TsmResult a =
       GraphAlgorithms::solveTravelingSalesmanProblem(graph_);
   std::cout << std::endl << "> > > > RESULT" << std::endl;
@@ -64,7 +64,7 @@ void ConsoleInterface::ConsoleInterfaceInstance::aco() {
 }
 
 void ConsoleInterface::ConsoleInterfaceInstance::save(
-    const std::string &filename) {
+    const std::string &filename) const {
   graph_.exportGraphToDot(filename);
   std::cout << std::endl
             << GREY << "Graph saved to file " << NONE << filename << std::endl;
