@@ -1,5 +1,7 @@
 #include "../include/Graph.h"
 #include <filesystem>
+#include <climits>
+
 
 using namespace s21;
 
@@ -11,13 +13,14 @@ Graph::Graph(unsigned **matrix, size_t size) :
 
 Graph::~Graph()
 {
-	for (unsigned i = 0; i < a_matrix_size; ++i)
-		delete[] a_matrix[i];
-	delete[] a_matrix;
+//	for (unsigned i = 0; i < a_matrix_size; ++i)
+//		delete a_matrix[i];
+//	delete[] a_matrix;
+    Graph::clearMatrix(a_matrix, a_matrix_size);
 }
 
 /*loadGraphFromFile*/
-void Graph::clearMatrix(unsigned **matrix, size_t rows)
+void Graph::clearMatrix(unsigned **matrix, size_t rows) noexcept
 {
 	if (matrix != nullptr) {
 		for (size_t i = 0; i < rows; i++) {
@@ -28,17 +31,41 @@ void Graph::clearMatrix(unsigned **matrix, size_t rows)
 Graph::Graph(const Graph &other) :
 a_matrix(nullptr), a_matrix_size(0), weighted(false)
 {
-	set_a_matrix(other.a_matrix, other.a_matrix_size);
+//	set_a_matrix(other.a_matrix, other.a_matrix_size);
+    *this = other;
+}
+
+Graph::Graph(Graph&& other) : a_matrix(nullptr) , a_matrix_size(0), weighted(false)
+{
+    *this = std::move(other);
+}
+
+Graph& Graph::operator=(Graph&& other)
+{
+    if (other.a_matrix == nullptr || other.a_matrix_size == 0) {
+        throw Graph::WrongMatrixException("You are trying to move Graph that has already moved.");
+    }
+    if (this != &other) {
+        Graph::clearMatrix(a_matrix, a_matrix_size);
+        a_matrix = other.a_matrix;
+        a_matrix_size = other.a_matrix_size;
+        other.a_matrix = nullptr;
+        other.a_matrix_size = 0;
+    }
+    return *this;
 }
 
 Graph &Graph::operator=(const Graph &other)
 {
-	if (&other != this)
-		set_a_matrix(other.a_matrix, other.a_matrix_size);
-	return *this;
+  if (other.a_matrix == nullptr || other.a_matrix_size == 0) {
+      throw Graph::WrongMatrixException("You are trying to copy Graph that has been moved.");
+  }
+  if (&other != this)
+  	set_a_matrix(other.a_matrix, other.a_matrix_size);
+  return *this;
 } // по правилу 5 нужно ещё 2 конструктора
 
-size_t Graph::size() const
+size_t Graph::size() const noexcept
 {
 	return this->a_matrix_size;
 }
@@ -88,7 +115,7 @@ void dfs(unsigned start, unsigned *const *matrix, std::vector<bool> *used,
 	}
 }
 
-std::string *generate_node_names(unsigned count)
+std::string *generate_node_names(unsigned count) noexcept
 {
 	auto names = new std::string[count];
 	int base_len = -2;
@@ -118,8 +145,15 @@ std::string *generate_node_names(unsigned count)
 
 void Graph::check_matrix(unsigned *const *matrix, size_t size)
 {
-	if (size > INT32_MAX || size == 0)
-		throw WrongMatrixException();
+    if (matrix == nullptr) { // я думаю, что эти проверки необходимо вынести в конструктор, потому что эти ошибки не могут возникнуть никак, если только вручную не задать неправильные параметры в конструкторе. Они нужны только в одном месте и вызывать их каждый раз вроде бессмысленно
+        throw Graph::WrongMatrixException("Can't set matrix with NULL matrix pointer.");
+    }
+    if (size < 2) {
+        throw Graph::WrongMatrixException("Can't set matrix with no edges.");
+    }
+    if (size >= INT32_MAX) {
+        throw Graph::TooLargeGraph();
+    }
 
 	std::vector<bool> used;
 
@@ -133,10 +167,10 @@ void Graph::check_matrix(unsigned *const *matrix, size_t size)
 		for (unsigned j = 0; j < size; ++j)
 		{
 			if (matrix[i][j] != matrix[j][i])
-				throw WrongMatrixException();
+				throw WrongMatrixException("Directed graphs are not supported.");
 			cons += matrix[i][j];
 		}
-		if (cons == 0)
+		if (cons == 0) // size == 0? Вызывается ли в каких-либо случаях?
 		{
 			throw WrongMatrixException();
 		}
@@ -147,7 +181,7 @@ void Graph::check_matrix(unsigned *const *matrix, size_t size)
 		}
 		if (res > 1)
 		{
-			throw WrongMatrixException(); // можно в порядке низкого приоритета все ошибки оформить вот так
+			throw WrongMatrixException("Graph is not connected.");
 		}
 	}
 }
@@ -167,7 +201,7 @@ void Graph::exportGraphToDot(const std::string &filename) const
 		throw_cant_open_file(filename);
 	else
 	{
-		ofs << this;
+		ofs << *this;
 		ofs.close();
 	}
 }
@@ -179,10 +213,10 @@ void Graph::throw_cant_open_file(const std::string &filename)
 
 	ss << "Can't open file: " << filename;
 	ss >> err_str;
-	throw std::runtime_error{err_str};
+	throw Graph::CantOpenFile(err_str);
 }
 
-std::string Graph::generateDotString()
+std::string Graph::generateDotString() const noexcept
 {
 	std::stringstream res;
 	std::string pp_ident = "    ";
@@ -211,17 +245,22 @@ std::string Graph::generateDotString()
 	return res.str();
 }
 
-std::ostream &operator<<(std::ostream &os, Graph &b) // почему работаем с указателем на граф, а не с объектом? А вдруг реально будет нужно указатель распечатать?
+std::ostream &operator<<(std::ostream &os, const Graph &b)
 {
 	os << b.generateDotString();
 	return (os);
 }
 
-const char *Graph::WrongMatrixException::what() const noexcept
-{
-	return "wrong matrix";
-}
+//const char *Graph::WrongMatrixException::what() const noexcept
+//{
+//	return "wrong matrix";
+//}
 
-const unsigned *Graph::operator[](size_t row) const { // нужно проверить за мной этот метод, потому что его я просто накидала, чтобы работало
+const unsigned *Graph::operator[](size_t row) const {
     return this->a_matrix[row];
 }
+
+Graph::GraphException::GraphException(const std::string &arg) : std::runtime_error(arg) {}
+Graph::WrongMatrixException::WrongMatrixException(const std::string &arg) : Graph::GraphException(arg) {}
+Graph::TooLargeGraph::TooLargeGraph() : Graph::GraphException("Number of vertices should be less. Can't set large graph.") {}
+Graph::CantOpenFile::CantOpenFile(const std::string &arg) : Graph::GraphException(arg) {}

@@ -8,16 +8,16 @@
 /* --------------------------------------------------- GraphMatrixConstructor */
 
 TEST(GraphMatrixConstructor, NullZeroThrowsException) {
-  EXPECT_ANY_THROW(s21::Graph graph(NULL, 0));
+  EXPECT_THROW(s21::Graph graph(NULL, 0), s21::Graph::WrongMatrixException);
 }
 
-// TEST(GraphMatrixConstructor, NullNonZeroThrowsException) {
-//     EXPECT_ANY_THROW(s21::Graph graph(NULL, 3));
-// } segmentation
+TEST(GraphMatrixConstructor, NullNonZeroThrowsException) {
+    EXPECT_THROW(s21::Graph graph(NULL, 3), s21::Graph::WrongMatrixException);
+}
 
 TEST(GraphMatrixConstructor, NonNullZeroThrowException) {
   unsigned **matrix = new unsigned *[0];
-  EXPECT_ANY_THROW(s21::Graph graph(matrix, 0));
+  EXPECT_THROW(s21::Graph graph(matrix, 0), s21::Graph::WrongMatrixException);
   delete[] matrix;
 }
 
@@ -26,39 +26,41 @@ TEST(GraphMatrixConstructor,
   unsigned **matrix = new unsigned *[1] {
     new unsigned[1] { 0 }
   };
-  EXPECT_ANY_THROW(s21::Graph graph(matrix, 1));
+  EXPECT_THROW(s21::Graph graph(matrix, 1), s21::Graph::WrongMatrixException);
   delete matrix[0];
   delete[] matrix;
 }
 
-// TEST(GraphMatrixConstructor, NullElementaryThrowsException) {
-//     EXPECT_ANY_THROW(s21::Graph graph(NULL, 1));
-// } segmentation
+TEST(GraphMatrixConstructor, NullElementaryThrowsException) {
+    EXPECT_THROW(s21::Graph graph(NULL, 1), s21::Graph::WrongMatrixException);
+}
 
-// TEST(GraphMatrixConstructor, LargeSize) {
-//     unsigned **matrix = new unsigned *[0];
-//     EXPECT_ANY_THROW(s21::Graph graph(matrix, INT_MAX));
-//     EXPECT_ANY_THROW(s21::Graph graph(matrix, (unsigned)INT_MAX + 1u));
-//     EXPECT_ANY_THROW(s21::Graph graph(matrix, (unsigned)INT_MAX + 10u));
-//     delete [] matrix;
-// }
+ TEST(GraphMatrixConstructor, LargeSize) {
+     unsigned **matrix = new unsigned *[0];
+     EXPECT_THROW(s21::Graph graph(matrix, INT_MAX), s21::Graph::TooLargeGraph);
+     EXPECT_THROW(s21::Graph graph(matrix, (unsigned)INT_MAX + 1u), s21::Graph::TooLargeGraph);
+     EXPECT_THROW(s21::Graph graph(matrix, (unsigned)INT_MAX + 10u), s21::Graph::TooLargeGraph);
+     delete [] matrix;
+ }
 
 /* --------------------------------------------------- GraphMatrixConstructor */
 
 /* ----------------------------------------------------- GraphCopyConstructor */
 
-TEST(GraphCopyConstructor, CopyConstructorDoesRightCopy) {
+TEST(GraphCopyConstructor, DoesRightCopy) {
   unsigned **matrix = new unsigned *[2] {
     new unsigned[2]{0, 1}, new unsigned[2] { 1, 0 }
   };
   s21::Graph graph(matrix, 2);
-  EXPECT_EQ(graph.size(), 2);
+  s21::Graph graph2(graph);
+  EXPECT_EQ(graph2.size(), 2);
   for (int i = 0; i < 2; ++i) {
     for (int j = 0; j < 2; ++j)
-      EXPECT_EQ(matrix[i][j], graph[i][j]);
+      EXPECT_EQ(matrix[i][j], graph2[i][j]);
     delete matrix[i];
   }
   delete[] matrix;
+  EXPECT_EQ(graph.size(), 2);
 }
 
 TEST(GraphCopyConstructor, ReallocatesMemory) {
@@ -76,20 +78,61 @@ TEST(GraphCopyConstructor, ReallocatesMemory) {
 
 /* ------------------------------------------------------GraphCopyConstructor */
 
-/* ------------------------------------------------------ GraphCopyAssignment */
+/* ----------------------------------------------------- GraphMoveConstructor */
 
-TEST(GraphCopyAssignment, DoesRightCopy) {
+TEST(GraphMoveConstructor, DoesRightMove) {
   unsigned **matrix = new unsigned *[2] {
     new unsigned[2]{0, 1}, new unsigned[2] { 1, 0 }
   };
   s21::Graph graph(matrix, 2);
-  s21::Graph graph2(graph);
-  EXPECT_EQ(graph.size(), graph2.size());
+  s21::Graph graph2(std::move(graph));
+  EXPECT_EQ(graph2.size(), 2);
   for (int i = 0; i < 2; ++i) {
     for (int j = 0; j < 2; ++j)
-      EXPECT_EQ(graph2[i][j], graph[i][j]);
+      EXPECT_EQ(matrix[i][j], graph2[i][j]);
     delete matrix[i];
   }
+  delete[] matrix;
+  EXPECT_EQ(graph.size(), 0);
+}
+
+TEST(GraphMoveConstructor, DoesNotReallocateMemory) {
+  unsigned **matrix = new unsigned *[2] {
+    new unsigned[2]{0, 1}, new unsigned[2] { 1, 0 }
+  };
+  s21::Graph graph(matrix, 2);
+  const unsigned *old_ptr_matrix = graph[0];
+  s21::Graph graph2(std::move(graph));
+  const unsigned *new_ptr_matrix = graph2[0];
+  EXPECT_EQ(old_ptr_matrix, new_ptr_matrix);
+  for (int i = 0; i < 2; ++i)
+    delete matrix[i];
+  delete[] matrix;
+}
+
+/* ------------------------------------------------------GraphMoveConstructor */
+
+/* ------------------------------------------------------ GraphCopyAssignment */
+
+TEST(GraphCopyAssignment, DoesRightCopy) {
+  unsigned **matrix = new unsigned *[2] {
+    new unsigned[2]{0, 1}, new unsigned[2]{ 1, 0 }
+  };
+  unsigned **matrix2 = new unsigned *[3] {new unsigned[3] { 0, 2, 0 },
+        new unsigned[3] { 2, 0, 1 }, new unsigned[3] { 0, 1, 0 }
+  };
+  s21::Graph graph(matrix, 2);
+  s21::Graph graph2(matrix2, 3);
+  graph = graph2;
+  EXPECT_EQ(graph.size(), graph2.size());
+  for (int i = 0; i < 3; ++i) {
+    for (int j = 0; j < 3; ++j)
+      EXPECT_EQ(graph2[i][j], graph[i][j]);
+    delete matrix2[i];
+  }
+  delete[] matrix2;
+  for (int i = 0; i < 2; ++i)
+    delete matrix[i];
   delete[] matrix;
 }
 
@@ -97,10 +140,17 @@ TEST(GraphCopyAssignment, ReallocatesMemory) {
   unsigned **matrix = new unsigned *[2] {
     new unsigned[2]{0, 1}, new unsigned[2] { 1, 0 }
   };
+  unsigned **matrix2 = new unsigned *[3] {new unsigned[3] { 0, 2, 0 },
+        new unsigned[3] { 2, 0, 1 }, new unsigned[3] { 0, 1, 0 }
+  };
   s21::Graph graph(matrix, 2);
-  s21::Graph graph2(graph);
+  s21::Graph graph2(matrix2, 3);
+  graph = graph2;
   EXPECT_NE(&graph, &graph2);
   EXPECT_NE(graph[0], graph2[0]);
+  for (int i = 0; i < 3; ++i)
+    delete matrix2[i];
+  delete[] matrix2;
   for (int i = 0; i < 2; ++i)
     delete matrix[i];
   delete[] matrix;
@@ -122,6 +172,69 @@ TEST(GraphCopyAssignment, SelfAssignmentDoesNotReallocateMemory) {
 }
 
 /* ------------------------------------------------------ GraphCopyAssignment */
+
+/* ------------------------------------------------------ GraphMoveAssignment */
+
+TEST(GraphMoveAssignment, DoesRightMove) {
+  unsigned **matrix = new unsigned *[2] {
+    new unsigned[2]{0, 1}, new unsigned[2]{ 1, 0 }
+  };
+  unsigned **matrix2 = new unsigned *[3] {new unsigned[3] { 0, 2, 0 },
+        new unsigned[3] { 2, 0, 1 }, new unsigned[3] { 0, 1, 0 }
+  };
+  s21::Graph graph(matrix, 2);
+  s21::Graph graph2(matrix2, 3);
+  graph = std::move(graph2);
+  EXPECT_EQ(graph.size(), 3);
+  EXPECT_EQ(graph2.size(), 0);
+  for (int i = 0; i < 3; ++i) {
+    for (int j = 0; j < 3; ++j)
+      EXPECT_EQ(graph[i][j], matrix2[i][j]);
+    delete matrix2[i];
+  }
+  delete[] matrix2;
+  for (int i = 0; i < 2; ++i)
+    delete matrix[i];
+  delete[] matrix;
+}
+
+TEST(GraphMoveAssignment, DoesNotReallocateMemory) {
+  unsigned **matrix = new unsigned *[2] {
+    new unsigned[2]{0, 1}, new unsigned[2] { 1, 0 }
+  };
+  unsigned **matrix2 = new unsigned *[3] {new unsigned[3] { 0, 2, 0 },
+        new unsigned[3] { 2, 0, 1 }, new unsigned[3] { 0, 1, 0 }
+  };
+  s21::Graph graph(matrix, 2);
+  s21::Graph graph2(matrix2, 3);
+  const unsigned *old_ptr_matrix = graph2[0];
+  graph = std::move(graph2);
+  const unsigned *new_ptr_matrix = graph[0];
+  EXPECT_EQ(old_ptr_matrix, new_ptr_matrix);
+  for (int i = 0; i < 3; ++i)
+    delete matrix2[i];
+  delete[] matrix2;
+  for (int i = 0; i < 2; ++i)
+    delete matrix[i];
+  delete[] matrix;
+}
+
+TEST(GraphMoveAssignment, SelfAssignmentDoesNotReallocateMemory) {
+  unsigned **matrix = new unsigned *[2] {
+    new unsigned[2]{0, 1}, new unsigned[2] { 1, 0 }
+  };
+  s21::Graph graph(matrix, 2);
+  s21::Graph *old_ptr_graph = &graph;
+  graph = std::move(graph);
+  s21::Graph *new_ptr_graph = &graph;
+  for (int i = 0; i < 2; ++i)
+    delete matrix[i];
+  delete[] matrix;
+  EXPECT_EQ(old_ptr_graph, new_ptr_graph);
+  EXPECT_EQ((*old_ptr_graph)[0], (*new_ptr_graph)[0]);
+}
+
+/* ------------------------------------------------------ GraphMoveAssignment */
 
 /* -------------------------------------------------------- loadGraphFromFile */
 

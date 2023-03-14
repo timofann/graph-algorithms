@@ -14,25 +14,43 @@ namespace s21 {
     class Graph
     {
     public:
-        Graph(unsigned **matrix, size_t size); //explicit
+        explicit Graph(unsigned **matrix, size_t size);
 
         Graph(const Graph &other);
+        Graph(Graph &&other);
 
         ~Graph(); // правило пяти
 
         Graph &operator=(const Graph &other);
+        Graph &operator=(Graph &&other);
 
         static Graph loadGraphFromFile(const std::string &filename);
 
-        void exportGraphToDot(const std::string &filename) const; // const
+        void exportGraphToDot(const std::string &filename) const;
 
-        [[nodiscard]] size_t size() const; //noexcept
-        std::string generateDotString(); // const
+        [[nodiscard]] size_t size() const noexcept;
+        std::string generateDotString() const noexcept;
 
-        class WrongMatrixException : public std::exception
-        {
-        public:
-            [[nodiscard]] const char *what() const noexcept override;
+//        class WrongMatrixException : public std::exception
+//        {
+//        public:
+//            [[nodiscard]] const char *what() const noexcept override;
+//        };
+
+        struct GraphException : std::runtime_error {
+            explicit GraphException(const std::string &arg);
+        };
+
+        struct WrongMatrixException : GraphException {
+            explicit WrongMatrixException(const std::string &arg = "Wrong matrix.");
+        };
+
+        struct TooLargeGraph : GraphException {
+            explicit TooLargeGraph();
+        };
+
+        struct CantOpenFile : GraphException {
+            explicit CantOpenFile(const std::string &filename);
         };
 
         const unsigned *operator[](size_t) const;
@@ -47,16 +65,16 @@ namespace s21 {
         void set_a_matrix(unsigned **matrix, size_t size);
         
         /*loadGraphFromFile*/
-        void clearMatrix(unsigned **matrix, size_t rows);
+        void clearMatrix(unsigned **matrix, size_t rows) noexcept;
         /*loadGraphFromFile*/
 
-        static void check_matrix(unsigned int *const *matrix, size_t size); // const
+        static void check_matrix(unsigned int *const *matrix, size_t size);
 
-		static void throw_cant_open_file(const std::string &filename) ;
+		static void throw_cant_open_file(const std::string &filename);
 	};
 
 } // namespace s21
 
-std::ostream &operator<<(std::ostream &o, s21::Graph *a);
+std::ostream &operator<<(std::ostream &o, const s21::Graph &a);
 
 #endif
