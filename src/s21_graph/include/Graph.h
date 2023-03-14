@@ -41,7 +41,7 @@ public:
   };
 
   struct CantOpenFile : GraphException {
-    explicit CantOpenFile(const std::string &arg);
+    explicit CantOpenFile(const std::string &filename);
   };
 
   const unsigned *operator[](std::size_t) const;
@@ -58,8 +58,6 @@ private:
   static void clearMatrix(unsigned **matrix, std::size_t rows) noexcept;
 
   static void checkMatrix(unsigned int *const *matrix, std::size_t size);
-
-  static void throwCantOpenFile(const std::string &filename);
 };
 
 } // namespace s21

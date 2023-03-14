@@ -9,7 +9,7 @@ Graph Graph::loadGraphFromFile(const std::string &filename) {
 
   inf.open(filename, std::ifstream::in);
   if (!inf.is_open()) {
-    throwCantOpenFile(filename);
+    throw Graph::CantOpenFile(filename);
   }
   if (inf.eof() == true) {
     throw std::runtime_error{"Empty file"};
@@ -23,6 +23,7 @@ Graph Graph::loadGraphFromFile(const std::string &filename) {
     tmp.clear();
     for (std::size_t j = 0; j < size; ++j) {
       if (inf.peek() == std::ifstream::traits_type::eof()) {
+        Graph::clearMatrix(array_num, i);
         throw s21::Graph::WrongMatrixException("Incorrect row length in file.");
       }
       unsigned tmp_arr;

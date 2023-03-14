@@ -16,7 +16,8 @@ void ConsoleInterface::load() noexcept {
     else if (ConsoleInterface::instance_->filename_ != filename)
       *(ConsoleInterface::instance_) = ConsoleInterfaceInstance(filename);
   } catch (std::exception &e) {
-    std::cout << GREY << "Can't set a new graph: " << e.what() << GREY
+    std::cout << std::endl
+              << GREY << "Can't set a new graph: " << e.what() << GREY
               << std::endl;
   }
 }

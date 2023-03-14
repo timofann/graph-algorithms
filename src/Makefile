@@ -1,5 +1,6 @@
-.PHONY: test all s21_graph.a s21_graph_algorithms.a fclean re norminette
+.PHONY: test all s21_graph.a s21_graph_algorithms.a fclean re norminette run
 
+NAME = run_console_interface
 CC = g++
 CCFLAGS = -std=c++17 -Wall -Werror -Wextra
 SRC_FILES = ConsoleInterface.cpp ConsoleInterface_menu.cpp ConsoleInterfaceInstance.cpp
@@ -14,8 +15,12 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CCFLAGS) -Iconsole_interface/include -c $< -o $@
 
-all: s21_graph.a s21_graph_algorithms.a $(OBJS) console_interface/include/ConsoleInterface.h
+all: $(NAME)
+
+$(NAME) : s21_graph.a s21_graph_algorithms.a $(OBJS) console_interface/include/ConsoleInterface.h
 	$(CC) $(CCFLAGS) main.cpp $(OBJS) -Iconsole_interface/include s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a -o run_console_interface
+
+run : run_console_interface
 	./run_console_interface
 
 s21_graph.a:

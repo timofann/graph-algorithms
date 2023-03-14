@@ -12,9 +12,9 @@ OBJ			= $(addprefix $(OBJ_DIR), $(OBJ_FILES))
 HEADER      = s21_graph_algorithms.h
 INC         = include/GraphAlgorithms.h $(HEADER)
 
-.PHONY: all clean fclean re test s21_graph.a
+.PHONY: all clean fclean re test
 
-all : s21_graph.a $(NAME)
+all : $(NAME)
 
 $(NAME): $(OBJ)
 	ar rcs s21_graph_algorithms.a $(OBJ)
@@ -22,9 +22,6 @@ $(NAME): $(OBJ)
 $(OBJ_DIR)%.o : $(SRC_DIR)%.cpp $(INC)
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CCFLAGS) -I. -c $< -o $@
-
-s21_graph.a:
-	cd ../s21_graph; make
 
 clean:
 	rm -rf $(OBJ_DIR) a.out

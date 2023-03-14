@@ -163,21 +163,12 @@ void Graph::exportGraphToDot(const std::string &filename) const {
   }
 
   ofs.open(filename);
-  if (!ofs.is_open())
-    throwCantOpenFile(filename);
-  else {
+  if (!ofs.is_open()) {
+    throw Graph::CantOpenFile(filename);
+  } else {
     ofs << *this;
     ofs.close();
   }
-}
-
-void Graph::throwCantOpenFile(const std::string &filename) {
-  std::string err_str;
-  std::stringstream ss;
-
-  ss << "Can't open file: " << filename;
-  ss >> err_str;
-  throw Graph::CantOpenFile(err_str);
 }
 
 std::string Graph::generateDotString() const noexcept {
@@ -221,5 +212,5 @@ Graph::WrongMatrixException::WrongMatrixException(const std::string &arg)
 Graph::TooLargeGraph::TooLargeGraph()
     : Graph::GraphException(
           "Number of vertices should be less. Can't set large graph.") {}
-Graph::CantOpenFile::CantOpenFile(const std::string &arg)
-    : Graph::GraphException(arg) {}
+Graph::CantOpenFile::CantOpenFile(const std::string &filename)
+    : Graph::GraphException("Can't open file " + filename) {}
