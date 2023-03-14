@@ -15,7 +15,7 @@ Graph Graph::loadGraphFromFile(const std::string &filename) {
     throw std::runtime_error{"Empty file"};
   }
   inf >> size;
-  if (inf.fail() == true || size < 2) {
+  if (inf.fail() == true) {
     throw std::runtime_error{"Bad data on file"};
   }
   unsigned **array_num = new unsigned *[size];
@@ -23,7 +23,7 @@ Graph Graph::loadGraphFromFile(const std::string &filename) {
     tmp.clear();
     for (std::size_t j = 0; j < size; ++j) {
       if (inf.peek() == std::ifstream::traits_type::eof()) {
-        throw std::runtime_error{"Incorrect file"};
+        throw s21::Graph::WrongMatrixException("Incorrect row length in file.");
       }
       unsigned tmp_arr;
       inf >> tmp_arr;

@@ -257,25 +257,30 @@ TEST(LoadGraphFromFile, LoadsFile) {
 }
 
 TEST(LoadGraphFromFile, ElementaryGraph) {
-  EXPECT_ANY_THROW(s21::Graph graph =
-                       s21::Graph::loadGraphFromFile("tests/bad_graphs/3.txt"));
-} // эта ошибка должна обрабатываться в конструкторе
+  EXPECT_THROW(s21::Graph graph =
+                   s21::Graph::loadGraphFromFile("tests/bad_graphs/3.txt"),
+               s21::Graph::WrongMatrixException);
+}
 
 TEST(LoadGraphFromFile, NonExistFile) {
-  EXPECT_ANY_THROW(s21::Graph graph =
-                       s21::Graph::loadGraphFromFile("tests/bad_graphs/0.txt"));
+  EXPECT_THROW(s21::Graph graph =
+                   s21::Graph::loadGraphFromFile("tests/bad_graphs/0.txt"),
+               s21::Graph::CantOpenFile);
 }
 
 TEST(LoadGraphFromFile, loadNullGraphFromFile) {
-  EXPECT_ANY_THROW(s21::Graph graph =
-                       s21::Graph::loadGraphFromFile("tests/bad_graphs/1.txt"));
-} // эта ошибка должна обрабатываться в конструкторе
+  EXPECT_THROW(s21::Graph graph =
+                   s21::Graph::loadGraphFromFile("tests/bad_graphs/1.txt"),
+               s21::Graph::WrongMatrixException);
+}
 
 TEST(LoadGraphFromFile, DirectedGraph) {
-  EXPECT_ANY_THROW(s21::Graph graph =
-                       s21::Graph::loadGraphFromFile("tests/bad_graphs/2.txt"));
-  EXPECT_ANY_THROW(s21::Graph graph =
-                       s21::Graph::loadGraphFromFile("tests/bad_graphs/4.txt"));
+  EXPECT_THROW(s21::Graph graph =
+                   s21::Graph::loadGraphFromFile("tests/bad_graphs/2.txt"),
+               s21::Graph::WrongMatrixException);
+  EXPECT_THROW(s21::Graph graph =
+                   s21::Graph::loadGraphFromFile("tests/bad_graphs/4.txt"),
+               s21::Graph::WrongMatrixException);
 }
 
 TEST(LoadGraphFromFile, EmptyFile) {
@@ -285,7 +290,8 @@ TEST(LoadGraphFromFile, EmptyFile) {
 
 TEST(LoadGraphFromFile, NonReadableFile) {
   std::system("chmod 000 tests/bad_graphs/7.txt");
-  EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/7.txt"));
+  EXPECT_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/7.txt"),
+               s21::Graph::CantOpenFile);
   std::system("chmod 777 tests/bad_graphs/7.txt");
 }
 
@@ -294,16 +300,19 @@ TEST(LoadGraphFromFile, WithoutRowsNumber) {
 }
 
 TEST(LoadGraphFromFile, InvalidLength) {
-  EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/9.txt"));
+  EXPECT_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/16.txt"),
+               s21::Graph::WrongMatrixException);
+  EXPECT_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/12.txt"),
+               s21::Graph::WrongMatrixException);
 }
 
 TEST(LoadGraphFromFile, InvalidWidth) {
-  EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/10.txt"));
-  EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/11.txt"));
-}
-
-TEST(LoadGraphFromFile, InvalidRowsNumber) {
-  EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/12.txt"));
+  EXPECT_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/9.txt"),
+               s21::Graph::WrongMatrixException);
+  EXPECT_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/10.txt"),
+               s21::Graph::WrongMatrixException);
+  EXPECT_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/11.txt"),
+               s21::Graph::WrongMatrixException);
 }
 
 TEST(LoadGraphFromFile, InvalidElement) {
