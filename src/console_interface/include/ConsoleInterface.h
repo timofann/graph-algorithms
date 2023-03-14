@@ -1,5 +1,5 @@
-#ifndef SRC_VIEW_CONSOLE_INTERFACE_H_
-#define SRC_VIEW_CONSOLE_INTERFACE_H_
+#ifndef SRC_VIEW_CONSOLE_INTERFACE_H
+#define SRC_VIEW_CONSOLE_INTERFACE_H
 
 #include <cstdlib>
 #include <iostream>
@@ -66,4 +66,4 @@ public:
 
 } // namespace s21
 
-#endif // SRC_VIEW_CONSOLE_INTERFACE_H_
+#endif // SRC_VIEW_CONSOLE_INTERFACE_H

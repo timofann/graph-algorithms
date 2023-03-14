@@ -32,7 +32,3 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean $(NAME)
-
-test: all
-	rm -rf ./a.out && $(CC) $(CCFLAGS) -g graph_test.cpp $< -I$(INCLUDE_DIR) -lstdc++
-	./a.out

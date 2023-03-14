@@ -9,14 +9,8 @@ Graph::Graph(unsigned **matrix, std::size_t size)
   setMatrix(matrix, size);
 }
 
-Graph::~Graph() {
-  //	for (unsigned i = 0; i < a_matrix_size; ++i)
-  //		delete a_matrix[i];
-  //	delete[] a_matrix;
-  Graph::clearMatrix(a_matrix_, a_matrix_size_);
-}
+Graph::~Graph() { Graph::clearMatrix(a_matrix_, a_matrix_size_); }
 
-/*loadGraphFromFile*/
 void Graph::clearMatrix(unsigned **matrix, std::size_t rows) noexcept {
   if (matrix != nullptr) {
     for (std::size_t i = 0; i < rows; i++) {
@@ -28,7 +22,6 @@ void Graph::clearMatrix(unsigned **matrix, std::size_t rows) noexcept {
 
 Graph::Graph(const Graph &other)
     : a_matrix_(nullptr), a_matrix_size_(0), weighted_(false) {
-  //	setMatrix(other.a_matrix, other.a_matrix_size);
   *this = other;
 }
 
@@ -60,7 +53,7 @@ Graph &Graph::operator=(const Graph &other) {
   if (&other != this)
     setMatrix(other.a_matrix_, other.a_matrix_size_);
   return *this;
-} // по правилу 5 нужно ещё 2 конструктора
+}
 
 std::size_t Graph::size() const noexcept { return this->a_matrix_size_; }
 
@@ -124,12 +117,7 @@ std::string *generateNodeNames(unsigned count) noexcept {
 }
 
 void Graph::checkMatrix(unsigned *const *matrix, std::size_t size) {
-  if (matrix ==
-      nullptr) { // я думаю, что эти проверки необходимо вынести в конструктор,
-                 // потому что эти ошибки не могут возникнуть никак, если только
-                 // вручную не задать неправильные параметры в конструкторе. Они
-                 // нужны только в одном месте и вызывать их каждый раз вроде
-                 // бессмысленно
+  if (matrix == nullptr) {
     throw Graph::WrongMatrixException(
         "Can't set matrix with NULL matrix pointer.");
   }
@@ -153,8 +141,7 @@ void Graph::checkMatrix(unsigned *const *matrix, std::size_t size) {
         throw WrongMatrixException("Directed graphs are not supported.");
       cons += matrix[i][j];
     }
-    if (cons == 0) // size == 0? Вызывается ли в каких-либо случаях?
-    {
+    if (cons == 0) {
       throw WrongMatrixException();
     }
     if (!used[i]) {
@@ -222,11 +209,6 @@ std::ostream &operator<<(std::ostream &os, const Graph &b) {
   os << b.generateDotString();
   return (os);
 }
-
-// const char *Graph::WrongMatrixException::what() const noexcept
-//{
-//	return "wrong matrix";
-// }
 
 const unsigned *Graph::operator[](std::size_t row) const {
   return this->a_matrix_[row];

@@ -33,7 +33,3 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean $(NAME)
-
-test: all
-	$(CC) $(CCFLAGS) graph_algorithms_test.cpp ../s21_graph/s21_graph.a s21_graph_algorithms.a
-	./a.out

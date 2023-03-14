@@ -1,4 +1,4 @@
-.PHONY: test all s21_graph.a s21_graph_algorithms.a fclean re
+.PHONY: test all s21_graph.a s21_graph_algorithms.a fclean re norminette
 
 CC = g++
 CCFLAGS = -std=c++17 -Wall -Werror -Wextra
@@ -15,7 +15,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
 	$(CC) $(CCFLAGS) -Iconsole_interface/include -c $< -o $@
 
 all: s21_graph.a s21_graph_algorithms.a $(OBJS) console_interface/include/ConsoleInterface.h
-	g++ main.cpp $(OBJS) -std=c++17 -Iconsole_interface/include s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a -o run_console_interface
+	$(CC) $(CCFLAGS) main.cpp $(OBJS) -Iconsole_interface/include s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a -o run_console_interface
 	./run_console_interface
 
 s21_graph.a:
@@ -37,7 +37,7 @@ fclean: clean
 re: fclean all
 
 test: s21_graph.a s21_graph_algorithms.a
-	g++ tests/tests.cpp s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a -o tests/test -lgtest -std=c++17 -lgvc -lcgraph
+	$(CC) $(CCFLAGS) tests/tests.cpp s21_graph/s21_graph.a s21_graph_algorithms/s21_graph_algorithms.a -o tests/test -lgtest -std=c++17 -lgvc -lcgraph
 	./tests/test
 
 norminette:
