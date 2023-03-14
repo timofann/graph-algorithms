@@ -188,7 +188,9 @@ static GraphAlgorithms::TsmResult collectPath(Ant *best_ant) {
   for (auto city = best_ant->traversed.begin();
        city != best_ant->traversed.end(); city++)
     *city = *city + 1;
-  return GraphAlgorithms::TsmResult{best_ant->traversed, best_ant->length};
+  GraphAlgorithms::TsmResult tmsr = GraphAlgorithms::TsmResult{best_ant->traversed, best_ant->length};
+  delete best_ant;
+  return tmsr;
 }
 
 GraphAlgorithms::TsmResult

@@ -65,7 +65,7 @@ private:
   void setMatrix(unsigned **matrix, std::size_t size);
 
   /*loadGraphFromFile*/
-  void clearMatrix(unsigned **matrix, std::size_t rows) noexcept;
+  static void clearMatrix(unsigned **matrix, std::size_t rows) noexcept;
   /*loadGraphFromFile*/
 
   static void checkMatrix(unsigned int *const *matrix, std::size_t size);

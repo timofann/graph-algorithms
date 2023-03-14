@@ -18,12 +18,12 @@ int main() {
                                            new unsigned[11]{18, 12, 13, 25, 22, 37, 84, 13, 18, 38, 0} };
 
     s21::Graph graph(matrix, 11);
-	std::cout << "\033[1;32mGraph is created\033[0m" << std::endl;
-	for (int i = 0; i < graph.size(); i++) {
-		for (int j = 0; j < graph.size(); j++)
-			printf("%4u ", graph[i][j]);
-		std::cout << std::endl;
-	}
+    std::cout << "\033[1;32mGraph is created\033[0m" << std::endl;
+    for (int i = 0; i < graph.size(); i++) {
+      for (int j = 0; j < graph.size(); j++)
+        printf("%4u ", graph[i][j]);
+      std::cout << std::endl;
+    }
 
     s21::Graph graph2 = s21::Graph::loadGraphFromFile("tests/graphs/1.txt");
     std::cout << "\033[1;32m\nGraph is created2\033[0m" << std::endl;
@@ -42,11 +42,11 @@ int main() {
 			printf("%d ", a[i]);
 		std::cout << std::endl;
 
-		std::cout << "\033[1;32m\ndepthFirstSearch\033[0m" << std::endl;
-		std::vector<int> b = s21::GraphAlgorithms::depthFirstSearch(graph, 0);
-		for (int i = 0; i < b.size(); i++)
-			printf("%d ", b[i]);
-		std::cout << std::endl;
+//		std::cout << "\033[1;32m\ndepthFirstSearch\033[0m" << std::endl;
+//		std::vector<int> b = s21::GraphAlgorithms::depthFirstSearch(graph, 0);
+//		for (int i = 0; i < b.size(); i++)
+//			printf("%d ", b[i]);
+//		std::cout << std::endl;
 
 	} catch (s21::GraphAlgorithms::GraphAlgorithmsError &e) {
 		std::cerr << e.what() << std::endl;
@@ -60,11 +60,11 @@ int main() {
 			printf("%d ", c[i]);
 		std::cout << std::endl;
 
-		std::cout << "\033[1;33m\nbreadthFirstSearch\033[0m" << std::endl;
-		std::vector<int> d = s21::GraphAlgorithms::breadthFirstSearch(graph, 0);
-		for (int i = 0; i < d.size(); i++)
-			printf("%d ", d[i]);
-		std::cout << std::endl;
+//		std::cout << "\033[1;33m\nbreadthFirstSearch\033[0m" << std::endl;
+//		std::vector<int> d = s21::GraphAlgorithms::breadthFirstSearch(graph, 0);
+//		for (int i = 0; i < d.size(); i++)
+//			printf("%d ", d[i]);
+//		std::cout << std::endl;
 
 	} catch (s21::GraphAlgorithms::GraphAlgorithmsError &e) {
 		std::cerr << e.what() << std::endl;
@@ -78,11 +78,11 @@ int main() {
 			std::cout << vec1[i] << " ";
 		std::cout << std::endl;
 
-		std::cout << "\033[1;34m\ngetShortestPathBetweenVerticesImproved\033[0m" << std::endl;
-		std::vector<int> vec2 = s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 0, 2);
-		for (int i = 0; i < vec2.size(); i++)
-			std::cout << vec2[i] << " ";
-		std::cout << std::endl;
+//		std::cout << "\033[1;34m\ngetShortestPathBetweenVerticesImproved\033[0m" << std::endl;
+//		std::vector<int> vec2 = s21::GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph, 0, 2);
+//		for (int i = 0; i < vec2.size(); i++)
+//			std::cout << vec2[i] << " ";
+//		std::cout << std::endl;
 
 	} catch (s21::GraphAlgorithms::GraphAlgorithmsError &e) {
 		std::cerr << e.what() << std::endl;
@@ -94,9 +94,9 @@ int main() {
 		std::size_t e = s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 1, 2);
 		std::cout << e << std::endl;
 
-		std::cout << "\033[1;35m\ngetShortestPathBetweenVertices\033[0m" << std::endl;
-		std::size_t f = s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 0, 2);
-		std::cout << f << std::endl;
+//		std::cout << "\033[1;35m\ngetShortestPathBetweenVertices\033[0m" << std::endl;
+//		std::size_t f = s21::GraphAlgorithms::getShortestPathBetweenVertices(graph, 0, 2);
+//		std::cout << f << std::endl;
 
 	} catch (s21::GraphAlgorithms::GraphAlgorithmsError &e) {
 		std::cerr << e.what() << std::endl;
@@ -123,4 +123,8 @@ int main() {
     for (auto city = tsmr.vertices.begin(); city < tsmr.vertices.end(); city++)
         std::printf("%4d ", *city);
     std::cout << " - distance: " << tsmr.distance << std::endl;
+
+    for (int i = 0; i < 11; ++i)
+      delete matrix[i];
+    delete [] matrix;
 }
