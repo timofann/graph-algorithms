@@ -21,8 +21,8 @@ static void sortVertexVector(std::vector<vertex> &vec) {
 }
 
 static void updateShortestInfo(const Graph &graph, int next_vertex,
-                                 std::vector<vertex> &shortest_distance,
-                                 const std::vector<bool> &is_traversed_array) {
+                               std::vector<vertex> &shortest_distance,
+                               const std::vector<bool> &is_traversed_array) {
 
   for (int v = 0; v < (int)graph.size(); v++) {
     if (!is_traversed_array[v] && graph[next_vertex][v] &&
@@ -37,8 +37,8 @@ static void updateShortestInfo(const Graph &graph, int next_vertex,
 }
 
 static void addChildrenInQueue(const Graph &graph, int next_vertex,
-                                  queue<int> &next_vertex_queue,
-                                  const std::vector<bool> &is_traversed_array) {
+                               queue<int> &next_vertex_queue,
+                               const std::vector<bool> &is_traversed_array) {
 
   std::vector<vertex> vertices_to_add_in_queue;
 
@@ -53,8 +53,8 @@ static void addChildrenInQueue(const Graph &graph, int next_vertex,
   }
 }
 
-static std::vector<vertex> getShortestPathBetweenVerticesInner(const Graph &graph,
-                                                               int vertex1) {
+static std::vector<vertex>
+getShortestPathBetweenVerticesInner(const Graph &graph, int vertex1) {
 
   std::vector<bool> is_traversed_array(graph.size(), false);
   std::vector<vertex> shortest_distance(graph.size(),
@@ -70,9 +70,9 @@ static std::vector<vertex> getShortestPathBetweenVerticesInner(const Graph &grap
     if (!is_traversed_array[next_vertex]) {
       is_traversed_array[next_vertex] = true;
       updateShortestInfo(graph, next_vertex, shortest_distance,
-                           is_traversed_array);
+                         is_traversed_array);
       addChildrenInQueue(graph, next_vertex, next_vertex_queue,
-                            is_traversed_array);
+                         is_traversed_array);
     }
     next_vertex_queue.pop();
   }
@@ -116,7 +116,7 @@ std::vector<int> GraphAlgorithms::getShortestPathBetweenVerticesImproved(
 }
 
 static void getStartState(const Graph &graph,
-                            std::vector<std::vector<double>> &shortest_path) {
+                          std::vector<std::vector<double>> &shortest_path) {
 
   for (int i = 0; i < (int)graph.size(); ++i)
     for (int j = 0; j < (int)graph.size(); ++j)

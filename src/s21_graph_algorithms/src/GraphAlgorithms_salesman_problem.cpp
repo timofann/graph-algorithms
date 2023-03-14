@@ -27,9 +27,8 @@ static void restartAnts(std::vector<Ant> &ants) {
   }
 }
 
-static void
-initPheromoneLvl(const Graph &graph,
-                   std::vector<std::vector<double>> &pheromone_lvl) {
+static void initPheromoneLvl(const Graph &graph,
+                             std::vector<std::vector<double>> &pheromone_lvl) {
 
   for (int i = 0; i < (int)graph.size(); ++i)
     for (int j = 0; j < (int)graph.size(); ++j)
@@ -37,8 +36,7 @@ initPheromoneLvl(const Graph &graph,
         pheromone_lvl[i][j] = 1;
 }
 
-static std::vector<int> getAvailablePaths(const Graph &graph,
-                                            const Ant &ant) {
+static std::vector<int> getAvailablePaths(const Graph &graph, const Ant &ant) {
 
   std::vector<int> available_paths;
   for (int i = 0; i < (int)graph.size(); ++i)
@@ -48,9 +46,8 @@ static std::vector<int> getAvailablePaths(const Graph &graph,
 }
 
 static int choosePath(const Graph &graph,
-                       const std::vector<std::vector<double>> &pheromone_lvl,
-                       const std::vector<int> &available_paths,
-                       const Ant &ant) {
+                      const std::vector<std::vector<double>> &pheromone_lvl,
+                      const std::vector<int> &available_paths, const Ant &ant) {
 
   std::vector<double> probabilities = std::vector(available_paths.size(), 0.0);
   double sum = 0;
@@ -78,8 +75,8 @@ static int choosePath(const Graph &graph,
 
 static int
 chooseElitePath(const Graph &graph,
-                  const std::vector<std::vector<double>> &pheromone_lvl,
-                  const std::vector<int> &available_paths, const Ant &ant) {
+                const std::vector<std::vector<double>> &pheromone_lvl,
+                const std::vector<int> &available_paths, const Ant &ant) {
 
   std::vector<double> probabilities = std::vector(available_paths.size(), 0.0);
 
@@ -104,7 +101,7 @@ static void updateAnt(const Graph &graph, Ant &ant, int path) {
 
 static void
 updatePheromoneLvlRho(const Graph &graph,
-                         std::vector<std::vector<double>> &pheromone_lvl) {
+                      std::vector<std::vector<double>> &pheromone_lvl) {
 
   for (int i = 0; i < (int)graph.size(); ++i)
     for (int j = 0; j < (int)graph.size(); ++j)
@@ -121,7 +118,7 @@ static void finishPath(const Graph &graph, Ant &ant) {
 
 static void
 updatePheromoneLvlAnt(const Graph &graph, const Ant &ant,
-                         std::vector<std::vector<double>> &pheromone_lvl) {
+                      std::vector<std::vector<double>> &pheromone_lvl) {
 
   double delta;
   if (ant.traversed.size() == graph.size() + 1) {
@@ -134,7 +131,7 @@ updatePheromoneLvlAnt(const Graph &graph, const Ant &ant,
 }
 
 static void runAnts(const Graph &graph, std::vector<Ant> &ants,
-                     std::vector<std::vector<double>> &pheromone_lvl) {
+                    std::vector<std::vector<double>> &pheromone_lvl) {
 
   std::vector<int> available_paths;
   int path;
@@ -153,7 +150,7 @@ static void runAnts(const Graph &graph, std::vector<Ant> &ants,
 }
 
 static void runEliteAnts(const Graph &graph, std::vector<Ant> &ants,
-                           std::vector<std::vector<double>> &pheromone_lvl) {
+                         std::vector<std::vector<double>> &pheromone_lvl) {
 
   std::vector<int> available_paths;
   int path;

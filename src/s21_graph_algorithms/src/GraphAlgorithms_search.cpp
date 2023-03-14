@@ -4,7 +4,7 @@ using namespace s21;
 
 template <typename T>
 static void processNextVertex(T &next_vertexes_container, const Graph &graph,
-                                std::vector<bool> &is_already_added) {
+                              std::vector<bool> &is_already_added) {
 
   int current_vertex = next_vertexes_container.get_start_element();
   for (std::size_t v = 0; v < graph.size(); v++)

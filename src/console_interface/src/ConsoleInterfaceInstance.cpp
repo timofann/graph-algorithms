@@ -23,7 +23,8 @@ void ConsoleInterface::ConsoleInterfaceInstance::dfs(int v) const {
   std::cout << a.back() << std::endl;
 }
 
-void ConsoleInterface::ConsoleInterfaceInstance::dijkstra(int v1, int v2) const {
+void ConsoleInterface::ConsoleInterfaceInstance::dijkstra(int v1,
+                                                          int v2) const {
   std::vector<int> a =
       GraphAlgorithms::getShortestPathBetweenVerticesImproved(graph_, v1, v2);
   std::size_t b =

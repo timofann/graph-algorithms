@@ -29,10 +29,11 @@ private:
 
 public:
   static std::vector<int> depthFirstSearch(const Graph &graph, int startVertex);
-  static std::vector<int> breadthFirstSearch(const Graph &graph, int startVertex);
-  static std::vector<int> getShortestPathBetweenVerticesImproved(const Graph &graph,
-                                                                 int vertex1,
-                                                                 int vertex2);
+  static std::vector<int> breadthFirstSearch(const Graph &graph,
+                                             int startVertex);
+  static std::vector<int>
+  getShortestPathBetweenVerticesImproved(const Graph &graph, int vertex1,
+                                         int vertex2);
   static double getShortestPathBetweenVertices(const Graph &graph, int vertex1,
                                                int vertex2);
   static std::vector<std::vector<double>>

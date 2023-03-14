@@ -9,8 +9,8 @@ ConsoleInterface::ConsoleInterfaceInstance *ConsoleInterface::instance_ = NULL;
 void ConsoleInterface::load() noexcept {
   std::cout << GREY << "Choose a file to load the graph from: " << NONE;
   try {
-  std::string filename;
-  std::cin >> filename;
+    std::string filename;
+    std::cin >> filename;
     if (!ConsoleInterface::instance_)
       ConsoleInterface::instance_ = new ConsoleInterfaceInstance(filename);
     else if (ConsoleInterface::instance_->filename_ != filename)

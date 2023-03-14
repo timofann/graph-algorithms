@@ -12,7 +12,7 @@ TEST(GraphMatrixConstructor, NullZeroThrowsException) {
 }
 
 TEST(GraphMatrixConstructor, NullNonZeroThrowsException) {
-    EXPECT_THROW(s21::Graph graph(NULL, 3), s21::Graph::WrongMatrixException);
+  EXPECT_THROW(s21::Graph graph(NULL, 3), s21::Graph::WrongMatrixException);
 }
 
 TEST(GraphMatrixConstructor, NonNullZeroThrowException) {
@@ -32,16 +32,18 @@ TEST(GraphMatrixConstructor,
 }
 
 TEST(GraphMatrixConstructor, NullElementaryThrowsException) {
-    EXPECT_THROW(s21::Graph graph(NULL, 1), s21::Graph::WrongMatrixException);
+  EXPECT_THROW(s21::Graph graph(NULL, 1), s21::Graph::WrongMatrixException);
 }
 
- TEST(GraphMatrixConstructor, LargeSize) {
-     unsigned **matrix = new unsigned *[0];
-     EXPECT_THROW(s21::Graph graph(matrix, INT_MAX), s21::Graph::TooLargeGraph);
-     EXPECT_THROW(s21::Graph graph(matrix, (unsigned)INT_MAX + 1u), s21::Graph::TooLargeGraph);
-     EXPECT_THROW(s21::Graph graph(matrix, (unsigned)INT_MAX + 10u), s21::Graph::TooLargeGraph);
-     delete [] matrix;
- }
+TEST(GraphMatrixConstructor, LargeSize) {
+  unsigned **matrix = new unsigned *[0];
+  EXPECT_THROW(s21::Graph graph(matrix, INT_MAX), s21::Graph::TooLargeGraph);
+  EXPECT_THROW(s21::Graph graph(matrix, (unsigned)INT_MAX + 1u),
+               s21::Graph::TooLargeGraph);
+  EXPECT_THROW(s21::Graph graph(matrix, (unsigned)INT_MAX + 10u),
+               s21::Graph::TooLargeGraph);
+  delete[] matrix;
+}
 
 /* --------------------------------------------------- GraphMatrixConstructor */
 
@@ -116,10 +118,12 @@ TEST(GraphMoveConstructor, DoesNotReallocateMemory) {
 
 TEST(GraphCopyAssignment, DoesRightCopy) {
   unsigned **matrix = new unsigned *[2] {
-    new unsigned[2]{0, 1}, new unsigned[2]{ 1, 0 }
+    new unsigned[2]{0, 1}, new unsigned[2] { 1, 0 }
   };
-  unsigned **matrix2 = new unsigned *[3] {new unsigned[3] { 0, 2, 0 },
-        new unsigned[3] { 2, 0, 1 }, new unsigned[3] { 0, 1, 0 }
+  unsigned **matrix2 = new unsigned *[3] {
+    new unsigned[3]{0, 2, 0}, new unsigned[3]{2, 0, 1}, new unsigned[3] {
+      0, 1, 0
+    }
   };
   s21::Graph graph(matrix, 2);
   s21::Graph graph2(matrix2, 3);
@@ -140,8 +144,10 @@ TEST(GraphCopyAssignment, ReallocatesMemory) {
   unsigned **matrix = new unsigned *[2] {
     new unsigned[2]{0, 1}, new unsigned[2] { 1, 0 }
   };
-  unsigned **matrix2 = new unsigned *[3] {new unsigned[3] { 0, 2, 0 },
-        new unsigned[3] { 2, 0, 1 }, new unsigned[3] { 0, 1, 0 }
+  unsigned **matrix2 = new unsigned *[3] {
+    new unsigned[3]{0, 2, 0}, new unsigned[3]{2, 0, 1}, new unsigned[3] {
+      0, 1, 0
+    }
   };
   s21::Graph graph(matrix, 2);
   s21::Graph graph2(matrix2, 3);
@@ -177,10 +183,12 @@ TEST(GraphCopyAssignment, SelfAssignmentDoesNotReallocateMemory) {
 
 TEST(GraphMoveAssignment, DoesRightMove) {
   unsigned **matrix = new unsigned *[2] {
-    new unsigned[2]{0, 1}, new unsigned[2]{ 1, 0 }
+    new unsigned[2]{0, 1}, new unsigned[2] { 1, 0 }
   };
-  unsigned **matrix2 = new unsigned *[3] {new unsigned[3] { 0, 2, 0 },
-        new unsigned[3] { 2, 0, 1 }, new unsigned[3] { 0, 1, 0 }
+  unsigned **matrix2 = new unsigned *[3] {
+    new unsigned[3]{0, 2, 0}, new unsigned[3]{2, 0, 1}, new unsigned[3] {
+      0, 1, 0
+    }
   };
   s21::Graph graph(matrix, 2);
   s21::Graph graph2(matrix2, 3);
@@ -202,8 +210,10 @@ TEST(GraphMoveAssignment, DoesNotReallocateMemory) {
   unsigned **matrix = new unsigned *[2] {
     new unsigned[2]{0, 1}, new unsigned[2] { 1, 0 }
   };
-  unsigned **matrix2 = new unsigned *[3] {new unsigned[3] { 0, 2, 0 },
-        new unsigned[3] { 2, 0, 1 }, new unsigned[3] { 0, 1, 0 }
+  unsigned **matrix2 = new unsigned *[3] {
+    new unsigned[3]{0, 2, 0}, new unsigned[3]{2, 0, 1}, new unsigned[3] {
+      0, 1, 0
+    }
   };
   s21::Graph graph(matrix, 2);
   s21::Graph graph2(matrix2, 3);
@@ -280,32 +290,32 @@ TEST(LoadGraphFromFile, NonReadableFile) {
 }
 
 TEST(LoadGraphFromFile, WithoutRowsNumber) {
-    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/8.txt"));
+  EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/8.txt"));
 }
 
 TEST(LoadGraphFromFile, InvalidLength) {
-    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/9.txt"));
+  EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/9.txt"));
 }
 
 TEST(LoadGraphFromFile, InvalidWidth) {
-    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/10.txt"));
-    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/11.txt"));
+  EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/10.txt"));
+  EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/11.txt"));
 }
 
 TEST(LoadGraphFromFile, InvalidRowsNumber) {
-    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/12.txt"));
+  EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/12.txt"));
 }
 
 TEST(LoadGraphFromFile, InvalidElement) {
-    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/13.txt"));
+  EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/13.txt"));
 }
 
 TEST(LoadGraphFromFile, OnlyRowNumber) {
-    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/14.txt"));
+  EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/14.txt"));
 }
 
 TEST(LoadGraphFromFile, AlmostEmptyFile) {
-    EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/15.txt"));
+  EXPECT_ANY_THROW(s21::Graph::loadGraphFromFile("tests/bad_graphs/15.txt"));
 }
 
 /* -------------------------------------------------------- loadGraphFromFile */

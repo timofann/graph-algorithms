@@ -9,7 +9,7 @@ Graph Graph::loadGraphFromFile(const std::string &filename) {
 
   inf.open(filename, std::ifstream::in);
   if (!inf.is_open()) {
-    throw_cant_open_file(filename);
+    throwCantOpenFile(filename);
   }
   if (inf.eof() == true) {
     throw std::runtime_error{"Empty file"};
@@ -19,9 +19,9 @@ Graph Graph::loadGraphFromFile(const std::string &filename) {
     throw std::runtime_error{"Bad data on file"};
   }
   unsigned **array_num = new unsigned *[size];
-  for (size_t i = 0; i < size; ++i) {
+  for (std::size_t i = 0; i < size; ++i) {
     tmp.clear();
-    for (size_t j = 0; j < size; ++j) {
+    for (std::size_t j = 0; j < size; ++j) {
       if (inf.peek() == std::ifstream::traits_type::eof()) {
         throw std::runtime_error{"Incorrect file"};
       }
