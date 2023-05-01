@@ -49,3 +49,14 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+#my_files
+src/a.out
+src/s21_containers/main.cpp
+src/s21_containers/queue.cpp
+src/s21_containers/stack.cpp
+.vscode
+src/s21_console
+src/s21_graph
+src/s21_graph_algorithms
+README_RUS.md
